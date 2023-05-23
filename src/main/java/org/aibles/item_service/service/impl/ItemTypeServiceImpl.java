@@ -6,6 +6,7 @@ import org.aibles.item_service.entity.ItemType;
 import org.aibles.item_service.exception.NotFoundException;
 import org.aibles.item_service.repository.ItemTypeRepository;
 import org.aibles.item_service.service.ItemTypeService;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 public class ItemTypeServiceImpl implements ItemTypeService {
@@ -35,5 +36,14 @@ public class ItemTypeServiceImpl implements ItemTypeService {
     }
     repository.deleteById(id);
     return "DELETE SUCCESS!!!";
+  }
+
+  @Override
+  @Transactional(readOnly = true)
+  public void validateExist(String id) {
+    log.info("(validateExist)id : {}", id);
+    if (!repository.existsById(id)) {
+      throw new NotFoundException(id, ItemType.class.getSimpleName());
+    }
   }
 }
