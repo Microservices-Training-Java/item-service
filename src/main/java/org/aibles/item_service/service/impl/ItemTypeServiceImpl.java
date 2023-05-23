@@ -5,7 +5,7 @@ import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.aibles.item_service.dto.response.ItemTypeResponse;
 import org.aibles.item_service.entity.ItemType;
-import org.aibles.item_service.exception.BadRequestException;
+import org.aibles.item_service.exception.ExistsByTypeException;
 import org.aibles.item_service.exception.NotFoundException;
 import org.aibles.item_service.repository.ItemTypeRepository;
 import org.aibles.item_service.service.ItemTypeService;
@@ -25,8 +25,8 @@ public class ItemTypeServiceImpl implements ItemTypeService {
   public ItemTypeResponse create(String type) {
     log.info("(create)type: {}", type);
     if(repository.existsByType(type)) {
-      log.error("(create)type : {} --> BAD REQUEST EXCEPTION", type);
-      throw new BadRequestException(type, ItemType.class.getSimpleName());
+      log.error("(create)type : {} --> EXIST EXCEPTION", type);
+      throw new ExistsByTypeException(type, ItemType.class.getSimpleName());
     }
     return ItemTypeResponse.from(repository.save(ItemType.of(type)));
   }
