@@ -21,7 +21,7 @@ public class ItemTypeField {
   private String id;
   @Column(name = "item_type_id")
   private String itemTypeId;
-  @Column(name = "field_id")
+  @Column(name = "item_field_id")
   private String fieldId;
   @PrePersist
   private void prePersistId() {
