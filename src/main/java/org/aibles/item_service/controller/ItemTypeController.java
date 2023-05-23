@@ -2,13 +2,16 @@ package org.aibles.item_service.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.aibles.item_service.dto.request.ItemTypeCreateRequest;
+import org.aibles.item_service.dto.request.ItemTypeUpdateRequest;
 import org.aibles.item_service.dto.response.Response;
 import org.aibles.item_service.service.ItemTypeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -41,4 +44,16 @@ public class ItemTypeController {
     log.info("(delete)id: {}",id);
     return service.deleteById(id);
   }
+
+  @PutMapping(path =  "/{id}")
+  @ResponseStatus(HttpStatus.OK)
+  public Response update(@PathVariable("id") String id,
+      @Validated @RequestBody ItemTypeUpdateRequest request) {
+    log.info("(update)id: {}",id);
+    return Response.of(
+        HttpStatus.OK.value(),
+        service.update(id, request.getType())
+    );
+  }
+
 }

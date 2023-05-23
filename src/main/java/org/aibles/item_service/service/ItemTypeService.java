@@ -8,4 +8,6 @@ public interface ItemTypeService {
   ItemTypeResponse create(String type);
 
   String deleteById(String id);
+
+  ItemTypeResponse update(String id, String type);
 }
