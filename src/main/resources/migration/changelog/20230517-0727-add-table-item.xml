@@ -1,0 +1,93 @@
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+   http://www.liquibase.org/xml/ns/dbchangelog
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+  <changeSet id="20230517-0727-add-table-item-field" author="YaLynk">
+    <createTable tableName="item_field">
+      <column name="id" type="varchar(255)">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="name" type="varchar(255)">
+        <constraints nullable="true"/>
+      </column>
+      <column name="unique_name" type="varchar(255)">
+        <constraints nullable="true"/>
+      </column>
+    </createTable>
+  </changeSet>
+
+  <changeSet id="20230517-0727-add-table-item-type" author="YaLynk">
+    <createTable tableName="item_type">
+      <column name="id" type="varchar(255)">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="type" type="varchar(255)">
+        <constraints nullable="true"/>
+      </column>
+    </createTable>
+  </changeSet>
+
+  <changeSet id="20230517-0727-add-table-item-type-field" author="YaLynk">
+    <createTable tableName="item_type_field">
+      <column name="id" type="varchar(255)">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="item_type_id" type="varchar(255)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="item_field_id" type="varchar(255)">
+        <constraints nullable="false"/>
+      </column>
+
+    </createTable>
+    <addForeignKeyConstraint baseTableName="item_type_field" baseColumnNames="item_type_id"
+      constraintName="pk_id_item_type"
+      referencedTableName="item_type" referencedColumnNames="id"/>
+    <addForeignKeyConstraint baseTableName="item_type_field" baseColumnNames="item_field_id"
+      constraintName="pk_id_item_field"
+      referencedTableName="item_field" referencedColumnNames="id"/>
+  </changeSet>
+
+  <changeSet id="20230517-0727-add-table-item" author="YaLynk">
+    <createTable tableName="item">
+      <column name="id" type="varchar(255)">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="item_type_id" type="varchar(255)">
+        <constraints nullable="true"/>
+      </column>
+    </createTable>
+    <addForeignKeyConstraint baseTableName="item" baseColumnNames="item_type_id"
+      constraintName="pk_id_item_type"
+      referencedTableName="item_type" referencedColumnNames="id"/>
+  </changeSet>
+
+  <changeSet id="20230517-0727-add-table-item-field-value" author="YaLynk">
+    <createTable tableName="item_field_value">
+      <column name="id" type="varchar(255)">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="item_id" type="varchar(255)">
+        <constraints nullable="true"/>
+      </column>
+      <column name="item_field_id" type="varchar(255)">
+        <constraints nullable="true"/>
+      </column>
+      <column name="value" type="varchar(255)">
+        <constraints nullable="true"/>
+      </column>
+    </createTable>
+    <addForeignKeyConstraint baseTableName="item_field_value" baseColumnNames="item_id"
+      constraintName="pk_id_item"
+      referencedTableName="item" referencedColumnNames="id"/>
+    <addForeignKeyConstraint baseTableName="item_field_value" baseColumnNames="item_field_id"
+      constraintName="pk_id_item_field"
+      referencedTableName="item_field" referencedColumnNames="id"/>
+  </changeSet>
+
+</databaseChangeLog>
