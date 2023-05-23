@@ -39,9 +39,12 @@ public class ItemTypeController {
 
   @DeleteMapping(path =  "/{id}")
   @ResponseStatus(HttpStatus.OK)
-  public String delete(@PathVariable("id") String id) {
+  public Response delete(@PathVariable("id") String id) {
     log.info("(delete)id: {}",id);
-    return service.deleteById(id);
+    return Response.of(
+        HttpStatus.OK.value(),
+        service.deleteById(id)
+    );
   }
 
   @GetMapping()
