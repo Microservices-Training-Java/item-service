@@ -13,6 +13,8 @@ public interface ItemTypeService {
 
   List<ItemTypeResponse> getAll();
 
+
+  ItemTypeResponse update(String id, String type);
   ItemTypeDetailResponse getById(String id);
 
   void validateExist(String id);
