@@ -64,8 +64,8 @@ public class ItemTypeServiceImpl implements ItemTypeService {
           throw new NotFoundException(id, ItemType.class.getSimpleName());
         });
     if(repository.existsByType(type)) {
-      log.error("(update)type : {} --> BAD REQUEST EXCEPTION", type);
-      throw new BadRequestException(type, ItemType.class.getSimpleName());
+      log.error("(update)type : {} --> EXIST EXCEPTION", type);
+      throw new TypeAlreadyExistsException(type, ItemType.class.getSimpleName());
     }
     itemType.setId(id);
     itemType.setType(type);
