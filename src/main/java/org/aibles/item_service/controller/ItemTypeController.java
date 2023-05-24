@@ -33,7 +33,7 @@ public class ItemTypeController {
     log.info("(create)type: {}", request.getType());
     return Response.of(
         HttpStatus.CREATED.value(),
-        service.create(request.getType())
+        service.create(request.getType(), request.getListField())
     );
   }
 

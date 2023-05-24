@@ -7,11 +7,11 @@ public interface ItemTypeFieldService {
 
   ItemTypeFieldResponse create(String itemTypeId, String fieldId);
 
-  String deleteById(String id);
+  String deleteByTypeId(String itemTypeId);
 
   List<ItemTypeFieldResponse> getAll();
 
-  ItemTypeFieldResponse getById(String id);
+  List<ItemTypeFieldResponse> getAllByItemTypeId(String itemTypeId);
 
-  List<ItemTypeFieldResponse> getByItemTypeId(String itemTypeId);
+  ItemTypeFieldResponse update(String id, String itemTypeId, String fieldId);
 }

@@ -20,8 +20,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 public class ItemConfiguration {
 
   @Bean
-  public ItemTypeService itemTypeService(ItemTypeRepository repository) {
-    return new ItemTypeServiceImpl(repository);
+  public ItemTypeService itemTypeService(ItemTypeRepository repository, ItemFieldService itemFieldService,ItemTypeFieldService itemTypeFieldService) {
+    return new ItemTypeServiceImpl(repository, itemFieldService, itemTypeFieldService);
   }
 
   @Bean
@@ -31,7 +31,7 @@ public class ItemConfiguration {
 
   @Bean
   public ItemTypeFieldService itemTypeFieldService(ItemTypeFieldRepository repository,
-      ItemTypeService itemTypeService, ItemFieldService itemFieldService) {
-    return new ItemTypeFieldServiceImpl(repository, itemTypeService, itemFieldService);
+       ItemFieldService itemFieldService) {
+    return new ItemTypeFieldServiceImpl(repository, itemFieldService);
   }
 }

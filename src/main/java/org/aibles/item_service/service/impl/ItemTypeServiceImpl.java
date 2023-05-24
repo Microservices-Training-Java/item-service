@@ -3,11 +3,14 @@ package org.aibles.item_service.service.impl;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
+import org.aibles.item_service.dto.response.ItemTypeDetailResponse;
 import org.aibles.item_service.dto.response.ItemTypeResponse;
 import org.aibles.item_service.entity.ItemType;
 import org.aibles.item_service.exception.TypeAlreadyExistsException;
 import org.aibles.item_service.exception.NotFoundException;
 import org.aibles.item_service.repository.ItemTypeRepository;
+import org.aibles.item_service.service.ItemFieldService;
+import org.aibles.item_service.service.ItemTypeFieldService;
 import org.aibles.item_service.service.ItemTypeService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,20 +18,29 @@ import org.springframework.transaction.annotation.Transactional;
 public class ItemTypeServiceImpl implements ItemTypeService {
 
   private final ItemTypeRepository repository;
+  private final ItemFieldService itemFieldService;
+  private final ItemTypeFieldService itemTypeFieldService;
 
-  public ItemTypeServiceImpl(ItemTypeRepository repository) {
+  public ItemTypeServiceImpl(ItemTypeRepository repository, ItemFieldService itemFieldService,
+      ItemTypeFieldService itemTypeFieldService) {
     this.repository = repository;
+    this.itemFieldService = itemFieldService;
+    this.itemTypeFieldService = itemTypeFieldService;
   }
 
   @Override
   @Transactional
-  public ItemTypeResponse create(String type) {
+  public ItemTypeDetailResponse create(String type, List<String> listField) {
     log.info("(create)type: {}", type);
     if(repository.existsByType(type)) {
       log.error("(create)type : {} --> EXIST EXCEPTION", type);
       throw new TypeAlreadyExistsException(type, ItemType.class.getSimpleName());
     }
-    return ItemTypeResponse.from(repository.save(ItemType.of(type)));
+    var itemType = repository.save(ItemType.of(type));
+    for (String value : listField) {
+      var itemTypeField = itemTypeFieldService.create(itemType.getId(), value);
+    }
+    return ItemTypeDetailResponse.from(itemType, listField);
   }
 
   @Override
@@ -39,8 +51,9 @@ public class ItemTypeServiceImpl implements ItemTypeService {
       log.error("(deleteById)id : {} --> NOT FOUND EXCEPTION", id);
       throw new NotFoundException(id, ItemType.class.getSimpleName());
     }
+    itemTypeFieldService.deleteByTypeId(id);
     repository.deleteById(id);
-    return "DELETE SUCCESS!!!";
+    return "DELETE TYPE SUCCESS!!!";
   }
 
   @Override
@@ -50,6 +63,19 @@ public class ItemTypeServiceImpl implements ItemTypeService {
     return repository.findAll().stream()
         .map(ItemTypeResponse::from)
         .collect(Collectors.toList());
+  }
+
+  @Override
+  @Transactional(readOnly = true)
+  public ItemTypeDetailResponse getById(String id) {
+    log.info("(getById)id: {}", id);
+    var itemType = repository
+        .findById(id)
+        .orElseGet(() -> {
+          log.error("(getById)id : {} --> NOT FOUND EXCEPTION", id);
+          throw new NotFoundException(id, ItemType.class.getSimpleName());
+        });
+    return null;
   }
 
   @Override
