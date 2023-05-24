@@ -12,4 +12,6 @@ public interface ItemTypeService {
 
   List<ItemTypeResponse> getAll();
 
+
+  ItemTypeResponse update(String id, String type);
 }
