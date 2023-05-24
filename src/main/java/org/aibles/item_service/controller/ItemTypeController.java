@@ -62,7 +62,7 @@ public class ItemTypeController {
   @ResponseStatus(HttpStatus.OK)
   public Response update(@PathVariable("id") String id,
       @Validated @RequestBody ItemTypeUpdateRequest request) {
-    log.info("(update)id: {}",id);
+    log.info("(update)id: {}, type: {}", id, request.getType());
     return Response.of(
         HttpStatus.OK.value(),
         service.update(id, request.getType())

@@ -56,7 +56,7 @@ public class ItemTypeServiceImpl implements ItemTypeService {
   @Override
   @Transactional
   public ItemTypeResponse update(String id, String type) {
-    log.info("(update)id: {}", id);
+    log.info("(update)id: {}, type: {}", id, type);
     var itemType = repository
         .findById(id)
         .orElseThrow(() -> {
