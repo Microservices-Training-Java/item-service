@@ -1,5 +1,6 @@
 package org.aibles.item_service.controller;
 
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.aibles.item_service.dto.request.ItemTypeCreateRequest;
 import org.aibles.item_service.dto.request.ItemTypeUpdateRequest;
@@ -40,9 +41,21 @@ public class ItemTypeController {
 
   @DeleteMapping(path =  "/{id}")
   @ResponseStatus(HttpStatus.OK)
-  public String delete(@PathVariable("id") String id) {
+  public Response delete(@PathVariable("id") String id) {
     log.info("(delete)id: {}",id);
-    return service.deleteById(id);
+    return Response.of(
+        HttpStatus.OK.value(),
+        service.deleteById(id)
+    );
+  }
+
+  @GetMapping()
+  @ResponseStatus(HttpStatus.OK)
+  public Response getAll() {
+    log.info("(getAll)item type");
+    return Response.of(
+        HttpStatus.OK.value(),
+        service.getAll());
   }
 
   @PutMapping(path =  "/{id}")
