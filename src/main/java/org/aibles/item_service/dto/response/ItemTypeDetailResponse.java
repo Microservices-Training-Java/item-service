@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.aibles.item_service.entity.ItemType;
-import org.aibles.item_service.entity.ItemTypeField;
 
 @AllArgsConstructor(staticName = "of")
 @Data

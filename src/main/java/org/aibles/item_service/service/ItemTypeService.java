@@ -1,21 +1,49 @@
 package org.aibles.item_service.service;
 
 import java.util.List;
-import org.aibles.item_service.dto.request.ItemTypeCreateRequest;
-import org.aibles.item_service.dto.response.ItemTypeDetailResponse;
 import org.aibles.item_service.dto.response.ItemTypeResponse;
+import org.aibles.item_service.entity.ItemType;
 
 public interface ItemTypeService {
 
-  ItemTypeDetailResponse create(String type, List<String> listField);
+  /**
+   * create item-type
+   * @param type - type you want to enter
+   * @return information of item type
+   */
+  ItemType create(String type);
 
+  /**
+   * delete item-type
+   * @param id - id of type
+   * @return message deleted successfully
+   */
   String deleteById(String id);
 
+  /**
+   * show all item-types
+   * @return show all item-types
+   */
   List<ItemTypeResponse> getAll();
 
-  ItemTypeDetailResponse getById(String id);
+  /**
+   * get item-type by id
+   * @param id - id of type
+   * @return information of item type
+   */
+  ItemType getById(String id);
 
-  ItemTypeDetailResponse update(String id, String type, List<String> listField);
+  /**
+   * update item-type
+   * @param id - id of type
+   * @param type - type you want to update
+   * @return information of item type
+   */
+  ItemType update(String id, String type);
 
-  void validateExist(String id);
+  /**
+   * check if there is id of that type
+   * @param id - id of type
+   */
+  void existsById(String id);
 }

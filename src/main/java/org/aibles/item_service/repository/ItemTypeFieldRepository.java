@@ -2,6 +2,8 @@ package org.aibles.item_service.repository;
 
 import java.util.List;
 import org.aibles.item_service.entity.ItemTypeField;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -17,6 +19,4 @@ public interface ItemTypeFieldRepository extends JpaRepository<ItemTypeField, St
 
   void deleteAllByItemTypeId(String itemTypeId);
 
-  @Query("SELECT itf.fieldId FROM ItemTypeField itf where itf.itemTypeId = :itemTypeId")
-  List<String> findFieldIdByItemTypeId(String itemTypeId);
 }
