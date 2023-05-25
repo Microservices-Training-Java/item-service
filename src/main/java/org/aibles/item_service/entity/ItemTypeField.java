@@ -27,4 +27,11 @@ public class ItemTypeField {
   private void prePersistId() {
     this.id = this.id == null ? UUID.randomUUID().toString() : this.id;
   }
+
+  public static ItemTypeField of(String itemTypeId, String fieldId) {
+    ItemTypeField itemTypeField = new ItemTypeField();
+    itemTypeField.setItemTypeId(itemTypeId);
+    itemTypeField.setFieldId(fieldId);
+    return itemTypeField;
+  }
 }

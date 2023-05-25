@@ -1,10 +1,10 @@
 package org.aibles.item_service.controller;
 
-import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.aibles.item_service.dto.request.ItemTypeCreateRequest;
 import org.aibles.item_service.dto.request.ItemTypeUpdateRequest;
 import org.aibles.item_service.dto.response.Response;
+import org.aibles.item_service.facade.ItemFacadeService;
 import org.aibles.item_service.service.ItemTypeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
@@ -24,18 +24,20 @@ import org.springframework.web.bind.annotation.RestController;
 public class ItemTypeController {
 
   private final ItemTypeService service;
+  private final ItemFacadeService itemFacadeService;
 
-  public ItemTypeController(ItemTypeService service) {
+  public ItemTypeController(ItemTypeService service, ItemFacadeService itemFacadeService) {
     this.service = service;
+    this.itemFacadeService = itemFacadeService;
   }
 
   @PostMapping()
   @ResponseStatus(HttpStatus.CREATED)
   public Response create(@Validated @RequestBody ItemTypeCreateRequest request) {
-    log.info("(create)type: {}", request.getType());
+    log.info("(create)type: {}, field: {}", request.getType(), request.getListField());
     return Response.of(
         HttpStatus.CREATED.value(),
-        service.create(request.getType())
+        itemFacadeService.create(request.getType(), request.getListField())
     );
   }
 
@@ -45,7 +47,7 @@ public class ItemTypeController {
     log.info("(delete)id: {}",id);
     return Response.of(
         HttpStatus.OK.value(),
-        service.deleteById(id)
+        itemFacadeService.deleteById(id)
     );
   }
 
@@ -58,14 +60,23 @@ public class ItemTypeController {
         service.getAll());
   }
 
+  @GetMapping(path =  "/{id}")
+  @ResponseStatus(HttpStatus.OK)
+  public Response get(@PathVariable("id") String id) {
+    log.info("(getById)id: {}", id);
+    return Response.of(
+        HttpStatus.OK.value(),
+        itemFacadeService.getById(id));
+  }
+
   @PutMapping(path =  "/{id}")
   @ResponseStatus(HttpStatus.OK)
   public Response update(@PathVariable("id") String id,
       @Validated @RequestBody ItemTypeUpdateRequest request) {
-    log.info("(update)id: {}, type: {}", id, request.getType());
+    log.info("(update)id: {}, type: {}, field: {}", id, request.getType(), request.getListField());
     return Response.of(
         HttpStatus.OK.value(),
-        service.update(id, request.getType())
+        itemFacadeService.update(id, request.getType(), request.getListField())
     );
   }
 
