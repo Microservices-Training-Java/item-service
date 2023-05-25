@@ -32,10 +32,6 @@ public class ItemTypeFieldServiceImpl implements ItemTypeFieldService {
   public ItemTypeFieldResponse create(String itemTypeId, String fieldId) {
     log.info("(create)itemTypeId: {}, fieldId: {}", itemTypeId, fieldId);
     itemFieldService.existsById(fieldId);
-    if (repository.existsByItemTypeIdAndFieldId(itemTypeId, fieldId)) {
-      log.error("(create)itemTypeId: {}, fieldId: {}", itemTypeId, fieldId);
-      throw new FieldAlreadyExitException(itemTypeId, fieldId);
-    }
     try {
       return ItemTypeFieldResponse.from(repository.save(ItemTypeField.of(itemTypeId, fieldId)));
     } catch (DuplicateKeyException er) {

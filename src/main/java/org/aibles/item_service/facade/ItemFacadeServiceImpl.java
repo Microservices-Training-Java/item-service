@@ -37,8 +37,8 @@ public class ItemFacadeServiceImpl implements ItemFacadeService{
     log.info("(createTypeField)type: {}, listField: {}", type, listField);
     var itemType = itemTypeService.create(type);
     for (String value : listField) {
+      itemTypeFieldService.existsByItemTypeIdAndFieldId(itemType.getId(), value);
       itemTypeFieldService.create(itemType.getId(), value);
-
     }
     return ItemTypeDetailResponse.from(itemType, listField);
   }
