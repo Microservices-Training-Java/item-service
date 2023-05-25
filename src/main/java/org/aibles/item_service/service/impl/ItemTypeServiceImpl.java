@@ -1,11 +1,14 @@
 package org.aibles.item_service.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.aibles.item_service.dto.response.ItemTypeDetailResponse;
+import org.aibles.item_service.dto.response.ItemTypeFieldResponse;
 import org.aibles.item_service.dto.response.ItemTypeResponse;
 import org.aibles.item_service.entity.ItemType;
+import org.aibles.item_service.entity.ItemTypeField;
 import org.aibles.item_service.exception.TypeAlreadyExistsException;
 import org.aibles.item_service.exception.BadRequestException;
 import org.aibles.item_service.exception.NotFoundException;
@@ -38,9 +41,7 @@ public class ItemTypeServiceImpl implements ItemTypeService {
       throw new TypeAlreadyExistsException(type, ItemType.class.getSimpleName());
     }
     var itemType = repository.save(ItemType.of(type));
-    for (String value : listField) {
-      var itemTypeField = itemTypeFieldService.create(itemType.getId(), value);
-    }
+    itemTypeFieldService.update(listField, itemType.getId());
     return ItemTypeDetailResponse.from(itemType, listField);
   }
 
@@ -67,25 +68,6 @@ public class ItemTypeServiceImpl implements ItemTypeService {
   }
 
   @Override
-  @Transactional
-  public ItemTypeResponse update(String id, String type) {
-    log.info("(update)id: {}, type: {}", id, type);
-    var itemType = repository
-        .findById(id)
-        .orElseThrow(() -> {
-          log.error("(update)id : {} --> NOT FOUND EXCEPTION", id);
-          throw new NotFoundException(id, ItemType.class.getSimpleName());
-        });
-    if(repository.existsByType(type)) {
-      log.error("(update)type : {} --> EXIST EXCEPTION", type);
-      throw new TypeAlreadyExistsException(type, ItemType.class.getSimpleName());
-    }
-    itemType.setId(id);
-    itemType.setType(type);
-    return ItemTypeResponse.from(repository.save(itemType));
-  }
-
-  @Override
   @Transactional(readOnly = true)
   public ItemTypeDetailResponse getById(String id) {
     log.info("(getById)id: {}", id);
@@ -95,7 +77,35 @@ public class ItemTypeServiceImpl implements ItemTypeService {
           log.error("(getById)id : {} --> NOT FOUND EXCEPTION", id);
           throw new NotFoundException(id, ItemType.class.getSimpleName());
         });
-    return null;
+    var itemTypeField = itemTypeFieldService.getAllByItemTypeId(id);
+
+    List<String> list = new ArrayList<>();
+    for (ItemTypeFieldResponse value : itemTypeField) {
+      list.add(itemFieldService.getNameById(value.getFieldId()));
+    }
+    return ItemTypeDetailResponse.from(itemType, list);
+  }
+
+  @Override
+  @Transactional
+  public ItemTypeDetailResponse update(String id, String type, List<String> listField) {
+    log.info("(update)id: {}, type: {}", id, type);
+    var itemType = repository
+        .findById(id)
+        .orElseThrow(() -> {
+          log.error("(update)id : {} --> NOT FOUND EXCEPTION", id);
+          throw new NotFoundException(id, ItemType.class.getSimpleName());
+        });
+    if(!itemType.getType().equals(type) && repository.existsByType(type)) {
+      log.error("(update)type : {} --> EXIST EXCEPTION", type);
+      throw new TypeAlreadyExistsException(type, ItemType.class.getSimpleName());
+    }
+    itemType.setId(id);
+    itemType.setType(type);
+    repository.save(itemType);
+    itemTypeFieldService.deleteByTypeId(id);
+    itemTypeFieldService.update(listField, id);
+    return ItemTypeDetailResponse.from(itemType, listField);
   }
 
   @Override

@@ -57,15 +57,6 @@ public class ItemTypeFieldServiceImpl implements ItemTypeFieldService {
 
   @Override
   @Transactional(readOnly = true)
-  public List<ItemTypeFieldResponse> getAll() {
-    log.info("(getAll)item type field");
-    return repository.findAll().stream()
-        .map(ItemTypeFieldResponse::from)
-        .collect(Collectors.toList());
-  }
-
-  @Override
-  @Transactional(readOnly = true)
   public List<ItemTypeFieldResponse> getAllByItemTypeId(String itemTypeId) {
     log.info("(getByItemTypeId)itemTypeId: {}", itemTypeId);
     return repository.findAllByItemTypeId(itemTypeId).stream()
@@ -74,23 +65,21 @@ public class ItemTypeFieldServiceImpl implements ItemTypeFieldService {
   }
 
   @Override
-  @Transactional
-  public ItemTypeFieldResponse update(String id, String itemTypeId, String fieldId) {
-    log.info("(update)id: {}, itemTypeId: {}, fieldId: {}", id, itemTypeId, fieldId);
-    itemFieldService.validateExist(fieldId);
-    var itemTypeField = repository
-        .findById(id)
-        .orElseThrow(() -> {
-          log.error("(update)id: {}, itemTypeId: {}, fieldId: {}", id, itemTypeId, fieldId);
-          throw new NotFoundException(id, ItemTypeField.class.getSimpleName());
-        });
-    if (repository.existsByItemTypeIdAndFieldId(itemTypeId, fieldId)) {
-      log.error("(update)itemTypeId: {}, fieldId: {}", itemTypeId, fieldId);
-      throw new FieldAlreadyExitException(itemTypeId, fieldId);
+  public List<String> getFieldIdByItemTypeId(String itemTypeId) {
+    log.info("(getFieldIdByItemTypeId)itemTypeId: {}", itemTypeId);
+    if(!repository.existsByItemTypeId(itemTypeId)) {
+      log.error("(deleteByTypeId)itemTypeId : {} --> NOT FOUND EXCEPTION", itemTypeId);
+      throw new NotFoundException(itemTypeId, ItemTypeField.class.getSimpleName());
     }
-    itemTypeField.setId(id);
-    itemTypeField.setItemTypeId(itemTypeId);
-    itemTypeField.setFieldId(fieldId);
-    return ItemTypeFieldResponse.from(repository.save(itemTypeField));
+    return repository.findFieldIdByItemTypeId(itemTypeId);
+  }
+
+  @Override
+  @Transactional
+  public void update(List<String> listFeald, String typeId) {
+    log.info("(update)typeId: {}, listFeald: {}", typeId, listFeald);
+    for (String value : listFeald) {
+      create(typeId, value);
+    }
   }
 }

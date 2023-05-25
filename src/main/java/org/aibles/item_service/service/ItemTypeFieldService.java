@@ -9,9 +9,9 @@ public interface ItemTypeFieldService {
 
   String deleteByTypeId(String itemTypeId);
 
-  List<ItemTypeFieldResponse> getAll();
-
   List<ItemTypeFieldResponse> getAllByItemTypeId(String itemTypeId);
 
-  ItemTypeFieldResponse update(String id, String itemTypeId, String fieldId);
+  List<String> getFieldIdByItemTypeId(String itemTypeId);
+
+  void update(List<String> listFeald, String typeId);
 }

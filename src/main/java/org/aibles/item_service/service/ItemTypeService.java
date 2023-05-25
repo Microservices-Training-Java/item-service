@@ -13,9 +13,9 @@ public interface ItemTypeService {
 
   List<ItemTypeResponse> getAll();
 
-
-  ItemTypeResponse update(String id, String type);
   ItemTypeDetailResponse getById(String id);
+
+  ItemTypeDetailResponse update(String id, String type, List<String> listField);
 
   void validateExist(String id);
 }
