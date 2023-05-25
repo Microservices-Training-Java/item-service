@@ -72,7 +72,7 @@ public class ItemTypeServiceImpl implements ItemTypeService {
 
   @Override
   @Transactional
-  public ItemType update(String id, String type) {
+  public ItemTypeResponse update(String id, String type) {
     log.info("(update)id: {}, type: {}", id, type);
     var itemType = repository
         .findById(id)
@@ -86,7 +86,7 @@ public class ItemTypeServiceImpl implements ItemTypeService {
     }
     itemType.setId(id);
     itemType.setType(type);
-    return repository.save(itemType);
+    return ItemTypeResponse.from(repository.save(itemType));
   }
 
   @Override

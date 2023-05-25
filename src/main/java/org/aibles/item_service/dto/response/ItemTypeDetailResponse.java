@@ -21,5 +21,13 @@ public class ItemTypeDetailResponse extends ItemTypeResponse{
     return response;
   }
 
+  public static ItemTypeDetailResponse from(ItemTypeResponse itemType, List<String> listField) {
+    var response = new ItemTypeDetailResponse();
+    response.setId(itemType.getId());
+    response.setType(itemType.getType());
+    response.setListField(listField);
+    return response;
+  }
+
 
 }

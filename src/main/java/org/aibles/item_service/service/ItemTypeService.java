@@ -39,7 +39,7 @@ public interface ItemTypeService {
    * @param type - type you want to update
    * @return information of item type
    */
-  ItemType update(String id, String type);
+  ItemTypeResponse update(String id, String type);
 
   /**
    * check if there is id of that type
