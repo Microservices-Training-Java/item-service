@@ -46,9 +46,8 @@ public class ItemConfiguration {
   }
 
   @Bean
-  public ItemTypeFieldService itemTypeFieldService(ItemTypeFieldRepository repository,
-       ItemFieldService itemFieldService) {
-    return new ItemTypeFieldServiceImpl(repository, itemFieldService);
+  public ItemTypeFieldService itemTypeFieldService(ItemTypeFieldRepository repository) {
+    return new ItemTypeFieldServiceImpl(repository);
   }
 
   @Bean

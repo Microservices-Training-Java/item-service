@@ -1,6 +1,6 @@
 package org.aibles.item_service.service.impl;
 
-import static org.aibles.item_service.constant.ItemConstant.MESSAGE_DELETE;
+import static org.aibles.item_service.constant.ItemConstant.MESSAGE_DELETE_SUCCESS;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,19 +19,15 @@ import org.springframework.transaction.annotation.Transactional;
 public class ItemTypeFieldServiceImpl implements ItemTypeFieldService {
 
   private final ItemTypeFieldRepository repository;
-  private final ItemFieldService itemFieldService;
 
-  public ItemTypeFieldServiceImpl(ItemTypeFieldRepository repository,
-      ItemFieldService itemFieldService) {
+  public ItemTypeFieldServiceImpl(ItemTypeFieldRepository repository) {
     this.repository = repository;
-    this.itemFieldService = itemFieldService;
   }
 
   @Override
   @Transactional
   public ItemTypeFieldResponse create(String itemTypeId, String fieldId) {
     log.info("(create)itemTypeId: {}, fieldId: {}", itemTypeId, fieldId);
-    itemFieldService.existsById(fieldId);
     try {
       return ItemTypeFieldResponse.from(repository.save(ItemTypeField.of(itemTypeId, fieldId)));
     } catch (DuplicateKeyException er) {
@@ -49,7 +45,7 @@ public class ItemTypeFieldServiceImpl implements ItemTypeFieldService {
       throw new NotFoundException(itemTypeId, ItemTypeField.class.getSimpleName());
     }
     repository.deleteAllByItemTypeId(itemTypeId);
-    return MESSAGE_DELETE;
+    return MESSAGE_DELETE_SUCCESS;
   }
 
   @Override
@@ -67,7 +63,7 @@ public class ItemTypeFieldServiceImpl implements ItemTypeFieldService {
   public void existsByItemTypeIdAndFieldId(String itemTypeId, String fieldId) {
     if (repository.existsByItemTypeIdAndFieldId(itemTypeId, fieldId)) {
       log.error("(create)itemTypeId: {}, fieldId: {}", itemTypeId, fieldId);
-      throw new FieldAlreadyExitException(itemTypeId, fieldId);
+      throw new FieldAlreadyExitException(fieldId);
     }
   }
 

@@ -1,6 +1,6 @@
 package org.aibles.item_service.service.impl;
 
-import static org.aibles.item_service.constant.ItemConstant.MESSAGE_DELETE;
+import static org.aibles.item_service.constant.ItemConstant.MESSAGE_DELETE_SUCCESS;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,10 +27,7 @@ public class ItemTypeServiceImpl implements ItemTypeService {
   @Transactional
   public ItemType create(String type) {
     log.info("(create)type: {}", type);
-    if (repository.existsByType(type)) {
-      log.error("(create)type : {} --> EXIST EXCEPTION", type);
-      throw new TypeAlreadyExistsException(type, ItemType.class.getSimpleName());
-    }
+    existsByType(type);
     try {
       return repository.save(ItemType.of(type));
     } catch (DuplicateKeyException er) {
@@ -48,7 +45,7 @@ public class ItemTypeServiceImpl implements ItemTypeService {
       throw new NotFoundException(id, ItemType.class.getSimpleName());
     }
     repository.deleteById(id);
-    return MESSAGE_DELETE;
+    return MESSAGE_DELETE_SUCCESS;
   }
 
   @Override
@@ -98,6 +95,15 @@ public class ItemTypeServiceImpl implements ItemTypeService {
     log.info("(validateExist)id : {}", id);
     if (!repository.existsById(id)) {
       throw new NotFoundException(id, ItemType.class.getSimpleName());
+    }
+  }
+
+  @Override
+  @Transactional(readOnly = true)
+  public void existsByType(String type) {
+    if (repository.existsByType(type)) {
+      log.error("(create)type : {} --> EXIST EXCEPTION", type);
+      throw new TypeAlreadyExistsException(type, ItemType.class.getSimpleName());
     }
   }
 }

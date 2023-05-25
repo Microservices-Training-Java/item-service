@@ -1,6 +1,6 @@
 package org.aibles.item_service.facade;
 
-import static org.aibles.item_service.constant.ItemConstant.MESSAGE_DELETE;
+import static org.aibles.item_service.constant.ItemConstant.MESSAGE_DELETE_SUCCESS;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +14,7 @@ import org.aibles.item_service.service.ItemTypeFieldService;
 import org.aibles.item_service.service.ItemTypeService;
 
 @Slf4j
-public class ItemFacadeServiceImpl implements ItemFacadeService{
+public class ItemFacadeServiceImpl implements ItemFacadeService {
 
   private final ItemTypeService itemTypeService;
   private final ItemFieldService itemFieldService;
@@ -37,6 +37,7 @@ public class ItemFacadeServiceImpl implements ItemFacadeService{
     log.info("(createTypeField)type: {}, listField: {}", type, listField);
     var itemType = itemTypeService.create(type);
     for (String value : listField) {
+      itemFieldService.existsById(value);
       itemTypeFieldService.existsByItemTypeIdAndFieldId(itemType.getId(), value);
       itemTypeFieldService.create(itemType.getId(), value);
     }
@@ -48,7 +49,7 @@ public class ItemFacadeServiceImpl implements ItemFacadeService{
     log.info("(deleteById)id: {}", id);
     itemTypeFieldService.deleteByTypeId(id);
     itemTypeService.deleteById(id);
-    return MESSAGE_DELETE;
+    return MESSAGE_DELETE_SUCCESS;
   }
 
   @Override
@@ -65,10 +66,8 @@ public class ItemFacadeServiceImpl implements ItemFacadeService{
   }
 
   /**
-   * steps to update type
-   * b1: update type
-   * b2: remove type-field information by typeId
-   * b3: regenerate type-field information after correcting fieldId
+   * steps to update type b1: update type b2: remove type-field information by typeId b3: regenerate
+   * type-field information after correcting fieldId
    */
   @Override
   public ItemTypeDetailResponse update(String id, String type, List<String> listField) {
@@ -76,6 +75,8 @@ public class ItemFacadeServiceImpl implements ItemFacadeService{
     var itemType = itemTypeService.update(id, type);
     itemTypeFieldService.deleteByTypeId(id);
     for (String value : listField) {
+      itemFieldService.existsById(value);
+      itemTypeFieldService.existsByItemTypeIdAndFieldId(itemType.getId(), value);
       itemTypeFieldService.create(id, value);
     }
     return ItemTypeDetailResponse.from(itemType, listField);
