@@ -58,17 +58,4 @@ public class ItemFacadeServiceImpl implements ItemFacadeService{
     return ItemDetailResponse.from(item, fieldValue);
   }
 
-  @Override
-  @Transactional(readOnly = true)
-  public ItemDetailResponse getById(String id) {
-    log.info("(getById)id: {}", id);
-    var item = itemService.getById(id);
-    var itemFieldValue = itemFieldValueService.getAllByItemId(id);
-
-    Map<String, String> map = new HashMap<>();
-    for (ItemFieldValueResponse value : itemFieldValue) {
-      map.put(value.getFieldId(), value.getValue());
-    }
-    return ItemDetailResponse.from(item, map);
-  }
 }

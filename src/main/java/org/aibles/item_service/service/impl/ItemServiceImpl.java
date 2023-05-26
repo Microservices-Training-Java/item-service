@@ -33,17 +33,4 @@ public class ItemServiceImpl implements ItemService {
     }
   }
 
-  @Override
-  @Transactional(readOnly = true)
-  public ItemResponse getById(String id) {
-    log.info("(getById)id: {}", id);
-    var item = repository
-        .findById(id)
-        .orElseThrow(() -> {
-          log.error("(getById)id : {} --> NOT FOUND EXCEPTION", id);
-          throw new NotFoundException(id, Item.class.getSimpleName());
-        });
-    return ItemResponse.from(item);
-  }
-
 }
