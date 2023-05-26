@@ -11,6 +11,7 @@ import org.aibles.item_service.facade.ItemFacadeService;
 import org.aibles.item_service.service.ItemService;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -38,6 +39,16 @@ public class ItemController {
     return Response.of(
         HttpStatus.CREATED.value(),
         itemFacadeService.create(itemTypeId, request.getValue())
+    );
+  }
+
+  @DeleteMapping(path =  {ITEM + "/{id}"})
+  @ResponseStatus(HttpStatus.OK)
+  public Response delete(@PathVariable("id") String id) {
+    log.info("(delete)id: {}",id);
+    itemFacadeService.deleteById(id);
+    return Response.of(
+        HttpStatus.OK.value()
     );
   }
 }

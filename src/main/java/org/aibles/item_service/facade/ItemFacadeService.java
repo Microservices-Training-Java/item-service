@@ -13,4 +13,16 @@ public interface ItemFacadeService {
    * @return item information and map information between fieldId and value
    */
   ItemDetailResponse create(String itemTypeId, Map<String, String> fieldValue);
+
+  /**
+   * delete by item Id
+   * @param id - id of item
+   */
+  void deleteById(String id);
+
+  /**
+   * when user delete item type id it will delete all item
+   * @param itemTypeId - itemTypeId of item type
+   */
+  void deleteAllByItemTypeId(String itemTypeId);
 }

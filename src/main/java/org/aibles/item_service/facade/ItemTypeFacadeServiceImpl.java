@@ -6,8 +6,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.aibles.item_service.dto.response.ItemTypeDetailResponse;
 import org.aibles.item_service.dto.response.ItemTypeFieldResponse;
 import org.aibles.item_service.service.ItemFieldService;
-import org.aibles.item_service.service.ItemFieldValueService;
-import org.aibles.item_service.service.ItemService;
 import org.aibles.item_service.service.ItemTypeFieldService;
 import org.aibles.item_service.service.ItemTypeService;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,14 +16,18 @@ public class ItemTypeFacadeServiceImpl implements ItemTypeFacadeService {
   private final ItemTypeService itemTypeService;
   private final ItemFieldService itemFieldService;
   private final ItemTypeFieldService itemTypeFieldService;
+  private final ItemFacadeService itemFacadeService;
 
 
-  public ItemTypeFacadeServiceImpl(ItemTypeService itemTypeService, ItemFieldService itemFieldService,
-      ItemTypeFieldService itemTypeFieldService) {
+  public ItemTypeFacadeServiceImpl(
+      ItemTypeService itemTypeService,
+      ItemFieldService itemFieldService,
+      ItemTypeFieldService itemTypeFieldService,
+      ItemFacadeService itemFacadeService) {
     this.itemTypeService = itemTypeService;
     this.itemFieldService = itemFieldService;
     this.itemTypeFieldService = itemTypeFieldService;
-
+    this.itemFacadeService = itemFacadeService;
   }
 
   @Override
@@ -45,6 +47,7 @@ public class ItemTypeFacadeServiceImpl implements ItemTypeFacadeService {
   @Transactional
   public void deleteById(String id) {
     log.info("(deleteById)id: {}", id);
+    itemFacadeService.deleteAllByItemTypeId(id);
     itemTypeFieldService.deleteByTypeId(id);
     itemTypeService.deleteById(id);
   }

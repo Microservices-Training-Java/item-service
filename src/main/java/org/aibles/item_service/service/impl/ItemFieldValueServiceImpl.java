@@ -5,6 +5,7 @@ import org.aibles.item_service.dto.response.ItemFieldValueResponse;
 import org.aibles.item_service.entity.ItemFieldValue;
 import org.aibles.item_service.entity.ItemTypeField;
 import org.aibles.item_service.exception.DuplicateKeyException;
+import org.aibles.item_service.exception.NotFoundException;
 import org.aibles.item_service.repository.ItemFieldValueRepository;
 import org.aibles.item_service.service.ItemFieldValueService;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,5 +29,16 @@ public class ItemFieldValueServiceImpl implements ItemFieldValueService {
       log.error("(create)exception duplicate: {}", er.getClass().getName());
       throw new DuplicateKeyException();
     }
+  }
+
+  @Override
+  @Transactional
+  public void deleteByItemId(String itemId) {
+    log.info("(deleteByItemId)itemId: {}", itemId);
+    if (!repository.existsByItemId(itemId)) {
+      log.error("(deleteByItemId)itemId : {} --> NOT FOUND EXCEPTION", itemId);
+      throw new NotFoundException(itemId, ItemFieldValue.class.getSimpleName());
+    }
+    repository.deleteAllByItemId(itemId);
   }
 }
