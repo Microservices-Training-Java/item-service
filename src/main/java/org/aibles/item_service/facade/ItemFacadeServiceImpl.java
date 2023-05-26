@@ -49,10 +49,8 @@ public class ItemFacadeServiceImpl implements ItemFacadeService{
     }
 
     for(Map.Entry<String, String> valueByField : fieldValue.entrySet()) {
-      String key = valueByField.getKey();
-      String value = valueByField.getValue();
-      itemFieldService.existsById(key);
-      itemFieldValueService.create(item.getId(), key, value);
+      itemFieldService.existsById(valueByField.getKey());
+      itemFieldValueService.create(item.getId(), valueByField.getKey(), valueByField.getValue());
     }
 
     return ItemDetailResponse.from(item, fieldValue);
