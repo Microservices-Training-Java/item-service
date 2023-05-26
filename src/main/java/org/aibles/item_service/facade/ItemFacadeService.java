@@ -1,38 +1,16 @@
 package org.aibles.item_service.facade;
 
 import java.util.List;
-import org.aibles.item_service.dto.response.ItemTypeDetailResponse;
+import java.util.Map;
+import org.aibles.item_service.dto.response.ItemDetailResponse;
 
 public interface ItemFacadeService {
 
   /**
-   * create type field information
-   * @param type - type you want to create
-   * @param listField - the ids of the item-field you want to add to the type
-   * @return type field information after adding
+   * create item and item-field-value
+   * @param itemTypeId - id of itemType
+   * @param fieldValue - is a map between fieldId and value
+   * @return item information and map information between fieldId and value
    */
-  ItemTypeDetailResponse create(String type, List<String> listField);
-
-  /**
-   * delete type field information
-   * @param id - id of type
-   * @return message deleted successfully
-   */
-  String deleteById(String id);
-
-  /**
-   * get type field information by id
-   * @param id - id of type
-   * @return type field information
-   */
-  ItemTypeDetailResponse getById(String id);
-
-  /**
-   * update type field information
-   * @param id - id of type
-   * @param type - type you want to update
-   * @param listField - the ids of the item-field you want to update to the type
-   * @return type field information after updating
-   */
-  ItemTypeDetailResponse update(String id, String type, List<String> listField);
+  ItemDetailResponse create(String itemTypeId, Map<String, String> fieldValue);
 }

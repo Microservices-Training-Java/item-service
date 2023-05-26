@@ -11,7 +11,7 @@ public interface ItemTypeService {
    * @param type - type you want to enter
    * @return information of item type
    */
-  ItemType create(String type);
+  ItemTypeResponse create(String type);
 
   /**
    * delete item-type

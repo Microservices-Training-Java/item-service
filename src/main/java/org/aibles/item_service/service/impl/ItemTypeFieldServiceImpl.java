@@ -59,10 +59,16 @@ public class ItemTypeFieldServiceImpl implements ItemTypeFieldService {
   }
 
   @Override
+  public List<String> getNameFieldByItemTypeId(String itemTypeId) {
+    log.info("(getNameFieldByItemTypeId)itemTypeId: {}", itemTypeId);
+    return null;
+  }
+
+  @Override
   @Transactional
   public void existsByItemTypeIdAndFieldId(String itemTypeId, String fieldId) {
     if (repository.existsByItemTypeIdAndFieldId(itemTypeId, fieldId)) {
-      log.error("(create)itemTypeId: {}, fieldId: {}", itemTypeId, fieldId);
+      log.error("(existsByItemTypeIdAndFieldId)itemTypeId: {}, fieldId: {}", itemTypeId, fieldId);
       throw new FieldAlreadyExitException(fieldId);
     }
   }

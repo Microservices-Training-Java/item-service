@@ -2,7 +2,11 @@ package org.aibles.item_service.configuration;
 
 import org.aibles.item_service.facade.ItemFacadeService;
 import org.aibles.item_service.facade.ItemFacadeServiceImpl;
+import org.aibles.item_service.facade.ItemTypeFacadeService;
+import org.aibles.item_service.facade.ItemTypeFacadeServiceImpl;
 import org.aibles.item_service.repository.ItemFieldRepository;
+import org.aibles.item_service.repository.ItemFieldValueRepository;
+import org.aibles.item_service.repository.ItemRepository;
 import org.aibles.item_service.repository.ItemTypeFieldRepository;
 import org.aibles.item_service.repository.ItemTypeRepository;
 import org.aibles.item_service.service.ItemFieldService;
@@ -36,13 +40,13 @@ public class ItemConfiguration {
   }
 
   @Bean
-  public ItemService itemService() {
-    return new ItemServiceImpl();
+  public ItemService itemService(ItemRepository repository) {
+    return new ItemServiceImpl(repository);
   }
 
   @Bean
-  public ItemFieldValueService itemFieldValueService() {
-    return new ItemFieldValueServiceImpl();
+  public ItemFieldValueService itemFieldValueService(ItemFieldValueRepository repository) {
+    return new ItemFieldValueServiceImpl(repository);
   }
 
   @Bean
@@ -51,18 +55,29 @@ public class ItemConfiguration {
   }
 
   @Bean
+  public ItemTypeFacadeService itemTypeFacadeService(
+      ItemTypeService itemTypeService,
+      ItemFieldService itemFieldService,
+      ItemTypeFieldService itemTypeFieldService
+  ) {
+    return new ItemTypeFacadeServiceImpl(
+        itemTypeService,
+        itemFieldService,
+        itemTypeFieldService);
+  }
+
+  @Bean
   public ItemFacadeService itemFacadeService(
       ItemTypeService itemTypeService,
       ItemFieldService itemFieldService,
       ItemService itemService,
-      ItemTypeFieldService itemTypeFieldService,
       ItemFieldValueService itemFieldValueService
   ) {
     return new ItemFacadeServiceImpl(
         itemTypeService,
         itemFieldService,
-        itemTypeFieldService,
         itemService,
-        itemFieldValueService);
+        itemFieldValueService
+    );
   }
 }

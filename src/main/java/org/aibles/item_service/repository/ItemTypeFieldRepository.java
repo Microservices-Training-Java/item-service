@@ -19,4 +19,7 @@ public interface ItemTypeFieldRepository extends JpaRepository<ItemTypeField, St
 
   void deleteAllByItemTypeId(String itemTypeId);
 
+
+  List<String> findNameFieldByItemTypeId(String itemTypeId);
+
 }

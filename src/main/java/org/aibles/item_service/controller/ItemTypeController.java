@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.aibles.item_service.dto.request.ItemTypeCreateRequest;
 import org.aibles.item_service.dto.request.ItemTypeUpdateRequest;
 import org.aibles.item_service.dto.response.Response;
-import org.aibles.item_service.facade.ItemFacadeService;
+import org.aibles.item_service.facade.ItemTypeFacadeService;
 import org.aibles.item_service.service.ItemTypeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
@@ -24,11 +24,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class ItemTypeController {
 
   private final ItemTypeService service;
-  private final ItemFacadeService itemFacadeService;
+  private final ItemTypeFacadeService itemTypeFacadeService;
 
-  public ItemTypeController(ItemTypeService service, ItemFacadeService itemFacadeService) {
+  public ItemTypeController(ItemTypeService service, ItemTypeFacadeService itemTypeFacadeService) {
     this.service = service;
-    this.itemFacadeService = itemFacadeService;
+    this.itemTypeFacadeService = itemTypeFacadeService;
   }
 
   @PostMapping()
@@ -37,7 +37,7 @@ public class ItemTypeController {
     log.info("(create)type: {}, field: {}", request.getType(), request.getListField());
     return Response.of(
         HttpStatus.CREATED.value(),
-        itemFacadeService.create(request.getType(), request.getListField())
+        itemTypeFacadeService.create(request.getType(), request.getListField())
     );
   }
 
@@ -47,7 +47,7 @@ public class ItemTypeController {
     log.info("(delete)id: {}",id);
     return Response.of(
         HttpStatus.OK.value(),
-        itemFacadeService.deleteById(id)
+        itemTypeFacadeService.deleteById(id)
     );
   }
 
@@ -66,7 +66,7 @@ public class ItemTypeController {
     log.info("(getById)id: {}", id);
     return Response.of(
         HttpStatus.OK.value(),
-        itemFacadeService.getById(id));
+        itemTypeFacadeService.getById(id));
   }
 
   @PutMapping(path =  "/{id}")
@@ -76,7 +76,7 @@ public class ItemTypeController {
     log.info("(update)id: {}, type: {}, field: {}", id, request.getType(), request.getListField());
     return Response.of(
         HttpStatus.OK.value(),
-        itemFacadeService.update(id, request.getType(), request.getListField())
+        itemTypeFacadeService.update(id, request.getType(), request.getListField())
     );
   }
 

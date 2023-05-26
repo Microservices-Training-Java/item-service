@@ -29,6 +29,8 @@ public interface ItemTypeFieldService {
    */
   List<ItemTypeFieldResponse> getAllByItemTypeId(String itemTypeId);
 
+  List<String> getNameFieldByItemTypeId(String itemTypeId);
+
   /**
    * check for no duplicate fields on 1 type
    * @param itemTypeId - id of item-type
