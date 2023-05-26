@@ -1,5 +1,6 @@
 package org.aibles.item_service.service;
 
+import java.util.List;
 import org.aibles.item_service.dto.response.ItemFieldValueResponse;
 
 public interface ItemFieldValueService {
@@ -12,4 +13,6 @@ public interface ItemFieldValueService {
    * @return information of an item field value
    */
   ItemFieldValueResponse create (String itemId, String fieldId, String value);
+
+  List<ItemFieldValueResponse> getAllByItemId(String itemId);
 }
