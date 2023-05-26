@@ -1,5 +1,7 @@
 package org.aibles.item_service.controller;
 
+import static org.aibles.item_service.constant.ItemApiConstant.BaseUrl.TYPE_BASE_URL;
+
 import lombok.extern.slf4j.Slf4j;
 import org.aibles.item_service.dto.request.ItemTypeCreateRequest;
 import org.aibles.item_service.dto.request.ItemTypeUpdateRequest;
@@ -20,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @Slf4j
-@RequestMapping("api/v1/item-types")
+@RequestMapping(TYPE_BASE_URL)
 public class ItemTypeController {
 
   private final ItemTypeService service;

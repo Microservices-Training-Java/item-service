@@ -1,5 +1,8 @@
 package org.aibles.item_service.controller;
 
+import static org.aibles.item_service.constant.ItemApiConstant.BaseUrl.TYPE_BASE_URL;
+import static org.aibles.item_service.constant.ItemApiConstant.ResourceConstant.ITEM;
+
 import lombok.extern.slf4j.Slf4j;
 import org.aibles.item_service.dto.request.ItemCreateRequest;
 import org.aibles.item_service.dto.request.ItemTypeCreateRequest;
@@ -17,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @Slf4j
-@RequestMapping("api/v1/items")
+@RequestMapping(TYPE_BASE_URL)
 public class ItemController {
 
 
@@ -27,7 +30,7 @@ public class ItemController {
     this.itemFacadeService = itemFacadeService;
   }
 
-  @PostMapping(path = "/{item_type_id}")
+  @PostMapping(path = {"/{item_type_id}" + ITEM})
   @ResponseStatus(HttpStatus.CREATED)
   public Response create(@PathVariable("item_type_id") String itemTypeId,
       @Validated @RequestBody ItemCreateRequest request) {
