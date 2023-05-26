@@ -1,7 +1,5 @@
 package org.aibles.item_service.service.impl;
 
-import static org.aibles.item_service.constant.ItemConstant.MESSAGE_DELETE_SUCCESS;
-
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
