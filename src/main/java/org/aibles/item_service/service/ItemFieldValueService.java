@@ -13,4 +13,6 @@ public interface ItemFieldValueService {
    * @return information of an item field value
    */
   ItemFieldValueResponse create (String itemId, String fieldId, String value);
+
+  List<ItemFieldValueResponse> getAllByItemId(String itemId);
 }
