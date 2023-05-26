@@ -56,12 +56,6 @@ public class ItemTypeFieldServiceImpl implements ItemTypeFieldService {
   }
 
   @Override
-  public List<String> getNameFieldByItemTypeId(String itemTypeId) {
-    log.info("(getNameFieldByItemTypeId)itemTypeId: {}", itemTypeId);
-    return null;
-  }
-
-  @Override
   @Transactional
   public void existsByItemTypeIdAndFieldId(String itemTypeId, String fieldId) {
     if (repository.existsByItemTypeIdAndFieldId(itemTypeId, fieldId)) {
