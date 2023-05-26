@@ -11,14 +11,13 @@ public interface ItemTypeService {
    * @param type - type you want to enter
    * @return information of item type
    */
-  ItemType create(String type);
+  ItemTypeResponse create(String type);
 
   /**
    * delete item-type
    * @param id - id of type
-   * @return message deleted successfully
    */
-  String deleteById(String id);
+  void deleteById(String id);
 
   /**
    * show all item-types

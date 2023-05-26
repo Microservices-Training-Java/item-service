@@ -1,7 +1,5 @@
 package org.aibles.item_service.service.impl;
 
-import static org.aibles.item_service.constant.ItemConstant.MESSAGE_DELETE_SUCCESS;
-
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
@@ -25,11 +23,11 @@ public class ItemTypeServiceImpl implements ItemTypeService {
 
   @Override
   @Transactional
-  public ItemType create(String type) {
+  public ItemTypeResponse create(String type) {
     log.info("(create)type: {}", type);
     existsByType(type);
     try {
-      return repository.save(ItemType.of(type));
+      return ItemTypeResponse.from(repository.save(ItemType.of(type)));
     } catch (DuplicateKeyException er) {
       log.error("(create)exception duplicate: {}", er.getClass().getName());
       throw new DuplicateKeyException();
@@ -38,14 +36,13 @@ public class ItemTypeServiceImpl implements ItemTypeService {
 
   @Override
   @Transactional
-  public String deleteById(String id) {
+  public void deleteById(String id) {
     log.info("(deleteById)id: {}", id);
     if (!repository.existsById(id)) {
       log.error("(deleteById)id : {} --> NOT FOUND EXCEPTION", id);
       throw new NotFoundException(id, ItemType.class.getSimpleName());
     }
     repository.deleteById(id);
-    return MESSAGE_DELETE_SUCCESS;
   }
 
   @Override
@@ -92,7 +89,7 @@ public class ItemTypeServiceImpl implements ItemTypeService {
   @Override
   @Transactional(readOnly = true)
   public void existsById(String id) {
-    log.info("(validateExist)id : {}", id);
+    log.info("(existsById)id : {}", id);
     if (!repository.existsById(id)) {
       throw new NotFoundException(id, ItemType.class.getSimpleName());
     }
@@ -102,7 +99,7 @@ public class ItemTypeServiceImpl implements ItemTypeService {
   @Transactional(readOnly = true)
   public void existsByType(String type) {
     if (repository.existsByType(type)) {
-      log.error("(create)type : {} --> EXIST EXCEPTION", type);
+      log.error("(existsByType)type : {} --> EXIST EXCEPTION", type);
       throw new TypeAlreadyExistsException(type, ItemType.class.getSimpleName());
     }
   }

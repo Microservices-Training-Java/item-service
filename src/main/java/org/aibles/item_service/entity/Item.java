@@ -25,4 +25,10 @@ public class Item {
   private void prePersistId() {
     this.id = this.id == null ? UUID.randomUUID().toString() : this.id;
   }
+
+  public static Item of(String itemTypeId){
+    Item item = new Item();
+    item.setItemTypeId(itemTypeId);
+    return item;
+  }
 }

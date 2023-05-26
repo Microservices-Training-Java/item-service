@@ -1,84 +1,59 @@
 package org.aibles.item_service.facade;
 
-import static org.aibles.item_service.constant.ItemConstant.MESSAGE_DELETE_SUCCESS;
-
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
+import org.aibles.item_service.dto.response.ItemDetailResponse;
+import org.aibles.item_service.dto.response.ItemFieldValueResponse;
+import org.aibles.item_service.dto.response.ItemResponse;
 import org.aibles.item_service.dto.response.ItemTypeDetailResponse;
 import org.aibles.item_service.dto.response.ItemTypeFieldResponse;
+import org.aibles.item_service.entity.ItemTypeField;
+import org.aibles.item_service.exception.MapNotFoundException;
+import org.aibles.item_service.exception.NotFoundException;
 import org.aibles.item_service.service.ItemFieldService;
 import org.aibles.item_service.service.ItemFieldValueService;
 import org.aibles.item_service.service.ItemService;
-import org.aibles.item_service.service.ItemTypeFieldService;
 import org.aibles.item_service.service.ItemTypeService;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
-public class ItemFacadeServiceImpl implements ItemFacadeService {
+public class ItemFacadeServiceImpl implements ItemFacadeService{
 
   private final ItemTypeService itemTypeService;
   private final ItemFieldService itemFieldService;
-  private final ItemTypeFieldService itemTypeFieldService;
   private final ItemService itemService;
   private final ItemFieldValueService itemFieldValueService;
 
   public ItemFacadeServiceImpl(ItemTypeService itemTypeService, ItemFieldService itemFieldService,
-      ItemTypeFieldService itemTypeFieldService, ItemService itemService,
+      ItemService itemService,
       ItemFieldValueService itemFieldValueService) {
     this.itemTypeService = itemTypeService;
     this.itemFieldService = itemFieldService;
-    this.itemTypeFieldService = itemTypeFieldService;
     this.itemService = itemService;
     this.itemFieldValueService = itemFieldValueService;
   }
 
   @Override
-  public ItemTypeDetailResponse create(String type, List<String> listField) {
-    log.info("(createTypeField)type: {}, listField: {}", type, listField);
-    var itemType = itemTypeService.create(type);
-    for (String value : listField) {
-      itemFieldService.existsById(value);
-      itemTypeFieldService.existsByItemTypeIdAndFieldId(itemType.getId(), value);
-      itemTypeFieldService.create(itemType.getId(), value);
+  @Transactional
+  public ItemDetailResponse create(String itemTypeId, Map<String, String> fieldValue) {
+    log.info("(create)itemTypeId: {}, fieldValue: {}", itemTypeId, fieldValue);
+    itemTypeService.existsById(itemTypeId);
+    var item = itemService.create(itemTypeId);
+
+    if(fieldValue == null || fieldValue.isEmpty()) {
+      log.error("(create)fieldValue : {} --> NOT FOUND EXCEPTION", fieldValue);
+      throw new MapNotFoundException(fieldValue);
     }
-    return ItemTypeDetailResponse.from(itemType, listField);
-  }
 
-  @Override
-  public String deleteById(String id) {
-    log.info("(deleteById)id: {}", id);
-    itemTypeFieldService.deleteByTypeId(id);
-    itemTypeService.deleteById(id);
-    return MESSAGE_DELETE_SUCCESS;
-  }
-
-  @Override
-  public ItemTypeDetailResponse getById(String id) {
-    log.info("(getById)id: {}", id);
-    var itemType = itemTypeService.getById(id);
-    var itemTypeField = itemTypeFieldService.getAllByItemTypeId(id);
-
-    List<String> list = new ArrayList<>();
-    for (ItemTypeFieldResponse value : itemTypeField) {
-      list.add(itemFieldService.getNameById(value.getFieldId()));
+    for(Map.Entry<String, String> valueByField : fieldValue.entrySet()) {
+      itemFieldService.existsById(valueByField.getKey());
+      itemFieldValueService.create(item.getId(), valueByField.getKey(), valueByField.getValue());
     }
-    return ItemTypeDetailResponse.from(itemType, list);
+
+    return ItemDetailResponse.from(item, fieldValue);
   }
 
-  /**
-   * steps to update type b1: update type b2: remove type-field information by typeId b3: regenerate
-   * type-field information after correcting fieldId
-   */
-  @Override
-  public ItemTypeDetailResponse update(String id, String type, List<String> listField) {
-    log.info("(update)id: {}, type: {}", id, type);
-    var itemType = itemTypeService.update(id, type);
-    itemTypeFieldService.deleteByTypeId(id);
-    for (String value : listField) {
-      itemFieldService.existsById(value);
-      itemTypeFieldService.existsByItemTypeIdAndFieldId(itemType.getId(), value);
-      itemTypeFieldService.create(id, value);
-    }
-    return ItemTypeDetailResponse.from(itemType, listField);
-  }
 }

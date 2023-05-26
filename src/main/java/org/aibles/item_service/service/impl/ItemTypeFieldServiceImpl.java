@@ -1,7 +1,5 @@
 package org.aibles.item_service.service.impl;
 
-import static org.aibles.item_service.constant.ItemConstant.MESSAGE_DELETE_SUCCESS;
-
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
@@ -38,14 +36,13 @@ public class ItemTypeFieldServiceImpl implements ItemTypeFieldService {
 
   @Override
   @Transactional
-  public String deleteByTypeId(String itemTypeId) {
+  public void deleteByTypeId(String itemTypeId) {
     log.info("(deleteByTypeId)itemTypeId: {}", itemTypeId);
     if (!repository.existsByItemTypeId(itemTypeId)) {
       log.error("(deleteByTypeId)itemTypeId : {} --> NOT FOUND EXCEPTION", itemTypeId);
       throw new NotFoundException(itemTypeId, ItemTypeField.class.getSimpleName());
     }
     repository.deleteAllByItemTypeId(itemTypeId);
-    return MESSAGE_DELETE_SUCCESS;
   }
 
   @Override
@@ -62,7 +59,7 @@ public class ItemTypeFieldServiceImpl implements ItemTypeFieldService {
   @Transactional
   public void existsByItemTypeIdAndFieldId(String itemTypeId, String fieldId) {
     if (repository.existsByItemTypeIdAndFieldId(itemTypeId, fieldId)) {
-      log.error("(create)itemTypeId: {}, fieldId: {}", itemTypeId, fieldId);
+      log.error("(existsByItemTypeIdAndFieldId)itemTypeId: {}, fieldId: {}", itemTypeId, fieldId);
       throw new FieldAlreadyExitException(fieldId);
     }
   }

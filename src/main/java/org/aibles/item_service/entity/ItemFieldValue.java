@@ -21,10 +21,19 @@ public class ItemFieldValue {
   private String id;
   @Column(name = "item_id")
   private String itemId;
-  @Column(name = "field_id")
+  @Column(name = "item_field_id")
   private String fieldId;
+  private String value;
   @PrePersist
   private void prePersistId() {
     this.id = this.id == null ? UUID.randomUUID().toString() : this.id;
+  }
+
+  public static ItemFieldValue of(String itemId, String fieldId, String value){
+    ItemFieldValue itemFieldValue = new ItemFieldValue();
+    itemFieldValue.setItemId(itemId);
+    itemFieldValue.setFieldId(fieldId);
+    itemFieldValue.setValue(value);
+    return itemFieldValue;
   }
 }

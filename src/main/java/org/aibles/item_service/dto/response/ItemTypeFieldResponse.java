@@ -12,7 +12,7 @@ import org.aibles.item_service.entity.ItemTypeField;
 public class ItemTypeFieldResponse {
 
   private String id;
-  private String itemId;
+  private String itemTypeId;
   private String fieldId;
 
   public static ItemTypeFieldResponse from(ItemTypeField itemTypeField) {
