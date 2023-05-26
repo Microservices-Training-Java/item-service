@@ -6,7 +6,10 @@ import org.aibles.item_service.dto.response.Response;
 import org.aibles.item_service.service.ItemFieldService;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -30,5 +33,13 @@ public class ItemFieldController {
     log.info("(create)name: {}, uniqueName: {}", request.getName(), request.getUniqueName());
     return Response.of(HttpStatus.CREATED.value(),
         service.create(request));
+  }
+
+  @PutMapping(path = "/{id}")
+  @ResponseStatus(HttpStatus.OK)
+  public Response update(@PathVariable String id,
+      @Validated @RequestBody ItemFieldRequest request) {
+    log.info("(update)id : {}, request : {}", id, request);
+    return Response.of(HttpStatus.OK.value(), service.update(id, request));
   }
 }
