@@ -13,4 +13,5 @@ public interface ItemFacadeService {
    * @return item information and map information between fieldId and value
    */
   ItemDetailResponse create(String itemTypeId, Map<String, String> fieldValue);
+
 }

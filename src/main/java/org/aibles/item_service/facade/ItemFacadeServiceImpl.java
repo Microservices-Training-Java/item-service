@@ -1,8 +1,15 @@
 package org.aibles.item_service.facade;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.aibles.item_service.dto.response.ItemDetailResponse;
+import org.aibles.item_service.dto.response.ItemFieldValueResponse;
+import org.aibles.item_service.dto.response.ItemResponse;
+import org.aibles.item_service.dto.response.ItemTypeDetailResponse;
+import org.aibles.item_service.dto.response.ItemTypeFieldResponse;
 import org.aibles.item_service.entity.ItemTypeField;
 import org.aibles.item_service.exception.MapNotFoundException;
 import org.aibles.item_service.exception.NotFoundException;

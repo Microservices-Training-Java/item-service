@@ -1,5 +1,6 @@
 package org.aibles.item_service.service;
 
+import java.util.List;
 import org.aibles.item_service.dto.response.ItemFieldValueResponse;
 
 public interface ItemFieldValueService {
