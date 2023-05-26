@@ -13,4 +13,11 @@ public interface ItemFacadeService {
    * @return item information and map information between fieldId and value
    */
   ItemDetailResponse create(String itemTypeId, Map<String, String> fieldValue);
+
+  /**
+   * get by id
+   * @param id - id of item
+   * @return item detail information
+   */
+  ItemDetailResponse getById(String id);
 }

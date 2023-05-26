@@ -11,6 +11,7 @@ import org.aibles.item_service.facade.ItemFacadeService;
 import org.aibles.item_service.service.ItemService;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -39,5 +40,14 @@ public class ItemController {
         HttpStatus.CREATED.value(),
         itemFacadeService.create(itemTypeId, request.getValue())
     );
+  }
+
+  @GetMapping(path =  {ITEM + "/{id}"})
+  @ResponseStatus(HttpStatus.OK)
+  public Response get(@PathVariable("id") String id) {
+    log.info("(getById)id: {}", id);
+    return Response.of(
+        HttpStatus.OK.value(),
+        itemFacadeService.getById(id));
   }
 }

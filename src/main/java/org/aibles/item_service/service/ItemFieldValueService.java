@@ -14,5 +14,10 @@ public interface ItemFieldValueService {
    */
   ItemFieldValueResponse create (String itemId, String fieldId, String value);
 
+  /**
+   * show all field values by itemId
+   * @param itemId - id of item
+   * @return the information of field value according to itemId
+   */
   List<ItemFieldValueResponse> getAllByItemId(String itemId);
 }

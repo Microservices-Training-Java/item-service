@@ -11,6 +11,11 @@ public interface ItemService{
    */
   ItemResponse create(String itemTypeId);
 
+  /**
+   * get by id
+   * @param id - id of item
+   * @return item's information
+   */
   ItemResponse getById(String id);
 
 }
