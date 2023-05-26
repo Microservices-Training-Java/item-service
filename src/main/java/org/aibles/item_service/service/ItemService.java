@@ -11,4 +11,6 @@ public interface ItemService{
    */
   ItemResponse create(String itemTypeId);
 
+  ItemResponse update(String id, String itemTypeId);
+
 }

@@ -58,4 +58,24 @@ public class ItemFacadeServiceImpl implements ItemFacadeService{
     return ItemDetailResponse.from(item, fieldValue);
   }
 
+  @Override
+  public ItemDetailResponse update(String id, String itemTypeId, Map<String, String> fieldValue) {
+    log.info("(update)id: {}, itemTypeId: {}, fieldValue: {}", id, itemTypeId, fieldValue);
+    itemTypeService.existsById(itemTypeId);
+    var item = itemService.update(id, itemTypeId);
+
+    if(fieldValue == null || fieldValue.isEmpty()) {
+      log.error("(update)fieldValue : {} --> NOT FOUND EXCEPTION", fieldValue);
+      throw new MapNotFoundException(fieldValue);
+    }
+    for(Map.Entry<String, String> valueByField : fieldValue.entrySet()) {
+      String key = valueByField.getKey();
+      String value = valueByField.getValue();
+      itemFieldService.existsById(key);
+      itemFieldValueService.create(item.getId(), key, value);
+    }
+
+    return ItemDetailResponse.from(item, fieldValue);
+  }
+
 }
