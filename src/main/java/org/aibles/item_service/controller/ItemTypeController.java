@@ -47,9 +47,9 @@ public class ItemTypeController {
   @ResponseStatus(HttpStatus.OK)
   public Response delete(@PathVariable("id") String id) {
     log.info("(delete)id: {}",id);
+    itemTypeFacadeService.deleteById(id);
     return Response.of(
-        HttpStatus.OK.value(),
-        itemTypeFacadeService.deleteById(id)
+        HttpStatus.OK.value()
     );
   }
 

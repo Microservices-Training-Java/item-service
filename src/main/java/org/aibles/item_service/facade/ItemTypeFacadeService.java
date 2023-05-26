@@ -16,9 +16,8 @@ public interface ItemTypeFacadeService {
   /**
    * delete type field information
    * @param id - id of type
-   * @return message deleted successfully
    */
-  String deleteById(String id);
+  void deleteById(String id);
 
   /**
    * get type field information by id

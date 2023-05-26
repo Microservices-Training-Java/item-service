@@ -16,9 +16,8 @@ public interface ItemTypeService {
   /**
    * delete item-type
    * @param id - id of type
-   * @return message deleted successfully
    */
-  String deleteById(String id);
+  void deleteById(String id);
 
   /**
    * show all item-types

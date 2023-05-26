@@ -18,9 +18,8 @@ public interface ItemTypeFieldService {
   /**
    * remove type-field by typeId
    * @param itemTypeId - id of item-type
-   * @return message deleted successfully
    */
-  String deleteByTypeId(String itemTypeId);
+  void deleteByTypeId(String itemTypeId);
 
   /**
    * get information of type-field based on typeId

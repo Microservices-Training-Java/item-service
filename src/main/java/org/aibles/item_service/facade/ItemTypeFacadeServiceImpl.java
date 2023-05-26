@@ -1,7 +1,5 @@
 package org.aibles.item_service.facade;
 
-import static org.aibles.item_service.constant.ItemConstant.MESSAGE_DELETE_SUCCESS;
-
 import java.util.ArrayList;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +10,7 @@ import org.aibles.item_service.service.ItemFieldValueService;
 import org.aibles.item_service.service.ItemService;
 import org.aibles.item_service.service.ItemTypeFieldService;
 import org.aibles.item_service.service.ItemTypeService;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 public class ItemTypeFacadeServiceImpl implements ItemTypeFacadeService {
@@ -30,6 +29,7 @@ public class ItemTypeFacadeServiceImpl implements ItemTypeFacadeService {
   }
 
   @Override
+  @Transactional
   public ItemTypeDetailResponse create(String type, List<String> listField) {
     log.info("(create)type: {}, listField: {}", type, listField);
     var itemType = itemTypeService.create(type);
@@ -42,14 +42,15 @@ public class ItemTypeFacadeServiceImpl implements ItemTypeFacadeService {
   }
 
   @Override
-  public String deleteById(String id) {
+  @Transactional
+  public void deleteById(String id) {
     log.info("(deleteById)id: {}", id);
     itemTypeFieldService.deleteByTypeId(id);
     itemTypeService.deleteById(id);
-    return MESSAGE_DELETE_SUCCESS;
   }
 
   @Override
+  @Transactional(readOnly = true)
   public ItemTypeDetailResponse getById(String id) {
     log.info("(getById)id: {}", id);
     var itemType = itemTypeService.getById(id);
@@ -67,6 +68,7 @@ public class ItemTypeFacadeServiceImpl implements ItemTypeFacadeService {
    * type-field information after correcting fieldId
    */
   @Override
+  @Transactional
   public ItemTypeDetailResponse update(String id, String type, List<String> listField) {
     log.info("(update)id: {}, type: {}", id, type);
     var itemType = itemTypeService.update(id, type);

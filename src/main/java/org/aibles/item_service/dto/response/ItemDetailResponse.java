@@ -14,14 +14,6 @@ public class ItemDetailResponse extends ItemResponse{
 
   Map<String, String> fieldValue;
 
-  public static ItemDetailResponse from(Item item, Map<String, String> fieldValue) {
-    var response = new ItemDetailResponse();
-    response.setId(item.getId());
-    response.setItemTypeId(item.getItemTypeId());
-    response.setFieldValue(fieldValue);
-    return response;
-  }
-
   public static ItemDetailResponse from(ItemResponse item, Map<String, String> fieldValue) {
     var response = new ItemDetailResponse();
     response.setId(item.getId());

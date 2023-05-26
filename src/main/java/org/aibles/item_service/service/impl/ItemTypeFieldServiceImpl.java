@@ -38,14 +38,13 @@ public class ItemTypeFieldServiceImpl implements ItemTypeFieldService {
 
   @Override
   @Transactional
-  public String deleteByTypeId(String itemTypeId) {
+  public void deleteByTypeId(String itemTypeId) {
     log.info("(deleteByTypeId)itemTypeId: {}", itemTypeId);
     if (!repository.existsByItemTypeId(itemTypeId)) {
       log.error("(deleteByTypeId)itemTypeId : {} --> NOT FOUND EXCEPTION", itemTypeId);
       throw new NotFoundException(itemTypeId, ItemTypeField.class.getSimpleName());
     }
     repository.deleteAllByItemTypeId(itemTypeId);
-    return MESSAGE_DELETE_SUCCESS;
   }
 
   @Override

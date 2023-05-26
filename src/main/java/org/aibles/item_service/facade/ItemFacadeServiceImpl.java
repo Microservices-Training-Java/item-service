@@ -3,10 +3,14 @@ package org.aibles.item_service.facade;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.aibles.item_service.dto.response.ItemDetailResponse;
+import org.aibles.item_service.entity.ItemTypeField;
+import org.aibles.item_service.exception.MapNotFoundException;
+import org.aibles.item_service.exception.NotFoundException;
 import org.aibles.item_service.service.ItemFieldService;
 import org.aibles.item_service.service.ItemFieldValueService;
 import org.aibles.item_service.service.ItemService;
 import org.aibles.item_service.service.ItemTypeService;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 public class ItemFacadeServiceImpl implements ItemFacadeService{
@@ -26,10 +30,16 @@ public class ItemFacadeServiceImpl implements ItemFacadeService{
   }
 
   @Override
+  @Transactional
   public ItemDetailResponse create(String itemTypeId, Map<String, String> fieldValue) {
     log.info("(create)itemTypeId: {}, fieldValue: {}", itemTypeId, fieldValue);
     itemTypeService.existsById(itemTypeId);
     var item = itemService.create(itemTypeId);
+
+    if(fieldValue == null || fieldValue.isEmpty()) {
+      log.error("(create)fieldValue : {} --> NOT FOUND EXCEPTION", fieldValue);
+      throw new MapNotFoundException(fieldValue);
+    }
 
     for(Map.Entry<String, String> valueByField : fieldValue.entrySet()) {
       String key = valueByField.getKey();

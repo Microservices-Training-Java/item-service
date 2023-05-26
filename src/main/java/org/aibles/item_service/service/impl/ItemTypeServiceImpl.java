@@ -38,14 +38,13 @@ public class ItemTypeServiceImpl implements ItemTypeService {
 
   @Override
   @Transactional
-  public String deleteById(String id) {
+  public void deleteById(String id) {
     log.info("(deleteById)id: {}", id);
     if (!repository.existsById(id)) {
       log.error("(deleteById)id : {} --> NOT FOUND EXCEPTION", id);
       throw new NotFoundException(id, ItemType.class.getSimpleName());
     }
     repository.deleteById(id);
-    return MESSAGE_DELETE_SUCCESS;
   }
 
   @Override
