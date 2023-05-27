@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.aibles.item_service.dto.response.ItemResponse;
 import org.aibles.item_service.entity.Item;
 import org.aibles.item_service.exception.DuplicateKeyException;
+import org.aibles.item_service.exception.NotFoundException;
 import org.aibles.item_service.repository.ItemRepository;
 import org.aibles.item_service.service.ItemService;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +28,19 @@ public class ItemServiceImpl implements ItemService {
       log.error("(create)exception duplicate: {}", er.getClass().getName());
       throw new DuplicateKeyException();
     }
+  }
+
+  @Override
+  @Transactional(readOnly = true)
+  public ItemResponse getById(String id) {
+    log.info("(getById)id: {}", id);
+    var item = repository
+        .findById(id)
+        .orElseThrow(() -> {
+          log.error("(getById)id : {} --> NOT FOUND EXCEPTION", id);
+          throw new NotFoundException(id, Item.class.getSimpleName());
+        });
+    return ItemResponse.from(item);
   }
 
 }
