@@ -32,14 +32,4 @@ public class ItemFieldValueServiceImpl implements ItemFieldValueService {
       throw new DuplicateKeyException();
     }
   }
-
-  @Override
-  @Transactional(readOnly = true)
-  public List<ItemFieldValueResponse> getAllByItemId(String itemId) {
-    log.info("(getAllByItemId)itemId: {}", itemId);
-    return repository.findAllByItemId(itemId)
-        .stream()
-        .map(ItemFieldValueResponse::from).
-        collect(Collectors.toList());
-  }
 }

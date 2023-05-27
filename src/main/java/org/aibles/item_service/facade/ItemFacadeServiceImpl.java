@@ -49,26 +49,11 @@ public class ItemFacadeServiceImpl implements ItemFacadeService{
     }
 
     for(Map.Entry<String, String> valueByField : fieldValue.entrySet()) {
-      String key = valueByField.getKey();
-      String value = valueByField.getValue();
-      itemFieldService.existsById(key);
-      itemFieldValueService.create(item.getId(), key, value);
+      itemFieldService.existsById(valueByField.getKey());
+      itemFieldValueService.create(item.getId(), valueByField.getKey(), valueByField.getValue());
     }
 
     return ItemDetailResponse.from(item, fieldValue);
   }
 
-  @Override
-  @Transactional(readOnly = true)
-  public ItemDetailResponse getById(String id) {
-    log.info("(getById)id: {}", id);
-    var item = itemService.getById(id);
-    var itemFieldValue = itemFieldValueService.getAllByItemId(id);
-
-    Map<String, String> map = new HashMap<>();
-    for (ItemFieldValueResponse value : itemFieldValue) {
-      map.put(value.getFieldId(), value.getValue());
-    }
-    return ItemDetailResponse.from(item, map);
-  }
 }
