@@ -31,4 +31,11 @@ public interface ItemService{
    */
   List<ItemResponse> getAllByItemTypeId(String itemTypeId);
 
+  /**
+   * get by id
+   * @param id - id of item
+   * @return item's information
+   */
+  ItemResponse getById(String id);
+
 }

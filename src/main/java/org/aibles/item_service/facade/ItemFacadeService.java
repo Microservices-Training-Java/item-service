@@ -25,4 +25,11 @@ public interface ItemFacadeService {
    * @param itemTypeId - itemTypeId of item type
    */
   void deleteAllByItemTypeId(String itemTypeId);
+
+  /**
+   * get by id
+   * @param id - id of item
+   * @return item detail information
+   */
+  ItemDetailResponse getById(String id);
 }
