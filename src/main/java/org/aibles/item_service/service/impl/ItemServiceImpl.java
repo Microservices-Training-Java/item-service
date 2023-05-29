@@ -85,11 +85,11 @@ public class ItemServiceImpl implements ItemService {
   @Override
   @Transactional
   public ItemResponse updateById(String id, String itemTypeId) {
-    log.info("(update)id: {}, itemTypeId: {}", id, itemTypeId);
+    log.info("(updateById)id: {}, itemTypeId: {}", id, itemTypeId);
     var item = repository
         .findById(id)
         .orElseThrow(() -> {
-          log.error("(update)id : {} --> NOT FOUND EXCEPTION", id);
+          log.error("(updateById)id : {} --> NOT FOUND EXCEPTION", id);
           throw new NotFoundException(id, Item.class.getSimpleName());
         });
     item.setId(id);
