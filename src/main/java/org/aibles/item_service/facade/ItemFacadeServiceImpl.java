@@ -1,11 +1,13 @@
 package org.aibles.item_service.facade;
 
+import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.aibles.item_service.dto.response.ItemDetailResponse;
+import org.aibles.item_service.dto.response.ItemResponse;
 import org.aibles.item_service.dto.response.ItemFieldValueResponse;
 import org.aibles.item_service.dto.response.ItemResponse;
 import org.aibles.item_service.dto.response.ItemTypeDetailResponse;
@@ -27,7 +29,9 @@ public class ItemFacadeServiceImpl implements ItemFacadeService{
   private final ItemService itemService;
   private final ItemFieldValueService itemFieldValueService;
 
-  public ItemFacadeServiceImpl(ItemTypeService itemTypeService, ItemFieldService itemFieldService,
+  public ItemFacadeServiceImpl(
+      ItemTypeService itemTypeService,
+      ItemFieldService itemFieldService,
       ItemService itemService,
       ItemFieldValueService itemFieldValueService) {
     this.itemTypeService = itemTypeService;
@@ -54,6 +58,25 @@ public class ItemFacadeServiceImpl implements ItemFacadeService{
     }
 
     return ItemDetailResponse.from(item, fieldValue);
+  }
+
+  @Override
+  @Transactional
+  public void deleteById(String id) {
+    log.info("(deleteById)id: {}", id);
+    itemFieldValueService.deleteByItemId(id);
+    itemService.deleteById(id);
+  }
+
+  @Override
+  @Transactional
+  public void deleteAllByItemTypeId(String itemTypeId) {
+    log.info("(deleteAllByItemTypeId)itemTypeId: {}", itemTypeId);
+    var item = itemService.getAllByItemTypeId(itemTypeId);
+    for(ItemResponse value : item) {
+      itemFieldValueService.deleteByItemId(value.getId());
+    }
+    itemService.deleteAllByItemTypeId(itemTypeId);
   }
 
   @Override
