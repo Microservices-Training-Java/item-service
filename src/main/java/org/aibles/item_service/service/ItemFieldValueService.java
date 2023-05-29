@@ -13,4 +13,17 @@ public interface ItemFieldValueService {
    * @return information of an item field value
    */
   ItemFieldValueResponse create (String itemId, String fieldId, String value);
+
+  /**
+   * delete by item Id
+   * @param itemId - Id for item
+   */
+  void deleteByItemId(String itemId);
+
+  /**
+   * show all field values by itemId
+   * @param itemId - id of item
+   * @return the information of field value according to itemId
+   */
+  List<ItemFieldValueResponse> getAllByItemId(String itemId);
 }

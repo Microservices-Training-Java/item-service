@@ -9,4 +9,7 @@ import org.springframework.stereotype.Repository;
 public interface ItemFieldValueRepository extends JpaRepository<ItemFieldValue, String> {
 
   List<ItemFieldValue> findAllByItemId(String itemId);
+  boolean existsByItemId(String itemId);
+
+  void deleteAllByItemId(String itemId);
 }

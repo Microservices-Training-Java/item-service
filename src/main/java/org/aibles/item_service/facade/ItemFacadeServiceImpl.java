@@ -1,11 +1,13 @@
 package org.aibles.item_service.facade;
 
+import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.aibles.item_service.dto.response.ItemDetailResponse;
+import org.aibles.item_service.dto.response.ItemResponse;
 import org.aibles.item_service.dto.response.ItemFieldValueResponse;
 import org.aibles.item_service.dto.response.ItemResponse;
 import org.aibles.item_service.dto.response.ItemTypeDetailResponse;
@@ -27,7 +29,9 @@ public class ItemFacadeServiceImpl implements ItemFacadeService{
   private final ItemService itemService;
   private final ItemFieldValueService itemFieldValueService;
 
-  public ItemFacadeServiceImpl(ItemTypeService itemTypeService, ItemFieldService itemFieldService,
+  public ItemFacadeServiceImpl(
+      ItemTypeService itemTypeService,
+      ItemFieldService itemFieldService,
       ItemService itemService,
       ItemFieldValueService itemFieldValueService) {
     this.itemTypeService = itemTypeService;
@@ -49,13 +53,44 @@ public class ItemFacadeServiceImpl implements ItemFacadeService{
     }
 
     for(Map.Entry<String, String> valueByField : fieldValue.entrySet()) {
-      String key = valueByField.getKey();
-      String value = valueByField.getValue();
-      itemFieldService.existsById(key);
-      itemFieldValueService.create(item.getId(), key, value);
+      itemFieldService.existsById(valueByField.getKey());
+      itemFieldValueService.create(item.getId(), valueByField.getKey(), valueByField.getValue());
     }
 
     return ItemDetailResponse.from(item, fieldValue);
+  }
+
+  @Override
+  @Transactional
+  public void deleteById(String id) {
+    log.info("(deleteById)id: {}", id);
+    itemFieldValueService.deleteByItemId(id);
+    itemService.deleteById(id);
+  }
+
+  @Override
+  @Transactional
+  public void deleteAllByItemTypeId(String itemTypeId) {
+    log.info("(deleteAllByItemTypeId)itemTypeId: {}", itemTypeId);
+    var item = itemService.getAllByItemTypeId(itemTypeId);
+    for(ItemResponse value : item) {
+      itemFieldValueService.deleteByItemId(value.getId());
+    }
+    itemService.deleteAllByItemTypeId(itemTypeId);
+  }
+
+  @Override
+  @Transactional(readOnly = true)
+  public ItemDetailResponse getById(String id) {
+    log.info("(getById)id: {}", id);
+    var item = itemService.getById(id);
+    var itemFieldValue = itemFieldValueService.getAllByItemId(id);
+
+    Map<String, String> map = new HashMap<>();
+    for (ItemFieldValueResponse value : itemFieldValue) {
+      map.put(value.getFieldId(), value.getValue());
+    }
+    return ItemDetailResponse.from(item, map);
   }
 
   @Override
