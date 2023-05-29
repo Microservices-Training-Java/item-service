@@ -84,7 +84,7 @@ public class ItemServiceImpl implements ItemService {
 
   @Override
   @Transactional
-  public ItemResponse update(String id, String itemTypeId) {
+  public ItemResponse updateById(String id, String itemTypeId) {
     log.info("(update)id: {}, itemTypeId: {}", id, itemTypeId);
     var item = repository
         .findById(id)
