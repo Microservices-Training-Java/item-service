@@ -6,6 +6,8 @@ import static org.aibles.item_service.constant.ItemApiConstant.ResourceConstant.
 import lombok.extern.slf4j.Slf4j;
 import org.aibles.item_service.dto.request.ItemCreateRequest;
 import org.aibles.item_service.dto.request.ItemTypeCreateRequest;
+import org.aibles.item_service.dto.request.ItemTypeUpdateRequest;
+import org.aibles.item_service.dto.request.ItemUpdateRequest;
 import org.aibles.item_service.dto.response.Response;
 import org.aibles.item_service.facade.ItemFacadeService;
 import org.aibles.item_service.service.ItemService;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -60,5 +63,17 @@ public class ItemController {
     return Response.of(
         HttpStatus.OK.value(),
         itemFacadeService.getById(id));
+  }
+
+  @PutMapping(path =  {"/{item_type_id}" + ITEM + "/{id}"})
+  @ResponseStatus(HttpStatus.OK)
+  public Response update(@PathVariable("item_type_id") String itemTypeId,
+      @PathVariable("id") String id,
+      @Validated @RequestBody ItemUpdateRequest request) {
+    log.info("(update)id: {}, itemTypeId: {}, value: {}", id, itemTypeId, request.getValue());
+    return Response.of(
+        HttpStatus.OK.value(),
+        itemFacadeService.update(id, itemTypeId, request.getValue())
+    );
   }
 }

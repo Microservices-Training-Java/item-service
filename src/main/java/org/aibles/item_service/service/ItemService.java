@@ -38,4 +38,12 @@ public interface ItemService{
    */
   ItemResponse getById(String id);
 
+  /**
+   * upđate item by id
+   * @param id - id of item
+   * @param itemTypeId - id of item type
+   * @return information of an item
+   */
+  ItemResponse updateById(String id, String itemTypeId);
+
 }

@@ -8,7 +8,7 @@ public interface ItemFieldService {
    * check if there is id of that field
    * @param id - id of field
    */
-  void existsById (String id);
+  void validateExistsFieldId (String id);
 
   /**
    * get the name of the field

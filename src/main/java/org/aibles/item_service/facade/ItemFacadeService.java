@@ -32,4 +32,13 @@ public interface ItemFacadeService {
    * @return item detail information
    */
   ItemDetailResponse getById(String id);
+
+  /**
+   * update by id
+   * @param id - id of item
+   * @param itemTypeId - id of itemType
+   * @param fieldValue - is a map between fieldId and value
+   * @return  item information and map information between fieldId and value
+   */
+  ItemDetailResponse update(String id, String itemTypeId, Map<String, String> fieldValue);
 }
