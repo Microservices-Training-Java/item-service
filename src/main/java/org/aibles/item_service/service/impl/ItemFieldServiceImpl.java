@@ -21,14 +21,14 @@ public class ItemFieldServiceImpl implements ItemFieldService {
   @Transactional(readOnly = true)
   public String getNameById(String id) {
     log.info("(getNameById)id : {}", id);
-    existsById (id);
+    validateExistsFieldId (id);
     return repository.findNameById(id);
   }
 
   @Override
   @Transactional(readOnly = true)
-  public void existsById(String id) {
-    log.info("(validateExist)id : {}", id);
+  public void validateExistsFieldId(String id) {
+    log.info("(validateExistsFieldId)id : {}", id);
     if (!repository.existsById(id)) {
       throw new NotFoundException(id, ItemField.class.getSimpleName());
     }

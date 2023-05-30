@@ -44,7 +44,7 @@ public class ItemFacadeServiceImpl implements ItemFacadeService{
   @Transactional
   public ItemDetailResponse create(String itemTypeId, Map<String, String> fieldValue) {
     log.info("(create)itemTypeId: {}, fieldValue: {}", itemTypeId, fieldValue);
-    itemTypeService.existsById(itemTypeId);
+    itemTypeService.validateExistsItemTypeId(itemTypeId);
     var item = itemService.create(itemTypeId);
 
     if(fieldValue == null || fieldValue.isEmpty()) {
@@ -53,7 +53,7 @@ public class ItemFacadeServiceImpl implements ItemFacadeService{
     }
 
     for(Map.Entry<String, String> valueByField : fieldValue.entrySet()) {
-      itemFieldService.existsById(valueByField.getKey());
+      itemFieldService.validateExistsFieldId(valueByField.getKey());
       itemFieldValueService.create(item.getId(), valueByField.getKey(), valueByField.getValue());
     }
 
@@ -94,9 +94,10 @@ public class ItemFacadeServiceImpl implements ItemFacadeService{
   }
 
   @Override
+  @Transactional
   public ItemDetailResponse update(String id, String itemTypeId, Map<String, String> fieldValue) {
     log.info("(update)id: {}, itemTypeId: {}, fieldValue: {}", id, itemTypeId, fieldValue);
-    itemTypeService.existsById(itemTypeId);
+    itemTypeService.validateExistsItemTypeId(itemTypeId);
     var item = itemService.updateById(id, itemTypeId);
 
     if(fieldValue == null || fieldValue.isEmpty()) {
@@ -105,7 +106,7 @@ public class ItemFacadeServiceImpl implements ItemFacadeService{
     }
     itemFieldValueService.deleteByItemId(item.getId());
     for(Map.Entry<String, String> valueByField : fieldValue.entrySet()) {
-      itemFieldService.existsById(valueByField.getKey());
+      itemFieldService.validateExistsFieldId(valueByField.getKey());
       itemFieldValueService.create(item.getId(), valueByField.getKey(), valueByField.getValue());
     }
 
