@@ -70,7 +70,7 @@ public class ItemTypeFacadeServiceImpl implements ItemTypeFacadeService {
   @Transactional(readOnly = true)
   public List<String> getFieldIdById(String id) {
     log.info("(getFieldIdById)id: {}", id);
-    itemTypeService.existsById(id);
+    itemTypeService.validateExistsItemTypeId(id);
     return itemTypeFieldService.getFieldIdByItemTypeId(id);
   }
 
