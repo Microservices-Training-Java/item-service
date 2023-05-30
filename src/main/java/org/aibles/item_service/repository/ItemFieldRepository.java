@@ -7,4 +7,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ItemFieldRepository extends JpaRepository<ItemField, String> {
 
+  boolean existsByName(String name);
+
+  boolean existsByUniqueName(String uniqueName);
 }

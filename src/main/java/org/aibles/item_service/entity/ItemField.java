@@ -22,8 +22,16 @@ public class ItemField {
   private String name;
   @Column(name = "unique_name")
   private String uniqueName;
+
   @PrePersist
   private void prePersistId() {
     this.id = this.id == null ? UUID.randomUUID().toString() : this.id;
+  }
+
+  public static ItemField of(String name, String uniqueName) {
+    ItemField itemField = new ItemField();
+    itemField.setName(name);
+    itemField.setUniqueName(uniqueName);
+    return itemField;
   }
 }
