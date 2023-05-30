@@ -27,6 +27,13 @@ public interface ItemTypeFacadeService {
   ItemTypeDetailResponse getById(String id);
 
   /**
+   * function get fieldId by id
+   * @param id - id of type
+   * @return show fieldId
+   */
+  List<String> getFieldIdById(String id);
+
+  /**
    * update type field information
    * @param id - id of type
    * @param type - type you want to update

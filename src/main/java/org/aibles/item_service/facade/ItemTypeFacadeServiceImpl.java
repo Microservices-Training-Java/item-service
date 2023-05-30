@@ -66,6 +66,14 @@ public class ItemTypeFacadeServiceImpl implements ItemTypeFacadeService {
     return ItemTypeDetailResponse.from(itemType, list);
   }
 
+  @Override
+  @Transactional(readOnly = true)
+  public List<String> getFieldIdById(String id) {
+    log.info("(getFieldIdById)id: {}", id);
+    itemTypeService.existsById(id);
+    return itemTypeFieldService.getFieldIdByItemTypeId(id);
+  }
+
   /**
    * steps to update type b1: update type b2: remove type-field information by typeId b3: regenerate
    * type-field information after correcting fieldId
