@@ -36,8 +36,8 @@ public class ItemTypeFacadeServiceImpl implements ItemTypeFacadeService {
     log.info("(create)type: {}, listField: {}", type, listField);
     var itemType = itemTypeService.create(type);
     for (String value : listField) {
-      itemFieldService.existsById(value);
-      itemTypeFieldService.existsByItemTypeIdAndFieldId(itemType.getId(), value);
+      itemFieldService.validateExistsFieldId(value);
+      itemTypeFieldService.validateExistsItemTypeIdAndFieldId(itemType.getId(), value);
       itemTypeFieldService.create(itemType.getId(), value);
     }
     return ItemTypeDetailResponse.from(itemType, listField);
@@ -77,8 +77,8 @@ public class ItemTypeFacadeServiceImpl implements ItemTypeFacadeService {
     var itemType = itemTypeService.update(id, type);
     itemTypeFieldService.deleteByTypeId(id);
     for (String value : listField) {
-      itemFieldService.existsById(value);
-      itemTypeFieldService.existsByItemTypeIdAndFieldId(itemType.getId(), value);
+      itemFieldService.validateExistsFieldId(value);
+      itemTypeFieldService.validateExistsItemTypeIdAndFieldId(itemType.getId(), value);
       itemTypeFieldService.create(id, value);
     }
     return ItemTypeDetailResponse.from(itemType, listField);

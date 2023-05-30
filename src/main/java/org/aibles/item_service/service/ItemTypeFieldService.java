@@ -33,6 +33,6 @@ public interface ItemTypeFieldService {
    * @param itemTypeId - id of item-type
    * @param fieldId - id of item-field
    */
-  void existsByItemTypeIdAndFieldId(String itemTypeId, String fieldId);
+  void validateExistsItemTypeIdAndFieldId(String itemTypeId, String fieldId);
 
 }
