@@ -29,13 +29,6 @@ public interface ItemTypeFieldService {
   List<ItemTypeFieldResponse> getAllByItemTypeId(String itemTypeId);
 
   /**
-   * function get fieldId by itemTypeId
-   * @param itemTypeId - id of item-type
-   * @return show fieldId
-   */
-  List<String> getFieldIdByItemTypeId(String itemTypeId);
-
-  /**
    * check for no duplicate fields on 1 type
    * @param itemTypeId - id of item-type
    * @param fieldId - id of item-field

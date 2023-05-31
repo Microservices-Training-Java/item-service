@@ -78,7 +78,7 @@ public class ItemTypeController {
     log.info("(getFieldIdById)id: {}", id);
     return Response.of(
         HttpStatus.OK.value(),
-        itemTypeFacadeService.getFieldIdById(id));
+        itemTypeFacadeService.getFieldById(id));
   }
 
   @PutMapping(path =  "/{id}")

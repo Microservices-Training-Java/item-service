@@ -1,6 +1,8 @@
 package org.aibles.item_service.service;
 
+import java.util.List;
 import org.aibles.item_service.entity.ItemField;
+import org.aibles.item_service.repository.FieldProjection;
 
 public interface ItemFieldService {
 
@@ -16,4 +18,11 @@ public interface ItemFieldService {
    * @return name that you search based on id
    */
   String getNameById(String id);
+
+  /**
+   * function get fields by itemTypeId
+   * @param itemTypeId - id of item-type
+   * @return show fields
+   */
+  List<FieldProjection> getAllByItemTypeId(String itemTypeId);
 }

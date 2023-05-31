@@ -18,11 +18,4 @@ public interface ItemTypeFieldRepository extends JpaRepository<ItemTypeField, St
   boolean existsByItemTypeId(String itemTypeId);
 
   void deleteAllByItemTypeId(String itemTypeId);
-
-
-  List<String> findNameFieldByItemTypeId(String itemTypeId);
-
-  @Query("SELECT itf.fieldId from ItemTypeField itf where itf.itemTypeId = :itemTypeId")
-  List<String> findFieldIdByItemTypeId(String itemTypeId);
-
 }

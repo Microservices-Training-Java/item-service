@@ -2,6 +2,8 @@ package org.aibles.item_service.facade;
 
 import java.util.List;
 import org.aibles.item_service.dto.response.ItemTypeDetailResponse;
+import org.aibles.item_service.entity.ItemField;
+import org.aibles.item_service.repository.FieldProjection;
 
 public interface ItemTypeFacadeService {
 
@@ -27,11 +29,11 @@ public interface ItemTypeFacadeService {
   ItemTypeDetailResponse getById(String id);
 
   /**
-   * function get fieldId by id
+   * function get fields by id
    * @param id - id of type
-   * @return show fieldId
+   * @return show fields
    */
-  List<String> getFieldIdById(String id);
+  List<FieldProjection> getFieldById(String id);
 
   /**
    * update type field information
