@@ -56,7 +56,7 @@ public class ItemTypeServiceImpl implements ItemTypeService {
 
   @Override
   @Transactional(readOnly = true)
-  public ItemType getById(String id) {
+  public ItemTypeResponse getById(String id) {
     log.info("(getById)id: {}", id);
     var itemType = repository
         .findById(id)
@@ -64,7 +64,7 @@ public class ItemTypeServiceImpl implements ItemTypeService {
           log.error("(getById)id : {} --> NOT FOUND EXCEPTION", id);
           throw new NotFoundException(id, ItemType.class.getSimpleName());
         });
-    return itemType;
+    return ItemTypeResponse.from(itemType);
   }
 
   @Override
