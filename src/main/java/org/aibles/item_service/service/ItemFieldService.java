@@ -31,4 +31,5 @@ public interface ItemFieldService {
   ItemFieldResponse create(ItemFieldCreateRequest request);
 
   ItemFieldResponse update(String id, ItemFieldUpdateRequest request);
+  ItemFieldResponse getOneById(String id);
 }

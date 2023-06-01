@@ -7,6 +7,7 @@ import org.aibles.item_service.dto.response.Response;
 import org.aibles.item_service.service.ItemFieldService;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -41,4 +42,10 @@ public class ItemFieldController {
     return Response.of(HttpStatus.OK.value(), service.update(id, request));
   }
 
+  @GetMapping(path = "/{id}")
+  @ResponseStatus(HttpStatus.OK)
+  public Response getOneById(@PathVariable String id) {
+    log.info("(getOneById)id : {}", id);
+    return Response.of(HttpStatus.OK.value(), service.getOneById(id));
+  }
 }

@@ -74,6 +74,18 @@ public class ItemFieldServiceImpl implements ItemFieldService {
   }
 
   @Override
+  public ItemFieldResponse getOneById(String id) {
+    log.info("(getById)id: {}", id);
+    ItemFieldResponse itemField = ItemFieldResponse.from(repository
+        .findById(id)
+        .orElseThrow(() -> {
+          log.error("(getById)id : {} --> NOT FOUND EXCEPTION", id);
+          throw new NotFoundException(id, ItemField.class.getSimpleName());
+        }));
+    return itemField;
+  }
+
+  @Override
   @Transactional(readOnly = true)
   public void validateExistsFieldId(String id) {
     log.info("(validateExistsFieldId)id : {}", id);
