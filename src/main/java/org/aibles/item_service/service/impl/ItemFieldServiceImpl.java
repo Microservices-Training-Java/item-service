@@ -2,6 +2,7 @@ package org.aibles.item_service.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
 import org.aibles.item_service.dto.request.ItemFieldCreateRequest;
+import org.aibles.item_service.dto.request.ItemFieldUpdateRequest;
 import org.aibles.item_service.dto.response.ItemFieldResponse;
 import org.aibles.item_service.dto.response.ItemFieldValueResponse;
 import org.aibles.item_service.entity.ItemField;
@@ -45,6 +46,31 @@ public class ItemFieldServiceImpl implements ItemFieldService {
     }
     return ItemFieldResponse.from(
         repository.save(ItemField.of(request.getName(), request.getUniqueName())));
+  }
+
+  @Override
+  public ItemFieldResponse update(String id, ItemFieldUpdateRequest request) {
+    log.info("(update)id : {}, request : {}", id, request);
+    ItemField itemField = repository
+        .findById(id)
+        .orElseThrow(() -> {
+              log.error("(update)id : {} --> NOT FOUND EXCEPTION", id);
+              throw new NotFoundException(id, ItemField.class.getSimpleName());
+            }
+        );
+    if (repository.existsByName(request.getName())) {
+      log.error("(update)name : {} --> EXIST EXCEPTION", request.getName());
+      throw new ItemFieldNameAlreadyExistsException(request.getName(),
+          ItemField.class.getSimpleName());
+    }
+    if (repository.existsByUniqueName(request.getUniqueName())) {
+      log.error("(update)uniqueName : {} --> EXIST EXCEPTION", request.getUniqueName());
+      throw new ItemFieldUniqueNameAlreadyExistsException(request.getUniqueName(),
+          ItemField.class.getSimpleName());
+    }
+    itemField.setName(request.getName());
+    itemField.setUniqueName(request.getUniqueName());
+    return ItemFieldResponse.from(repository.save(itemField));
   }
 
   @Override
