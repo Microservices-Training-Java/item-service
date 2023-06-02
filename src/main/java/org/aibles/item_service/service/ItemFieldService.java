@@ -16,6 +16,17 @@ public interface ItemFieldService {
    */
   void validateExistsFieldId(String id);
 
+  /*
+   * check if field name exists
+   */
+  void validateExistsFieldName(String name);
+
+  /*
+   * check if field uniqueName exists
+   */
+  void validateExistsFieldUniqueName(String uniqueName);
+
+
   /**
    * get the name of the field
    *
@@ -31,8 +42,10 @@ public interface ItemFieldService {
 
    */
   ItemFieldResponse create(ItemFieldCreateRequest request);
+
   /**
    * function get fields by itemTypeId
+   *
    * @param itemTypeId - id of item-type
    * @return show fields
    */
