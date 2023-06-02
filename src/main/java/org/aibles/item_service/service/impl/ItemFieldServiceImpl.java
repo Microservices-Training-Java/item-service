@@ -5,6 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.aibles.item_service.dto.request.ItemFieldCreateRequest;
 import org.aibles.item_service.dto.response.ItemFieldResponse;
 import org.aibles.item_service.entity.ItemField;
+import org.aibles.item_service.exception.ItemFieldNameAlreadyExistsException;
+import org.aibles.item_service.exception.ItemFieldUniqueNameAlreadyExistsException;
 import org.aibles.item_service.exception.NotFoundException;
 import org.aibles.item_service.repository.FieldProjection;
 import org.aibles.item_service.repository.ItemFieldRepository;
@@ -59,7 +61,7 @@ public class ItemFieldServiceImpl implements ItemFieldService {
   public void validateExistsFieldName(String name) {
     log.info("(validateExistsFieldName)name :{}", name);
     if (repository.existsByName(name)) {
-      throw new NotFoundException(name, ItemField.class.getSimpleName());
+      throw new ItemFieldNameAlreadyExistsException(name, ItemField.class.getSimpleName());
     }
   }
 
@@ -67,7 +69,8 @@ public class ItemFieldServiceImpl implements ItemFieldService {
   public void validateExistsFieldUniqueName(String uniqueName) {
     log.info("(validateExistsFieldName)uniqueName :{}", uniqueName);
     if (repository.existsByName(uniqueName)) {
-      throw new NotFoundException(uniqueName, ItemField.class.getSimpleName());
+      throw new ItemFieldUniqueNameAlreadyExistsException(uniqueName,
+          ItemField.class.getSimpleName());
     }
   }
 
