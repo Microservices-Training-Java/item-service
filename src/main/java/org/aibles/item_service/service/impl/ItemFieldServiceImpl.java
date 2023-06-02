@@ -1,5 +1,6 @@
 package org.aibles.item_service.service.impl;
 
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.aibles.item_service.dto.request.ItemFieldCreateRequest;
 import org.aibles.item_service.dto.response.ItemFieldResponse;
@@ -9,6 +10,7 @@ import org.aibles.item_service.entity.ItemType;
 import org.aibles.item_service.exception.ItemFieldNameAlreadyExistsException;
 import org.aibles.item_service.exception.ItemFieldUniqueNameAlreadyExistsException;
 import org.aibles.item_service.exception.NotFoundException;
+import org.aibles.item_service.repository.FieldProjection;
 import org.aibles.item_service.repository.ItemFieldRepository;
 import org.aibles.item_service.service.ItemFieldService;
 import org.springframework.transaction.annotation.Transactional;
@@ -54,5 +56,12 @@ public class ItemFieldServiceImpl implements ItemFieldService {
     if (!repository.existsById(id)) {
       throw new NotFoundException(id, ItemField.class.getSimpleName());
     }
+  }
+
+  @Override
+  @Transactional(readOnly = true)
+  public List<FieldProjection> getAllByItemTypeId(String itemTypeId) {
+    log.info("(getAllByItemTypeId)itemTypeId: {}", itemTypeId);
+    return repository.findALLByItemTypeId(itemTypeId);
   }
 }

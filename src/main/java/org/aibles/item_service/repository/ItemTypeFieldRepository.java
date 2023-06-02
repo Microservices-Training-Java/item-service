@@ -18,5 +18,4 @@ public interface ItemTypeFieldRepository extends JpaRepository<ItemTypeField, St
   boolean existsByItemTypeId(String itemTypeId);
 
   void deleteAllByItemTypeId(String itemTypeId);
-
 }

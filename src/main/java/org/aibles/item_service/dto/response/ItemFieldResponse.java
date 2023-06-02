@@ -15,10 +15,10 @@ public class ItemFieldResponse {
   private String uniqueName;
 
   public static ItemFieldResponse from(ItemField itemField) {
-    return ItemFieldResponse.of(
-        itemField.getId(),
-        itemField.getName(),
-        itemField.getUniqueName()
-    );
+    var response = new ItemFieldResponse();
+    response.setId(itemField.getId());
+    response.setName(itemField.getName());
+    response.setUniqueName(itemField.getUniqueName());
+    return response;
   }
 }

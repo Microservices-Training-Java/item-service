@@ -3,7 +3,9 @@ package org.aibles.item_service.service;
 import org.aibles.item_service.dto.request.ItemFieldCreateRequest;
 import org.aibles.item_service.dto.response.ItemFieldResponse;
 import org.aibles.item_service.dto.response.ItemFieldValueResponse;
+import java.util.List;
 import org.aibles.item_service.entity.ItemField;
+import org.aibles.item_service.repository.FieldProjection;
 
 public interface ItemFieldService {
 
@@ -29,4 +31,10 @@ public interface ItemFieldService {
 
    */
   ItemFieldResponse create(ItemFieldCreateRequest request);
+  /**
+   * function get fields by itemTypeId
+   * @param itemTypeId - id of item-type
+   * @return show fields
+   */
+  List<FieldProjection> getAllByItemTypeId(String itemTypeId);
 }
