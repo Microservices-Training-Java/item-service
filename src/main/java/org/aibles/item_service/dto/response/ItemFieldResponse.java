@@ -10,9 +10,9 @@ import org.aibles.item_service.entity.ItemField;
 @NoArgsConstructor
 public class ItemFieldResponse {
 
-  String id;
-  String name;
-  String uniqueName;
+  private String id;
+  private String name;
+  private String uniqueName;
 
   public static ItemFieldResponse from(ItemField itemField) {
     return ItemFieldResponse.of(
@@ -21,5 +21,4 @@ public class ItemFieldResponse {
         itemField.getUniqueName()
     );
   }
-
 }

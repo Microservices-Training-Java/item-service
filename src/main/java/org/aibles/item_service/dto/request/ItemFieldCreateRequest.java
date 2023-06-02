@@ -7,6 +7,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ItemFieldCreateRequest {
 
-  String name;
-  String uniqueName;
+  private String name;
+  private String uniqueName;
 }
