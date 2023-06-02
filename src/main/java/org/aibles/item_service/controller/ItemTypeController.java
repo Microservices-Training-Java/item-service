@@ -66,7 +66,7 @@ public class ItemTypeController {
   @GetMapping(path =  "/{id}")
   @ResponseStatus(HttpStatus.OK)
   public Response get(@PathVariable("id") String id) {
-    log.info("(getById)id: {}", id);
+    log.info("(get)id: {}", id);
     return Response.of(
         HttpStatus.OK.value(),
         itemTypeFacadeService.getById(id));
