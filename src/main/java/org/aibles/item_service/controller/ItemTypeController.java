@@ -1,6 +1,7 @@
 package org.aibles.item_service.controller;
 
 import static org.aibles.item_service.constant.ItemApiConstant.BaseUrl.TYPE_BASE_URL;
+import static org.aibles.item_service.constant.ItemApiConstant.ResourceConstant.FIELD;
 
 import lombok.extern.slf4j.Slf4j;
 import org.aibles.item_service.dto.request.ItemTypeCreateRequest;
@@ -69,6 +70,15 @@ public class ItemTypeController {
     return Response.of(
         HttpStatus.OK.value(),
         itemTypeFacadeService.getById(id));
+  }
+
+  @GetMapping(path =  {"/{id}" + FIELD})
+  @ResponseStatus(HttpStatus.OK)
+  public Response getFieldIdById(@PathVariable("id") String id) {
+    log.info("(getFieldIdById)id: {}", id);
+    return Response.of(
+        HttpStatus.OK.value(),
+        itemTypeFacadeService.getFieldById(id));
   }
 
   @PutMapping(path =  "/{id}")
