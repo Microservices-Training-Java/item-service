@@ -5,6 +5,8 @@ import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.aibles.item_service.dto.response.ItemTypeDetailResponse;
 import org.aibles.item_service.dto.response.ItemTypeFieldResponse;
+import org.aibles.item_service.entity.ItemField;
+import org.aibles.item_service.repository.FieldProjection;
 import org.aibles.item_service.service.ItemFieldService;
 import org.aibles.item_service.service.ItemTypeFieldService;
 import org.aibles.item_service.service.ItemTypeService;
@@ -64,6 +66,14 @@ public class ItemTypeFacadeServiceImpl implements ItemTypeFacadeService {
       list.add(itemFieldService.getNameById(value.getFieldId()));
     }
     return ItemTypeDetailResponse.from(itemType, list);
+  }
+
+  @Override
+  @Transactional(readOnly = true)
+  public List<FieldProjection> getFieldById(String id) {
+    log.info("(getFieldById)id: {}", id);
+    itemTypeService.validateExistsItemTypeId(id);
+    return itemFieldService.getAllByItemTypeId(id);
   }
 
   /**
