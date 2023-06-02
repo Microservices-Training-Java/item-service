@@ -66,6 +66,7 @@ public class ItemFieldServiceImpl implements ItemFieldService {
   }
 
   @Override
+  @Transactional(readOnly = true)
   public void validateExistsFieldUniqueName(String uniqueName) {
     log.info("(validateExistsFieldName)uniqueName :{}", uniqueName);
     if (repository.existsByName(uniqueName)) {
