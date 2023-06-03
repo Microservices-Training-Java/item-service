@@ -3,7 +3,9 @@ spring:
     change-log: classpath:/migration/master-changelog.xml
   datasource:
     url: jdbc:postgresql://localhost:5432/item2
-    username: postgres
-    password: linh2002
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
   application:
     name: item-service
+server:
+  port: 8100

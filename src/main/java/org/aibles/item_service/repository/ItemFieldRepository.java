@@ -12,6 +12,10 @@ public interface ItemFieldRepository extends JpaRepository<ItemField, String> {
   @Query("select it.name from ItemField it  where it.id = :id")
   String findNameById(String id);
 
+  boolean existsByName(String name);
+
+  boolean existsByUniqueName(String uniqueName);
+
   @Query("SELECT new org.aibles.item_service.repository.FieldProjection("
       +"f.id, "
       +"f.name,"
