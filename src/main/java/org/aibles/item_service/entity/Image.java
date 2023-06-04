@@ -8,7 +8,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "avatar")
 @Data
-public class Avatar {
+public class Image {
 
     @Id
     private String id;
@@ -22,10 +22,10 @@ public class Avatar {
         this.id = this.id == null ? UUID.randomUUID().toString() : this.id;
     }
 
-    public static Avatar of(String name,String path){
-        Avatar avatar = new Avatar();
-        avatar.setName(name);
-        avatar.setPath(path);
-        return avatar;
+    public static Image of(String name, String path){
+        Image image = new Image();
+        image.setName(name);
+        image.setPath(path);
+        return image;
     }
 }

@@ -32,6 +32,20 @@
     </createTable>
   </changeSet>
 
+  <changeSet id="20230517-0727-add-table-image-" author="Duc Anh">
+    <createTable tableName="image">
+      <column name="id" type="varchar(255)">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="name" type="varchar(255)">
+        <constraints nullable="true"/>
+      </column>
+      <column name="path" type="varchar(255)">
+        <constraints nullable="true"/>
+      </column>
+    </createTable>
+  </changeSet>
+
   <changeSet id="20230517-0727-add-table-item-type-field" author="YaLynk">
     <createTable tableName="item_type_field">
       <column name="id" type="varchar(255)">
@@ -46,10 +60,10 @@
 
     </createTable>
     <addForeignKeyConstraint baseTableName="item_type_field" baseColumnNames="item_type_id"
-      constraintName="pk_id_item_type"
+      constraintName="pk_item_type_field_item_type"
       referencedTableName="item_type" referencedColumnNames="id"/>
     <addForeignKeyConstraint baseTableName="item_type_field" baseColumnNames="item_field_id"
-      constraintName="pk_id_item_field"
+      constraintName="pk_item_field_item_field"
       referencedTableName="item_field" referencedColumnNames="id"/>
   </changeSet>
 
@@ -63,7 +77,7 @@
       </column>
     </createTable>
     <addForeignKeyConstraint baseTableName="item" baseColumnNames="item_type_id"
-      constraintName="pk_id_item_type"
+      constraintName="pk_item_item_type"
       referencedTableName="item_type" referencedColumnNames="id"/>
   </changeSet>
 
@@ -83,10 +97,10 @@
       </column>
     </createTable>
     <addForeignKeyConstraint baseTableName="item_field_value" baseColumnNames="item_id"
-      constraintName="pk_id_item"
+      constraintName="pk_field_value_item"
       referencedTableName="item" referencedColumnNames="id"/>
     <addForeignKeyConstraint baseTableName="item_field_value" baseColumnNames="item_field_id"
-      constraintName="pk_id_item_field"
+      constraintName="pk_field_valueitem_field"
       referencedTableName="item_field" referencedColumnNames="id"/>
   </changeSet>
 

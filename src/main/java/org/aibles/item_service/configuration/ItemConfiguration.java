@@ -7,7 +7,6 @@ import org.aibles.item_service.facade.ItemTypeFacadeServiceImpl;
 import org.aibles.item_service.repository.*;
 import org.aibles.item_service.service.*;
 import org.aibles.item_service.service.impl.*;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -70,11 +69,8 @@ public class ItemConfiguration {
     );
   }
 
-  @Value("E:\\anh")
-  private String fileStorageLocation;
-
   @Bean
-  public AvatarService uploadService(AvatarRepository avatarRepository){
-    return new AvatarServiceImpl(avatarRepository, fileStorageLocation);
+  public ImageService uploadService(ImageRepository imageRepository){
+    return new ImageServiceImpl(imageRepository);
   }
 }
