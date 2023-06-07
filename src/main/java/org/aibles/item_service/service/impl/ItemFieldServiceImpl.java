@@ -1,6 +1,7 @@
 package org.aibles.item_service.service.impl;
 
 import java.util.List;
+import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.aibles.item_service.dto.request.ItemFieldCreateRequest;
 import org.aibles.item_service.dto.response.ItemFieldResponse;
@@ -37,6 +38,15 @@ public class ItemFieldServiceImpl implements ItemFieldService {
   public List<FieldProjection> getAllByItemTypeId(String itemTypeId) {
     log.info("(getAllByItemTypeId)itemTypeId: {}", itemTypeId);
     return repository.findALLByItemTypeId(itemTypeId);
+  }
+
+  @Override
+  @Transactional
+  public List<ItemFieldResponse> getAll() {
+    log.info("(getAll)item field");
+    return repository.findAll().stream()
+        .map(ItemFieldResponse::from)
+        .collect(Collectors.toList());
   }
 
   @Override

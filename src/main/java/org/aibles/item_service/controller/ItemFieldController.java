@@ -8,6 +8,7 @@ import org.aibles.item_service.dto.response.Response;
 import org.aibles.item_service.service.ItemFieldService;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,5 +32,12 @@ public class ItemFieldController {
     log.info("(create)name : {}, uniqueName: {}", request.getName(), request.getUniqueName());
     return Response.of(HttpStatus.CREATED.value(), service.create(request));
 
+  }
+
+  @GetMapping()
+  @ResponseStatus(HttpStatus.OK)
+  public Response getAll() {
+    log.info("(getAll)item field");
+    return Response.of(HttpStatus.OK.value(), service.getAll());
   }
 }
