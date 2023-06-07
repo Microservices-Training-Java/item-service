@@ -4,6 +4,7 @@ import static org.aibles.item_service.constant.ItemApiConstant.BaseUrl.FIELD_BAS
 
 import lombok.extern.slf4j.Slf4j;
 import org.aibles.item_service.dto.request.ItemFieldCreateRequest;
+import org.aibles.item_service.dto.response.ItemFieldPaginationResponse;
 import org.aibles.item_service.dto.response.Response;
 import org.aibles.item_service.service.ItemFieldService;
 import org.springframework.http.HttpStatus;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -40,4 +42,14 @@ public class ItemFieldController {
     log.info("(getAll)item field");
     return Response.of(HttpStatus.OK.value(), service.getAll());
   }
+
+  @GetMapping("/pagination")
+  @ResponseStatus(HttpStatus.OK)
+  public ItemFieldPaginationResponse getItemFieldPagination(@RequestParam Integer pageNumber,
+      @RequestParam Integer pageSize) {
+    log.info("(getItemFieldPagination)pageNumber : {},pageSize : {}, totalPages : {}", pageNumber,
+        pageSize);
+    return service.getItemFieldPagination(pageNumber, pageSize);
+  }
+
 }

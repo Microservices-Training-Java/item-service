@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.aibles.item_service.dto.request.ItemFieldCreateRequest;
+import org.aibles.item_service.dto.response.ItemFieldPaginationResponse;
 import org.aibles.item_service.dto.response.ItemFieldResponse;
 import org.aibles.item_service.entity.ItemField;
 import org.aibles.item_service.exception.ItemFieldNameAlreadyExistsException;
@@ -12,6 +13,9 @@ import org.aibles.item_service.exception.NotFoundException;
 import org.aibles.item_service.repository.FieldProjection;
 import org.aibles.item_service.repository.ItemFieldRepository;
 import org.aibles.item_service.service.ItemFieldService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
@@ -47,6 +51,16 @@ public class ItemFieldServiceImpl implements ItemFieldService {
     return repository.findAll().stream()
         .map(ItemFieldResponse::from)
         .collect(Collectors.toList());
+  }
+
+  @Override
+  public ItemFieldPaginationResponse getItemFieldPagination(int pageNumber, int pageSize) {
+    Pageable pageable = PageRequest.of(pageNumber, pageSize);
+    Page<ItemField> itemFieldPage = repository.findAll(pageable);
+    ItemFieldPaginationResponse response = new ItemFieldPaginationResponse(
+        itemFieldPage.getContent(), itemFieldPage.getNumber(), itemFieldPage.getSize(),
+        itemFieldPage.getTotalPages());
+    return response;
   }
 
   @Override

@@ -2,6 +2,7 @@ package org.aibles.item_service.service;
 
 import java.util.List;
 import org.aibles.item_service.dto.request.ItemFieldCreateRequest;
+import org.aibles.item_service.dto.response.ItemFieldPaginationResponse;
 import org.aibles.item_service.dto.response.ItemFieldResponse;
 import org.aibles.item_service.repository.FieldProjection;
 
@@ -55,4 +56,12 @@ public interface ItemFieldService {
    * @return item field list
    */
   List<ItemFieldResponse> getAll();
+
+  /**
+   * paging itemfield
+   *
+   * @param pageNumber, pageSize, totalPages
+   * @return item field list, number, size of page
+   */
+  ItemFieldPaginationResponse getItemFieldPagination(int pageNumber, int pageSize);
 }
