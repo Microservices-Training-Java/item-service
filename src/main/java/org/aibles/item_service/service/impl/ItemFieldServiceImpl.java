@@ -41,7 +41,7 @@ public class ItemFieldServiceImpl implements ItemFieldService {
   }
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public List<ItemFieldResponse> getAll() {
     log.info("(getAll)item field");
     return repository.findAll().stream()
