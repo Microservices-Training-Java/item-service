@@ -14,13 +14,15 @@ public class ItemFieldValueResponse {
   private String itemId;
   private String fieldId;
   private String value;
+  private String image_id;
 
   public static ItemFieldValueResponse from(ItemFieldValue itemFieldValue) {
     return ItemFieldValueResponse.of(
         itemFieldValue.getId(),
         itemFieldValue.getItemId(),
         itemFieldValue.getFieldId(),
-        itemFieldValue.getValue()
+        itemFieldValue.getValue(),
+        itemFieldValue.getImage_id()
     );
   }
 }

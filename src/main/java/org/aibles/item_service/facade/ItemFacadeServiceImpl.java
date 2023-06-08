@@ -38,7 +38,7 @@ public class ItemFacadeServiceImpl implements ItemFacadeService{
 
   @Override
   @Transactional
-  public ItemDetailResponse create(String itemTypeId, Map<String, String> fieldValue) {
+  public ItemDetailResponse create(String itemTypeId, Map<String, String> fieldValue,String image_id) {
     log.info("(create)itemTypeId: {}, fieldValue: {}", itemTypeId, fieldValue);
     itemTypeService.existsById(itemTypeId);
     var item = itemService.create(itemTypeId);
@@ -50,7 +50,7 @@ public class ItemFacadeServiceImpl implements ItemFacadeService{
 
     for(Map.Entry<String, String> valueByField : fieldValue.entrySet()) {
       itemFieldService.existsById(valueByField.getKey());
-      itemFieldValueService.create(item.getId(), valueByField.getKey(), valueByField.getValue());
+      itemFieldValueService.create(item.getId(), valueByField.getKey(), valueByField.getValue(),image_id);
     }
 
     return ItemDetailResponse.from(item, fieldValue);

@@ -33,11 +33,11 @@ public class ItemController {
   @PostMapping(path = {"/{item_type_id}" + ITEM})
   @ResponseStatus(HttpStatus.CREATED)
   public Response create(@PathVariable("item_type_id") String itemTypeId,
-      @Validated @RequestBody ItemCreateRequest request) {
+      @Validated @RequestBody ItemCreateRequest request,@RequestBody String image_id) {
     log.info("(create)itemTypeId: {}, value: {}", itemTypeId, request.getValue());
     return Response.of(
         HttpStatus.CREATED.value(),
-        itemFacadeService.create(itemTypeId, request.getValue())
+        itemFacadeService.create(itemTypeId, request.getValue(),image_id)
     );
   }
 }

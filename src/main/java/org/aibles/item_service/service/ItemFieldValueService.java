@@ -12,5 +12,5 @@ public interface ItemFieldValueService {
    * @param value - value foe field
    * @return information of an item field value
    */
-  ItemFieldValueResponse create (String itemId, String fieldId, String value);
+  ItemFieldValueResponse create (String itemId, String fieldId, String value,String imgae_id);
 }

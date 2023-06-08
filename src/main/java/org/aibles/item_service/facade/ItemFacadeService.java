@@ -12,5 +12,5 @@ public interface ItemFacadeService {
    * @param fieldValue - is a map between fieldId and value
    * @return item information and map information between fieldId and value
    */
-  ItemDetailResponse create(String itemTypeId, Map<String, String> fieldValue);
+  ItemDetailResponse create(String itemTypeId, Map<String, String> fieldValue,String image_id);
 }

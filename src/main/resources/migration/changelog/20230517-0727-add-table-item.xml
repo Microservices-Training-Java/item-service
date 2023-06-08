@@ -95,6 +95,9 @@
       <column name="value" type="varchar(255)">
         <constraints nullable="true"/>
       </column>
+      <column name="image_id" type="varchar(255)">
+        <constraints nullable="true"/>
+      </column>
     </createTable>
     <addForeignKeyConstraint baseTableName="item_field_value" baseColumnNames="item_id"
       constraintName="pk_field_value_item"
@@ -102,6 +105,9 @@
     <addForeignKeyConstraint baseTableName="item_field_value" baseColumnNames="item_field_id"
       constraintName="pk_field_valueitem_field"
       referencedTableName="item_field" referencedColumnNames="id"/>
+    <addForeignKeyConstraint baseTableName="item_field_value" baseColumnNames="image_id"
+      constraintName="pk_field_value_image"
+      referencedTableName="image" referencedColumnNames="id"/>
   </changeSet>
 
 </databaseChangeLog>

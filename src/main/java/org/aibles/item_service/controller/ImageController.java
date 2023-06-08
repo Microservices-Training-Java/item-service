@@ -10,12 +10,12 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.http.HttpStatus;
 
-import static org.aibles.item_service.constant.ItemApiConstant.BaseUrl.AVATAR_BASE_URL;
+import static org.aibles.item_service.constant.ItemApiConstant.BaseUrl.IMAGE_BASE_URL;
 
 @RestController
 @Slf4j
 @RequiredArgsConstructor
-@RequestMapping(AVATAR_BASE_URL)
+@RequestMapping(IMAGE_BASE_URL)
 public class ImageController {
   private final ImageService service;
 
@@ -32,9 +32,14 @@ public class ImageController {
   public ResponseEntity<InputStreamSource> getImage(@RequestParam("id") String imageName) {
     InputStreamSource inputStreamSource = service.getImage(imageName);
 
+    MediaType mediaType;
+    if(imageName.endsWith(".png")){
+      mediaType = MediaType.IMAGE_PNG;
+    }
+    else mediaType = MediaType.IMAGE_JPEG;
     return ResponseEntity.ok()
             .headers(new HttpHeaders())
-            .contentType(MediaType.IMAGE_JPEG)
+            .contentType(mediaType)
             .body(inputStreamSource);
   }
 }

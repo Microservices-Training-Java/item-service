@@ -22,7 +22,7 @@ public class ImageServiceImpl implements ImageService {
 
   private final ImageRepository imageRepository;
 
-  @Value("E:\\anh")
+  @Value("${image.value}")
   private Path fileStorageLocation;
 
   public ImageServiceImpl(ImageRepository imageRepository) {
@@ -41,18 +41,12 @@ public class ImageServiceImpl implements ImageService {
     }
   }
 
-  private static final String IMAGE_PATH = "E:\\anh\\";
-
   @Override
   public InputStreamSource getImage(String id) {
     try {
       String imagePath = imageRepository.getImagePathById(id);
       File file = new File(imagePath);
       byte[] imageBytes = Files.readAllBytes(file.toPath());
-
-      HttpHeaders headers = new HttpHeaders();
-      headers.setContentType(MediaType.IMAGE_JPEG);
-      headers.setContentLength(imageBytes.length);
 
       InputStream inputStream = new ByteArrayInputStream(imageBytes);
 
