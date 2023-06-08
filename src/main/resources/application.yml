@@ -7,5 +7,10 @@ spring:
     password: linh2002
   application:
     name: item-service
+  spring:
+    servlet:
+      multipart:
+        max-file-size: 30MB
+        max-request-size: 30MB
 image:
   value: ${path.image}
