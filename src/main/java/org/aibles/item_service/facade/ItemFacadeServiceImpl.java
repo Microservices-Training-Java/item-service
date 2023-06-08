@@ -53,7 +53,7 @@ public class ItemFacadeServiceImpl implements ItemFacadeService{
       itemFieldValueService.create(item.getId(), valueByField.getKey(), valueByField.getValue(),image_id);
     }
 
-    return ItemDetailResponse.from(item, fieldValue);
+    return ItemDetailResponse.from(item, fieldValue, image_id);
   }
 
 }

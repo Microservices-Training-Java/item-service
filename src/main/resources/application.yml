@@ -2,8 +2,10 @@ spring:
   liquibase:
     change-log: classpath:/migration/master-changelog.xml
   datasource:
-    url: jdbc:postgresql://localhost:5432/item2
+    url: jdbc:postgresql://localhost:5432/item3
     username: postgres
     password: linh2002
   application:
     name: item-service
+image:
+  value: ${path.image}
