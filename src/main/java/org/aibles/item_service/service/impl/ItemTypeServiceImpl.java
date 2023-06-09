@@ -3,6 +3,7 @@ package org.aibles.item_service.service.impl;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
+import org.aibles.item_service.dto.response.ItemTypePaginationResponse;
 import org.aibles.item_service.dto.response.ItemTypeResponse;
 import org.aibles.item_service.entity.ItemType;
 import org.aibles.item_service.exception.DuplicateKeyException;
@@ -10,6 +11,9 @@ import org.aibles.item_service.exception.NotFoundException;
 import org.aibles.item_service.exception.TypeAlreadyExistsException;
 import org.aibles.item_service.repository.ItemTypeRepository;
 import org.aibles.item_service.service.ItemTypeService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
@@ -44,15 +48,24 @@ public class ItemTypeServiceImpl implements ItemTypeService {
     }
     repository.deleteById(id);
   }
-
   @Override
-  @Transactional(readOnly = true)
-  public List<ItemTypeResponse> getAll() {
-    log.info("(getAll)item type");
-    return repository.findAll().stream()
-        .map(ItemTypeResponse::from)
-        .collect(Collectors.toList());
+  public ItemTypePaginationResponse getAll(int currentPage, int pageSize) {
+    log.info("(getAll)currentPage :{}, pageSize :{}", currentPage, pageSize);
+    Pageable pageable = PageRequest.of(currentPage, pageSize);
+    Page<ItemType> page = repository.findAll(pageable);
+    ItemTypePaginationResponse response = new ItemTypePaginationResponse(page.getContent(),
+        page.getNumber(), page.getSize(), page.getTotalPages());
+    return response;
   }
+
+//  @Override
+//  @Transactional(readOnly = true)
+//  public List<ItemTypeResponse> getAll() {
+//    log.info("(getAll)item type");
+//    return repository.findAll().stream()
+//        .map(ItemTypeResponse::from)
+//        .collect(Collectors.toList());
+//  }
 
   @Override
   @Transactional(readOnly = true)
