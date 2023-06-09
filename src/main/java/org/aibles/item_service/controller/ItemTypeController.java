@@ -106,7 +106,7 @@ public class ItemTypeController {
     log.info("(createItem)itemTypeId: {}, value: {}", itemTypeId, request.getValue());
     return Response.of(
         HttpStatus.CREATED.value(),
-        itemFacadeService.create(itemTypeId, request.getValue())
+        itemFacadeService.create(itemTypeId, request.getValue(), request.getImageId())
     );
   }
 
@@ -123,12 +123,12 @@ public class ItemTypeController {
 
   @GetMapping(path =  {"/{item_type_id}" + ITEM + "/{id}"})
   @ResponseStatus(HttpStatus.OK)
-  public Response getItem(@PathVariable("item_type_id") String itemTypeId, @PathVariable("id") String id) {
+  public Response getItem(@PathVariable("item_type_id") String itemTypeId, @PathVariable("id") String id, @RequestBody String imageId) {
     log.info("(getItem)id: {}, itemTypeId: {}", id, itemTypeId);
     service.validateExistsItemTypeId(itemTypeId);
     return Response.of(
         HttpStatus.OK.value(),
-        itemFacadeService.getById(id, itemTypeId));
+        itemFacadeService.getById(id, itemTypeId, imageId));
   }
 
   @PutMapping(path =  {"/{item_type_id}" + ITEM + "/{id}"})
@@ -139,7 +139,7 @@ public class ItemTypeController {
     log.info("(updateItem)id: {}, itemTypeId: {}, value: {}", id, itemTypeId, request.getValue());
     return Response.of(
         HttpStatus.OK.value(),
-        itemFacadeService.update(id, itemTypeId, request.getValue())
+        itemFacadeService.update(id, itemTypeId, request.getValue(), request.getImageId())
     );
   }
 
