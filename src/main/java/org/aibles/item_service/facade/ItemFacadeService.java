@@ -18,7 +18,7 @@ public interface ItemFacadeService {
    * delete by item Id
    * @param id - id of item
    */
-  void deleteById(String id);
+  void deleteById(String id, String typeId);
 
   /**
    * when user delete item type id it will delete all item
@@ -31,7 +31,7 @@ public interface ItemFacadeService {
    * @param id - id of item
    * @return item detail information
    */
-  ItemDetailResponse getById(String id);
+  ItemDetailResponse getById(String id, String typeId);
 
   /**
    * update by id

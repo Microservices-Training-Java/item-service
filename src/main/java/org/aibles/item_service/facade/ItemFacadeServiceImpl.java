@@ -12,6 +12,7 @@ import org.aibles.item_service.dto.response.ItemFieldValueResponse;
 import org.aibles.item_service.dto.response.ItemResponse;
 import org.aibles.item_service.dto.response.ItemTypeDetailResponse;
 import org.aibles.item_service.dto.response.ItemTypeFieldResponse;
+import org.aibles.item_service.entity.Item;
 import org.aibles.item_service.entity.ItemTypeField;
 import org.aibles.item_service.exception.MapNotFoundException;
 import org.aibles.item_service.exception.NotFoundException;
@@ -62,7 +63,7 @@ public class ItemFacadeServiceImpl implements ItemFacadeService{
 
   @Override
   @Transactional
-  public void deleteById(String id) {
+  public void deleteById(String id, String typeId) {
     log.info("(deleteById)id: {}", id);
     itemFieldValueService.deleteByItemId(id);
     itemService.deleteById(id);
@@ -81,9 +82,13 @@ public class ItemFacadeServiceImpl implements ItemFacadeService{
 
   @Override
   @Transactional(readOnly = true)
-  public ItemDetailResponse getById(String id) {
+  public ItemDetailResponse getById(String id, String typeId) {
     log.info("(getById)id: {}", id);
     var item = itemService.getById(id);
+    if(!item.getItemTypeId().equals(typeId)) {
+      log.error("(getById)typeId: {} --> NOT FOUND EXCEPTION", typeId);
+      throw new NotFoundException(typeId, Item.class.getSimpleName());
+    }
     var itemFieldValue = itemFieldValueService.getAllByItemId(id);
 
     Map<String, String> map = new HashMap<>();

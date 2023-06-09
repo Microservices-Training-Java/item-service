@@ -110,23 +110,25 @@ public class ItemTypeController {
     );
   }
 
-  @DeleteMapping(path =  {ITEM + "/{id}"})
+  @DeleteMapping(path =  {"/{type_id}" + ITEM + "/{id}"})
   @ResponseStatus(HttpStatus.OK)
-  public Response deleteItem(@PathVariable("id") String id) {
-    log.info("(deleteItem)id: {}",id);
-    itemFacadeService.deleteById(id);
+  public Response deleteItem(@PathVariable("type_id") String typeId, @PathVariable("id") String id) {
+    log.info("(deleteItem)id: {}, typeId: {}", id, typeId);
+    service.validateExistsItemTypeId(typeId);
+    itemFacadeService.deleteById(id, typeId);
     return Response.of(
         HttpStatus.OK.value()
     );
   }
 
-  @GetMapping(path =  {ITEM + "/{id}"})
+  @GetMapping(path =  {"/{type_id}" + ITEM + "/{id}"})
   @ResponseStatus(HttpStatus.OK)
-  public Response getItem(@PathVariable("id") String id) {
-    log.info("(getItem)id: {}", id);
+  public Response getItem(@PathVariable("type_id") String typeId, @PathVariable("id") String id) {
+    log.info("(getItem)id: {}, typeId: {}", id, typeId);
+    service.validateExistsItemTypeId(typeId);
     return Response.of(
         HttpStatus.OK.value(),
-        itemFacadeService.getById(id));
+        itemFacadeService.getById(id, typeId));
   }
 
   @PutMapping(path =  {"/{item_type_id}" + ITEM + "/{id}"})
