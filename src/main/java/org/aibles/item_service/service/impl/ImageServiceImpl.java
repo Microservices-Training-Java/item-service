@@ -47,12 +47,7 @@ public class ImageServiceImpl implements ImageService {
   public InputStreamSource getImage(String id) {
     try {
       String imagePath = imageRepository.getImagePathById(id);
-      File file = new File(imagePath);
-      byte[] imageBytes = Files.readAllBytes(file.toPath());
-
-      InputStream inputStream = new ByteArrayInputStream(imageBytes);
-
-      return new  InputStreamResource(inputStream);
+      return new InputStreamResource(new FileInputStream(imagePath));
     } catch (IOException e) {
       e.printStackTrace();
       throw new InternalServerException();
