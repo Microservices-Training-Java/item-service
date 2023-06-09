@@ -14,14 +14,14 @@ public class ItemDetailResponse extends ItemResponse{
 
   Map<String, String> fieldValue;
 
-  private String image_id;
+  private String imageId;
 
-  public static ItemDetailResponse from(ItemResponse item, Map<String, String> fieldValue, String image_id) {
+  public static ItemDetailResponse from(ItemResponse item, Map<String, String> fieldValue, String imageId) {
     var response = new ItemDetailResponse();
     response.setId(item.getId());
     response.setItemTypeId(item.getItemTypeId());
     response.setFieldValue(fieldValue);
-    response.setImage_id(image_id);
+    response.setImageId(imageId);
     return response;
   }
 

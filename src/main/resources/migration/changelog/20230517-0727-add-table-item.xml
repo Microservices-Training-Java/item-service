@@ -32,7 +32,7 @@
     </createTable>
   </changeSet>
 
-  <changeSet id="20230517-0727-add-table-image-" author="Duc Anh">
+  <changeSet id="20230608-1007-add-table-image" author="DucAnh">
     <createTable tableName="image">
       <column name="id" type="varchar(255)">
         <constraints primaryKey="true"/>
@@ -60,10 +60,10 @@
 
     </createTable>
     <addForeignKeyConstraint baseTableName="item_type_field" baseColumnNames="item_type_id"
-      constraintName="pk_item_type_field_item_type"
+      constraintName="FK_item_type_field_item_type"
       referencedTableName="item_type" referencedColumnNames="id"/>
     <addForeignKeyConstraint baseTableName="item_type_field" baseColumnNames="item_field_id"
-      constraintName="pk_item_field_item_field"
+      constraintName="FK_item_type_field_item_field"
       referencedTableName="item_field" referencedColumnNames="id"/>
   </changeSet>
 
@@ -77,7 +77,7 @@
       </column>
     </createTable>
     <addForeignKeyConstraint baseTableName="item" baseColumnNames="item_type_id"
-      constraintName="pk_item_item_type"
+      constraintName="FK_item_item_type"
       referencedTableName="item_type" referencedColumnNames="id"/>
   </changeSet>
 
@@ -100,13 +100,13 @@
       </column>
     </createTable>
     <addForeignKeyConstraint baseTableName="item_field_value" baseColumnNames="item_id"
-      constraintName="pk_field_value_item"
+      constraintName="FK_item_field_value_item"
       referencedTableName="item" referencedColumnNames="id"/>
     <addForeignKeyConstraint baseTableName="item_field_value" baseColumnNames="item_field_id"
-      constraintName="pk_field_valueitem_field"
+      constraintName="FK_item_field_value_item_field"
       referencedTableName="item_field" referencedColumnNames="id"/>
     <addForeignKeyConstraint baseTableName="item_field_value" baseColumnNames="image_id"
-      constraintName="pk_field_value_image"
+      constraintName="FK_item_field_value_image"
       referencedTableName="image" referencedColumnNames="id"/>
   </changeSet>
 

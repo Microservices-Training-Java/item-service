@@ -23,10 +23,10 @@ public class ItemFieldValueServiceImpl implements ItemFieldValueService {
 
   @Override
   @Transactional
-  public ItemFieldValueResponse create(String itemId, String fieldId, String value,String image_id) {
+  public ItemFieldValueResponse create(String itemId, String fieldId, String value,String imageId) {
     log.info("(create)itemId: {}, fieldId: {}, value: {}", itemId, fieldId, value);
     try {
-      return ItemFieldValueResponse.from(repository.save(ItemFieldValue.of(itemId, fieldId, value, image_id)));
+      return ItemFieldValueResponse.from(repository.save(ItemFieldValue.of(itemId, fieldId, value, imageId)));
     } catch (DuplicateKeyException er) {
       log.error("(create)exception duplicate: {}", er.getClass().getName());
       throw new DuplicateKeyException();

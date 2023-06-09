@@ -37,7 +37,7 @@ public class ItemController {
     log.info("(create)itemTypeId: {}, value: {}", itemTypeId, request.getValue());
     return Response.of(
         HttpStatus.CREATED.value(),
-        itemFacadeService.create(itemTypeId, request.getValue(),request.getImage_id())
+        itemFacadeService.create(itemTypeId, request.getValue(),request.getImageId())
     );
   }
 }

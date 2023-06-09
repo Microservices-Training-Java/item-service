@@ -14,7 +14,7 @@ public class ItemFieldValueResponse {
   private String itemId;
   private String fieldId;
   private String value;
-  private String image_id;
+  private String imageId;
 
   public static ItemFieldValueResponse from(ItemFieldValue itemFieldValue) {
     return ItemFieldValueResponse.of(
@@ -22,7 +22,7 @@ public class ItemFieldValueResponse {
         itemFieldValue.getItemId(),
         itemFieldValue.getFieldId(),
         itemFieldValue.getValue(),
-        itemFieldValue.getImage_id()
+        itemFieldValue.getImageId()
     );
   }
 }

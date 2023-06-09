@@ -24,18 +24,18 @@ public class ItemFieldValue {
   @Column(name = "item_field_id")
   private String fieldId;
   private String value;
-  private String image_id;
+  private String imageId;
   @PrePersist
   private void prePersistId() {
     this.id = this.id == null ? UUID.randomUUID().toString() : this.id;
   }
 
-  public static ItemFieldValue of(String itemId, String fieldId, String value,String image_id){
+  public static ItemFieldValue of(String itemId, String fieldId, String value,String imageId){
     ItemFieldValue itemFieldValue = new ItemFieldValue();
     itemFieldValue.setItemId(itemId);
     itemFieldValue.setFieldId(fieldId);
     itemFieldValue.setValue(value);
-    itemFieldValue.setImage_id(image_id);
+    itemFieldValue.setImageId(imageId);
     return itemFieldValue;
   }
 }

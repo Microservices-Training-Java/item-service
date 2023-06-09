@@ -10,7 +10,7 @@ spring:
   spring:
     servlet:
       multipart:
-        max-file-size: 30MB
-        max-request-size: 30MB
+        max-file-size: 5MB
+        max-request-size: 5MB
 image:
   value: ${path.image}
