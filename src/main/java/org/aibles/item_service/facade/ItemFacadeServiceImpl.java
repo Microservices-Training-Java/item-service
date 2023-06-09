@@ -63,7 +63,7 @@ public class ItemFacadeServiceImpl implements ItemFacadeService{
 
   @Override
   @Transactional
-  public void deleteById(String id, String typeId) {
+  public void deleteById(String id, String itemTypeId) {
     log.info("(deleteById)id: {}", id);
     itemFieldValueService.deleteByItemId(id);
     itemService.deleteById(id);
@@ -82,12 +82,12 @@ public class ItemFacadeServiceImpl implements ItemFacadeService{
 
   @Override
   @Transactional(readOnly = true)
-  public ItemDetailResponse getById(String id, String typeId) {
+  public ItemDetailResponse getById(String id, String itemTypeId) {
     log.info("(getById)id: {}", id);
     var item = itemService.getById(id);
-    if(!item.getItemTypeId().equals(typeId)) {
-      log.error("(getById)typeId: {} --> NOT FOUND EXCEPTION", typeId);
-      throw new NotFoundException(typeId, Item.class.getSimpleName());
+    if(!item.getItemTypeId().equals(itemTypeId)) {
+      log.error("(getById)itemTypeId: {} --> NOT FOUND EXCEPTION", itemTypeId);
+      throw new NotFoundException(itemTypeId, Item.class.getSimpleName());
     }
     var itemFieldValue = itemFieldValueService.getAllByItemId(id);
 
