@@ -30,7 +30,7 @@ public interface ItemTypeService {
    * @param id - id of type
    * @return information of item type
    */
-  ItemType getById(String id);
+  ItemTypeResponse getById(String id);
 
   /**
    * update item-type
@@ -44,11 +44,11 @@ public interface ItemTypeService {
    * check if there is id of that type
    * @param id - id of type
    */
-  void existsById(String id);
+  void validateExistsItemTypeId(String id);
 
   /**
    * check if there is id of that type
    * @param type - type of item-type
    */
-  void existsByType(String type);
+  void validateExistsType(String type);
 }

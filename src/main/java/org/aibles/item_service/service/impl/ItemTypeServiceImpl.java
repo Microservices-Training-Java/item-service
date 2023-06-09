@@ -25,7 +25,7 @@ public class ItemTypeServiceImpl implements ItemTypeService {
   @Transactional
   public ItemTypeResponse create(String type) {
     log.info("(create)type: {}", type);
-    existsByType(type);
+    validateExistsType(type);
     try {
       return ItemTypeResponse.from(repository.save(ItemType.of(type)));
     } catch (DuplicateKeyException er) {
@@ -56,7 +56,7 @@ public class ItemTypeServiceImpl implements ItemTypeService {
 
   @Override
   @Transactional(readOnly = true)
-  public ItemType getById(String id) {
+  public ItemTypeResponse getById(String id) {
     log.info("(getById)id: {}", id);
     var itemType = repository
         .findById(id)
@@ -64,7 +64,7 @@ public class ItemTypeServiceImpl implements ItemTypeService {
           log.error("(getById)id : {} --> NOT FOUND EXCEPTION", id);
           throw new NotFoundException(id, ItemType.class.getSimpleName());
         });
-    return itemType;
+    return ItemTypeResponse.from(itemType);
   }
 
   @Override
@@ -88,8 +88,8 @@ public class ItemTypeServiceImpl implements ItemTypeService {
 
   @Override
   @Transactional(readOnly = true)
-  public void existsById(String id) {
-    log.info("(existsById)id : {}", id);
+  public void validateExistsItemTypeId(String id) {
+    log.info("(validateExistsItemTypeId)id : {}", id);
     if (!repository.existsById(id)) {
       throw new NotFoundException(id, ItemType.class.getSimpleName());
     }
@@ -97,9 +97,9 @@ public class ItemTypeServiceImpl implements ItemTypeService {
 
   @Override
   @Transactional(readOnly = true)
-  public void existsByType(String type) {
+  public void validateExistsType(String type) {
     if (repository.existsByType(type)) {
-      log.error("(existsByType)type : {} --> EXIST EXCEPTION", type);
+      log.error("(validateExistsType)type : {} --> EXIST EXCEPTION", type);
       throw new TypeAlreadyExistsException(type, ItemType.class.getSimpleName());
     }
   }

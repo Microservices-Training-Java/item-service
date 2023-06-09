@@ -46,12 +46,14 @@ public class ItemConfiguration {
   public ItemTypeFacadeService itemTypeFacadeService(
       ItemTypeService itemTypeService,
       ItemFieldService itemFieldService,
-      ItemTypeFieldService itemTypeFieldService
+      ItemTypeFieldService itemTypeFieldService,
+      ItemFacadeService itemFacadeService
   ) {
     return new ItemTypeFacadeServiceImpl(
         itemTypeService,
         itemFieldService,
-        itemTypeFieldService);
+        itemTypeFieldService,
+        itemFacadeService);
   }
 
   @Bean
