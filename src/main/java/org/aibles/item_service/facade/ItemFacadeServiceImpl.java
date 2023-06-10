@@ -43,7 +43,7 @@ public class ItemFacadeServiceImpl implements ItemFacadeService{
 
   @Override
   @Transactional
-  public ItemDetailResponse create(String itemTypeId, Map<String, String> fieldValue) {
+  public ItemDetailResponse create(String itemTypeId, Map<String, String> fieldValue,String imageId) {
     log.info("(create)itemTypeId: {}, fieldValue: {}", itemTypeId, fieldValue);
     itemTypeService.validateExistsItemTypeId(itemTypeId);
     var item = itemService.create(itemTypeId);
@@ -55,11 +55,12 @@ public class ItemFacadeServiceImpl implements ItemFacadeService{
 
     for(Map.Entry<String, String> valueByField : fieldValue.entrySet()) {
       itemFieldService.validateExistsFieldId(valueByField.getKey());
-      itemFieldValueService.create(item.getId(), valueByField.getKey(), valueByField.getValue());
+      itemFieldValueService.create(item.getId(), valueByField.getKey(), valueByField.getValue(),imageId);
     }
 
-    return ItemDetailResponse.from(item, fieldValue);
+    return ItemDetailResponse.from(item, fieldValue, imageId);
   }
+
 
   @Override
   @Transactional
@@ -82,7 +83,7 @@ public class ItemFacadeServiceImpl implements ItemFacadeService{
 
   @Override
   @Transactional(readOnly = true)
-  public ItemDetailResponse getById(String id, String itemTypeId) {
+  public ItemDetailResponse getById(String id, String itemTypeId, String imageId) {
     log.info("(getById)id: {}", id);
     var item = itemService.getById(id);
     if(!item.getItemTypeId().equals(itemTypeId)) {
@@ -95,12 +96,12 @@ public class ItemFacadeServiceImpl implements ItemFacadeService{
     for (ItemFieldValueResponse value : itemFieldValue) {
       map.put(value.getFieldId(), value.getValue());
     }
-    return ItemDetailResponse.from(item, map);
+    return ItemDetailResponse.from(item, map, imageId);
   }
 
   @Override
   @Transactional
-  public ItemDetailResponse update(String id, String itemTypeId, Map<String, String> fieldValue) {
+  public ItemDetailResponse update(String id, String itemTypeId, Map<String, String> fieldValue, String imageId) {
     log.info("(update)id: {}, itemTypeId: {}, fieldValue: {}", id, itemTypeId, fieldValue);
     itemTypeService.validateExistsItemTypeId(itemTypeId);
     var item = itemService.updateById(id, itemTypeId);
@@ -112,10 +113,10 @@ public class ItemFacadeServiceImpl implements ItemFacadeService{
     itemFieldValueService.deleteByItemId(item.getId());
     for(Map.Entry<String, String> valueByField : fieldValue.entrySet()) {
       itemFieldService.validateExistsFieldId(valueByField.getKey());
-      itemFieldValueService.create(item.getId(), valueByField.getKey(), valueByField.getValue());
+      itemFieldValueService.create(item.getId(), valueByField.getKey(), valueByField.getValue(), imageId);
     }
 
-    return ItemDetailResponse.from(item, fieldValue);
+    return ItemDetailResponse.from(item, fieldValue, imageId);
   }
 
 }

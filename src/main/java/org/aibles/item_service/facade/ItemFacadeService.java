@@ -12,7 +12,7 @@ public interface ItemFacadeService {
    * @param fieldValue - is a map between fieldId and value
    * @return item information and map information between fieldId and value
    */
-  ItemDetailResponse create(String itemTypeId, Map<String, String> fieldValue);
+  ItemDetailResponse create(String itemTypeId, Map<String, String> fieldValue,String imageId);
 
   /**
    * delete by item Id
@@ -33,7 +33,7 @@ public interface ItemFacadeService {
    * @param itemTypeId - id of item type
    * @return item detail information
    */
-  ItemDetailResponse getById(String id, String itemTypeId);
+  ItemDetailResponse getById(String id, String itemTypeId, String imageId);
 
   /**
    * update by id
@@ -42,5 +42,5 @@ public interface ItemFacadeService {
    * @param fieldValue - is a map between fieldId and value
    * @return  item information and map information between fieldId and value
    */
-  ItemDetailResponse update(String id, String itemTypeId, Map<String, String> fieldValue);
+  ItemDetailResponse update(String id, String itemTypeId, Map<String, String> fieldValue, String imageId);
 }

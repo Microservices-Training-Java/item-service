@@ -11,4 +11,6 @@ public class ItemCreateRequest {
 
   Map<String, String> value;
 
+  String imageId;
+
 }
