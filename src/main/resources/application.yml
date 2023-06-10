@@ -7,12 +7,11 @@ spring:
     password: ${SPRING_DATASOURCE_PASSWORD}
   application:
     name: item-service
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 5MB
 server:
   port: 8100
-  spring:
-    servlet:
-      multipart:
-        max-file-size: 5MB
-        max-request-size: 5MB
 image:
   value: ${path.image}
