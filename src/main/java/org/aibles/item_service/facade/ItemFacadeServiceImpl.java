@@ -1,20 +1,14 @@
 package org.aibles.item_service.facade;
 
-import java.util.List;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
+import org.aibles.item_service.dto.ItemFieldValueDto;
 import org.aibles.item_service.dto.response.ItemDetailResponse;
 import org.aibles.item_service.dto.response.ItemResponse;
 import org.aibles.item_service.dto.response.ItemFieldValueResponse;
-import org.aibles.item_service.dto.response.ItemResponse;
-import org.aibles.item_service.dto.response.ItemTypeDetailResponse;
-import org.aibles.item_service.dto.response.ItemTypeFieldResponse;
 import org.aibles.item_service.entity.Item;
-import org.aibles.item_service.entity.ItemTypeField;
-import org.aibles.item_service.exception.MapNotFoundException;
+import org.aibles.item_service.exception.ListFieldValuesNotFoundException;
 import org.aibles.item_service.exception.NotFoundException;
 import org.aibles.item_service.service.ItemFieldService;
 import org.aibles.item_service.service.ItemFieldValueService;
@@ -43,19 +37,14 @@ public class ItemFacadeServiceImpl implements ItemFacadeService{
 
   @Override
   @Transactional
-  public ItemDetailResponse create(String itemTypeId, Map<String, String> fieldValue,String imageId) {
+  public ItemDetailResponse create(String itemTypeId, List<ItemFieldValueDto> fieldValue,String imageId) {
     log.info("(create)itemTypeId: {}, fieldValue: {}", itemTypeId, fieldValue);
     itemTypeService.validateExistsItemTypeId(itemTypeId);
     var item = itemService.create(itemTypeId);
 
-    if(fieldValue == null || fieldValue.isEmpty()) {
-      log.error("(create)fieldValue : {} --> NOT FOUND EXCEPTION", fieldValue);
-      throw new MapNotFoundException(fieldValue);
-    }
-
-    for(Map.Entry<String, String> valueByField : fieldValue.entrySet()) {
-      itemFieldService.validateExistsFieldId(valueByField.getKey());
-      itemFieldValueService.create(item.getId(), valueByField.getKey(), valueByField.getValue(),imageId);
+    for(ItemFieldValueDto valueByField : fieldValue) {
+      itemFieldService.validateExistsFieldId(valueByField.getFieldId());
+      itemFieldValueService.create(item.getId(), valueByField.getFieldId(), valueByField.getValue(),imageId);
     }
 
     return ItemDetailResponse.from(item, fieldValue, imageId);
@@ -92,28 +81,27 @@ public class ItemFacadeServiceImpl implements ItemFacadeService{
     }
     var itemFieldValue = itemFieldValueService.getAllByItemId(id);
 
-    Map<String, String> map = new HashMap<>();
+    List<ItemFieldValueDto> itemFieldValueDtos = new ArrayList<>();
+    ItemFieldValueDto request = new ItemFieldValueDto();
     for (ItemFieldValueResponse value : itemFieldValue) {
-      map.put(value.getFieldId(), value.getValue());
+      request.setFieldId(value.getFieldId());
+      request.setValue(value.getValue());
+      itemFieldValueDtos.add(request);
     }
-    return ItemDetailResponse.from(item, map, imageId);
+    return ItemDetailResponse.from(item, itemFieldValueDtos, imageId);
   }
 
   @Override
   @Transactional
-  public ItemDetailResponse update(String id, String itemTypeId, Map<String, String> fieldValue, String imageId) {
+  public ItemDetailResponse update(String id, String itemTypeId, List<ItemFieldValueDto> fieldValue, String imageId) {
     log.info("(update)id: {}, itemTypeId: {}, fieldValue: {}", id, itemTypeId, fieldValue);
     itemTypeService.validateExistsItemTypeId(itemTypeId);
     var item = itemService.updateById(id, itemTypeId);
 
-    if(fieldValue == null || fieldValue.isEmpty()) {
-      log.error("(update)fieldValue : {} --> NOT FOUND EXCEPTION", fieldValue);
-      throw new MapNotFoundException(fieldValue);
-    }
     itemFieldValueService.deleteByItemId(item.getId());
-    for(Map.Entry<String, String> valueByField : fieldValue.entrySet()) {
-      itemFieldService.validateExistsFieldId(valueByField.getKey());
-      itemFieldValueService.create(item.getId(), valueByField.getKey(), valueByField.getValue(), imageId);
+    for(ItemFieldValueDto valueByField : fieldValue) {
+      itemFieldService.validateExistsFieldId(valueByField.getFieldId());
+      itemFieldValueService.create(item.getId(), valueByField.getFieldId(), valueByField.getValue(),imageId);
     }
 
     return ItemDetailResponse.from(item, fieldValue, imageId);
