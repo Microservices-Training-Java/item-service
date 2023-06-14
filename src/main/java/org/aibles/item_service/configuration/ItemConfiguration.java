@@ -71,8 +71,4 @@ public class ItemConfiguration {
     );
   }
 
-  @Bean
-  public ImageService imageService(ImageRepository imageRepository){
-    return new ImageServiceImpl(imageRepository);
-  }
 }

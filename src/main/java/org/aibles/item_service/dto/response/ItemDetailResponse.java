@@ -13,14 +13,11 @@ public class ItemDetailResponse extends ItemResponse{
 
   List<ItemFieldValueDto> fieldValue;
 
-  private String imageId;
-
-  public static ItemDetailResponse from(ItemResponse item, List<ItemFieldValueDto> fieldValue, String imageId) {
+  public static ItemDetailResponse from(ItemResponse item, List<ItemFieldValueDto> fieldValue) {
     var response = new ItemDetailResponse();
     response.setId(item.getId());
     response.setItemTypeId(item.getItemTypeId());
     response.setFieldValue(fieldValue);
-    response.setImageId(imageId);
     return response;
   }
 

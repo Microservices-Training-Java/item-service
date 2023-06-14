@@ -18,8 +18,6 @@ public class ItemApiConstant {
     public static final String ITEM = "/items";
     public static final String FIELD_VALUE = "/item-field-values";
 
-    public static final String IMAGE  = "/images";
-
   }
 
   public static class BaseUrl {
@@ -28,6 +26,5 @@ public class ItemApiConstant {
     public static final String TYPE_FIELD_BASE_URL = API_PREFIX + API_VERSION + TYPE_FIELD;
     public static final String ITEM_BASE_URL = API_PREFIX + API_VERSION + ITEM;
     public static final String FIELD_VALUE_BASE_URL = API_PREFIX + API_VERSION + FIELD_VALUE;
-    public static final String IMAGE_BASE_URL = API_PREFIX + API_VERSION + IMAGE;
   }
 }
