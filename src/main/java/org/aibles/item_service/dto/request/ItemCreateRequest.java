@@ -1,6 +1,7 @@
 package org.aibles.item_service.dto.request;
 
 import java.util.List;
+import javax.validation.Valid;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.aibles.item_service.dto.ItemFieldValueDto;
@@ -9,6 +10,7 @@ import org.aibles.item_service.dto.ItemFieldValueDto;
 @NoArgsConstructor
 public class ItemCreateRequest {
 
+  @Valid
   private List<ItemFieldValueDto> fieldValues;
 
   String imageId;

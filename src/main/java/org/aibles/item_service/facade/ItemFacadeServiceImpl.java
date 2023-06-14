@@ -42,11 +42,6 @@ public class ItemFacadeServiceImpl implements ItemFacadeService{
     itemTypeService.validateExistsItemTypeId(itemTypeId);
     var item = itemService.create(itemTypeId);
 
-    if(fieldValue == null || fieldValue.isEmpty()) {
-      log.error("(create)fieldValue : {} --> NOT FOUND EXCEPTION", fieldValue);
-      throw new ListFieldValuesNotFoundException(fieldValue);
-    }
-
     for(ItemFieldValueDto valueByField : fieldValue) {
       itemFieldService.validateExistsFieldId(valueByField.getFieldId());
       itemFieldValueService.create(item.getId(), valueByField.getFieldId(), valueByField.getValue(),imageId);
@@ -103,10 +98,6 @@ public class ItemFacadeServiceImpl implements ItemFacadeService{
     itemTypeService.validateExistsItemTypeId(itemTypeId);
     var item = itemService.updateById(id, itemTypeId);
 
-    if(fieldValue == null || fieldValue.isEmpty()) {
-      log.error("(update)fieldValue : {} --> NOT FOUND EXCEPTION", fieldValue);
-      throw new ListFieldValuesNotFoundException(fieldValue);
-    }
     itemFieldValueService.deleteByItemId(item.getId());
     for(ItemFieldValueDto valueByField : fieldValue) {
       itemFieldService.validateExistsFieldId(valueByField.getFieldId());
