@@ -82,8 +82,8 @@ public class ItemFacadeServiceImpl implements ItemFacadeService{
     var itemFieldValue = itemFieldValueService.getAllByItemId(id);
 
     List<ItemFieldValueDto> itemFieldValueDtos = new ArrayList<>();
-    ItemFieldValueDto request = new ItemFieldValueDto();
     for (ItemFieldValueResponse value : itemFieldValue) {
+      ItemFieldValueDto request = new ItemFieldValueDto();
       request.setFieldId(value.getFieldId());
       request.setValue(value.getValue());
       itemFieldValueDtos.add(request);
