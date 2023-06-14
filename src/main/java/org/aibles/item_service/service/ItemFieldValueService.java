@@ -12,7 +12,7 @@ public interface ItemFieldValueService {
    * @param value - value foe field
    * @return information of an item field value
    */
-  ItemFieldValueResponse create (String itemId, String fieldId, String value,String imageId);
+  ItemFieldValueResponse create (String itemId, String fieldId, String value);
 
   /**
    * delete by item Id

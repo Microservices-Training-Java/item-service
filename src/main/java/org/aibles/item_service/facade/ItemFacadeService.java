@@ -11,10 +11,9 @@ public interface ItemFacadeService {
    * create item and item-field-value
    * @param itemTypeId - id of itemType
    * @param fieldValue - is a list of fieldId and value
-   * @param imageId - id of image
-   * @return item information and map information between fieldId,value and image
+   * @return item information and map information between fieldId,value
    */
-  ItemDetailResponse create(String itemTypeId, List<ItemFieldValueDto> fieldValue,String imageId);
+  ItemDetailResponse create(String itemTypeId, List<ItemFieldValueDto> fieldValue);
 
   /**
    * delete by item Id
@@ -35,7 +34,7 @@ public interface ItemFacadeService {
    * @param itemTypeId - id of item type
    * @return item detail information
    */
-  ItemDetailResponse getById(String id, String itemTypeId, String imageId);
+  ItemDetailResponse getById(String id, String itemTypeId);
 
 
   /**
@@ -43,8 +42,7 @@ public interface ItemFacadeService {
    * @param id - id of item
    * @param itemTypeId - id of itemType
    * @param fieldValue - is a list of fieldId and value
-   * @param imageId - id of image
-   * @return  item information and map information between fieldId,value and image
+   * @return  item information and map information between fieldId,value
    */
-  ItemDetailResponse update(String id, String itemTypeId, List<ItemFieldValueDto> fieldValue, String imageId);
+  ItemDetailResponse update(String id, String itemTypeId, List<ItemFieldValueDto> fieldValue);
 }

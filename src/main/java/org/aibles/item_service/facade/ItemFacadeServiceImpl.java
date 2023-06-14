@@ -37,17 +37,17 @@ public class ItemFacadeServiceImpl implements ItemFacadeService{
 
   @Override
   @Transactional
-  public ItemDetailResponse create(String itemTypeId, List<ItemFieldValueDto> fieldValue,String imageId) {
+  public ItemDetailResponse create(String itemTypeId, List<ItemFieldValueDto> fieldValue) {
     log.info("(create)itemTypeId: {}, fieldValue: {}", itemTypeId, fieldValue);
     itemTypeService.validateExistsItemTypeId(itemTypeId);
     var item = itemService.create(itemTypeId);
 
     for(ItemFieldValueDto valueByField : fieldValue) {
       itemFieldService.validateExistsFieldId(valueByField.getFieldId());
-      itemFieldValueService.create(item.getId(), valueByField.getFieldId(), valueByField.getValue(),imageId);
+      itemFieldValueService.create(item.getId(), valueByField.getFieldId(), valueByField.getValue());
     }
 
-    return ItemDetailResponse.from(item, fieldValue, imageId);
+    return ItemDetailResponse.from(item, fieldValue);
   }
 
 
@@ -72,7 +72,7 @@ public class ItemFacadeServiceImpl implements ItemFacadeService{
 
   @Override
   @Transactional(readOnly = true)
-  public ItemDetailResponse getById(String id, String itemTypeId, String imageId) {
+  public ItemDetailResponse getById(String id, String itemTypeId) {
     log.info("(getById)id: {}", id);
     var item = itemService.getById(id);
     if(!item.getItemTypeId().equals(itemTypeId)) {
@@ -88,12 +88,12 @@ public class ItemFacadeServiceImpl implements ItemFacadeService{
       request.setValue(value.getValue());
       itemFieldValueDtos.add(request);
     }
-    return ItemDetailResponse.from(item, itemFieldValueDtos, imageId);
+    return ItemDetailResponse.from(item, itemFieldValueDtos);
   }
 
   @Override
   @Transactional
-  public ItemDetailResponse update(String id, String itemTypeId, List<ItemFieldValueDto> fieldValue, String imageId) {
+  public ItemDetailResponse update(String id, String itemTypeId, List<ItemFieldValueDto> fieldValue) {
     log.info("(update)id: {}, itemTypeId: {}, fieldValue: {}", id, itemTypeId, fieldValue);
     itemTypeService.validateExistsItemTypeId(itemTypeId);
     var item = itemService.updateById(id, itemTypeId);
@@ -101,10 +101,10 @@ public class ItemFacadeServiceImpl implements ItemFacadeService{
     itemFieldValueService.deleteByItemId(item.getId());
     for(ItemFieldValueDto valueByField : fieldValue) {
       itemFieldService.validateExistsFieldId(valueByField.getFieldId());
-      itemFieldValueService.create(item.getId(), valueByField.getFieldId(), valueByField.getValue(),imageId);
+      itemFieldValueService.create(item.getId(), valueByField.getFieldId(), valueByField.getValue());
     }
 
-    return ItemDetailResponse.from(item, fieldValue, imageId);
+    return ItemDetailResponse.from(item, fieldValue);
   }
 
 }

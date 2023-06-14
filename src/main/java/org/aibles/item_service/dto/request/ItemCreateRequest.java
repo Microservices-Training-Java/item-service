@@ -13,6 +13,4 @@ public class ItemCreateRequest {
   @Valid
   private List<ItemFieldValueDto> fieldValues;
 
-  String imageId;
-
 }
