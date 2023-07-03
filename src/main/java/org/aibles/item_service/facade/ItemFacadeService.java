@@ -2,7 +2,10 @@ package org.aibles.item_service.facade;
 
 import java.util.List;
 import org.aibles.item_service.dto.ItemFieldValueDto;
+import org.aibles.item_service.dto.request.ItemIdRequest;
 import org.aibles.item_service.dto.response.ItemDetailResponse;
+import org.aibles.item_service.dto.response.ListItemDetailResponse;
+import org.aibles.item_service.repository.ItemProjection;
 
 public interface ItemFacadeService {
 
@@ -35,6 +38,16 @@ public interface ItemFacadeService {
    * @return item detail information
    */
   ItemDetailResponse getById(String id, String itemTypeId);
+
+  /**
+   * function does not use query to execute in case the query is not completed
+   * get list item
+   * @param listItem - list itemId
+   * @return - information of the items you want to display
+   */
+  ListItemDetailResponse getListItem(List<ItemIdRequest> listItem);
+
+  List<ItemProjection> getListItems(List<ItemIdRequest> listItem);
 
 
   /**

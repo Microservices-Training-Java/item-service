@@ -1,7 +1,10 @@
 package org.aibles.item_service.service;
 
 import java.util.List;
+import org.aibles.item_service.dto.request.ItemIdRequest;
 import org.aibles.item_service.dto.response.ItemResponse;
+import org.aibles.item_service.dto.response.ListItemDetailResponse;
+import org.aibles.item_service.repository.ItemProjection;
 
 public interface ItemService{
 
@@ -37,6 +40,8 @@ public interface ItemService{
    * @return item's information
    */
   ItemResponse getById(String id);
+
+  List<ItemProjection> getItem(List<ItemIdRequest> listItem);
 
   /**
    * upđate item by id

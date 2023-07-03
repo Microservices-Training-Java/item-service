@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.aibles.item_service.dto.ItemFieldValueDto;
+import org.aibles.item_service.dto.request.ItemIdRequest;
 import org.aibles.item_service.dto.response.ItemDetailResponse;
-import org.aibles.item_service.dto.response.ItemResponse;
 import org.aibles.item_service.dto.response.ItemFieldValueResponse;
+import org.aibles.item_service.dto.response.ItemResponse;
+import org.aibles.item_service.dto.response.ListItemDetailResponse;
 import org.aibles.item_service.entity.Item;
-import org.aibles.item_service.exception.ListFieldValuesNotFoundException;
 import org.aibles.item_service.exception.NotFoundException;
+import org.aibles.item_service.repository.ItemProjection;
 import org.aibles.item_service.service.ItemFieldService;
 import org.aibles.item_service.service.ItemFieldValueService;
 import org.aibles.item_service.service.ItemService;
@@ -17,7 +19,7 @@ import org.aibles.item_service.service.ItemTypeService;
 import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
-public class ItemFacadeServiceImpl implements ItemFacadeService{
+public class ItemFacadeServiceImpl implements ItemFacadeService {
 
   private final ItemTypeService itemTypeService;
   private final ItemFieldService itemFieldService;
@@ -42,9 +44,10 @@ public class ItemFacadeServiceImpl implements ItemFacadeService{
     itemTypeService.validateExistsItemTypeId(itemTypeId);
     var item = itemService.create(itemTypeId);
 
-    for(ItemFieldValueDto valueByField : fieldValue) {
+    for (ItemFieldValueDto valueByField : fieldValue) {
       itemFieldService.validateExistsFieldId(valueByField.getFieldId());
-      itemFieldValueService.create(item.getId(), valueByField.getFieldId(), valueByField.getValue());
+      itemFieldValueService.create(item.getId(), valueByField.getFieldId(),
+          valueByField.getValue());
     }
 
     return ItemDetailResponse.from(item, fieldValue);
@@ -64,7 +67,7 @@ public class ItemFacadeServiceImpl implements ItemFacadeService{
   public void deleteAllByItemTypeId(String itemTypeId) {
     log.info("(deleteAllByItemTypeId)itemTypeId: {}", itemTypeId);
     var item = itemService.getAllByItemTypeId(itemTypeId);
-    for(ItemResponse value : item) {
+    for (ItemResponse value : item) {
       itemFieldValueService.deleteByItemId(value.getId());
     }
     itemService.deleteAllByItemTypeId(itemTypeId);
@@ -75,7 +78,7 @@ public class ItemFacadeServiceImpl implements ItemFacadeService{
   public ItemDetailResponse getById(String id, String itemTypeId) {
     log.info("(getById)id: {}", id);
     var item = itemService.getById(id);
-    if(!item.getItemTypeId().equals(itemTypeId)) {
+    if (!item.getItemTypeId().equals(itemTypeId)) {
       log.error("(getById)itemTypeId: {} --> NOT FOUND EXCEPTION", itemTypeId);
       throw new NotFoundException(itemTypeId, Item.class.getSimpleName());
     }
@@ -92,16 +95,45 @@ public class ItemFacadeServiceImpl implements ItemFacadeService{
   }
 
   @Override
+  @Transactional(readOnly = true)
+  public ListItemDetailResponse getListItem(List<ItemIdRequest> listItem) {
+    log.info("(getListItem)listItem: {}", listItem);
+    List<ItemDetailResponse> listItemDetail = new ArrayList<>();
+    for (ItemIdRequest itemId : listItem) {
+      List<ItemFieldValueDto> itemFieldValueDtos = new ArrayList<>();
+      for (ItemFieldValueResponse value : itemFieldValueService.getAllByItemId(
+          itemId.getItemId())) {
+        ItemFieldValueDto request = new ItemFieldValueDto();
+        request.setFieldId(value.getFieldId());
+        request.setValue(value.getValue());
+        itemFieldValueDtos.add(request);
+      }
+      listItemDetail.add(
+          ItemDetailResponse.from(itemService.getById(itemId.getItemId()), itemFieldValueDtos));
+    }
+    return ListItemDetailResponse.from(listItemDetail);
+  }
+
+  @Override
   @Transactional
-  public ItemDetailResponse update(String id, String itemTypeId, List<ItemFieldValueDto> fieldValue) {
+  public List<ItemProjection> getListItems(List<ItemIdRequest> listItem) {
+    log.info("(getListItem)listItem: {}", listItem);
+    return itemService.getItem(listItem);
+  }
+
+  @Override
+  @Transactional
+  public ItemDetailResponse update(String id, String itemTypeId,
+      List<ItemFieldValueDto> fieldValue) {
     log.info("(update)id: {}, itemTypeId: {}, fieldValue: {}", id, itemTypeId, fieldValue);
     itemTypeService.validateExistsItemTypeId(itemTypeId);
     var item = itemService.updateById(id, itemTypeId);
 
     itemFieldValueService.deleteByItemId(item.getId());
-    for(ItemFieldValueDto valueByField : fieldValue) {
+    for (ItemFieldValueDto valueByField : fieldValue) {
       itemFieldService.validateExistsFieldId(valueByField.getFieldId());
-      itemFieldValueService.create(item.getId(), valueByField.getFieldId(), valueByField.getValue());
+      itemFieldValueService.create(item.getId(), valueByField.getFieldId(),
+          valueByField.getValue());
     }
 
     return ItemDetailResponse.from(item, fieldValue);
