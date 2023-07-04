@@ -8,6 +8,7 @@ import org.aibles.item_service.dto.response.DetailResponse;
 import org.aibles.item_service.dto.response.ItemResponse;
 import org.aibles.item_service.entity.Item;
 import org.aibles.item_service.exception.DuplicateKeyException;
+import org.aibles.item_service.exception.FieldAlreadyExitException;
 import org.aibles.item_service.exception.NotFoundException;
 import org.aibles.item_service.repository.ItemRepository;
 import org.aibles.item_service.repository.ValueProjection;
@@ -90,6 +91,7 @@ public class ItemServiceImpl implements ItemService {
     log.info("(getItem)itemIds: {}", itemIds);
     List<DetailResponse> items = new ArrayList<>();
     for (String itemId : itemIds) {
+      validateExistsItemId(itemId);
       items.add(DetailResponse.from(repository.findByItemId(itemId),
           repository.findAllByItemIds(itemId)));
     }
@@ -109,6 +111,15 @@ public class ItemServiceImpl implements ItemService {
     item.setId(id);
     item.setItemTypeId(itemTypeId);
     return ItemResponse.from(item);
+  }
+
+  @Override
+  @Transactional(readOnly = true)
+  public void validateExistsItemId(String itemId) {
+    if (repository.existsById(itemId)) {
+      log.error("(validateExistsItemId)itemId: {}", itemId);
+      throw new NotFoundException(itemId, Item.class.getSimpleName());
+    }
   }
 
 }

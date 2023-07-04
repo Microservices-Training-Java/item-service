@@ -2,10 +2,10 @@ spring:
   liquibase:
     change-log: classpath:/migration/master-changelog.xml
   datasource:
-    url: jdbc:postgresql://localhost:5432/item3
+    url: jdbc:postgresql://localhost:5432/2
     username: postgres
-    password: linh2002
+    password: 123456
   application:
     name: item-service
 server:
-  port: 8080
+  port: 8100

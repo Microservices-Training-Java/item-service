@@ -54,4 +54,10 @@ public interface ItemService{
    */
   ItemResponse updateById(String id, String itemTypeId);
 
+  /**
+   * check if itemId exists or not
+   * @param itemId - itemId want to check
+   */
+  void validateExistsItemId(String itemId);
+
 }
