@@ -1,7 +1,9 @@
 package org.aibles.item_service.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
@@ -88,15 +90,14 @@ public class ItemServiceImpl implements ItemService {
 
   @Override
   @Transactional
-  public List<DetailResponse> getItem(Set<String> itemIds) {
+  public DetailResponse getItem(Set<String> itemIds) {
     log.info("(getItem)itemIds: {}", itemIds);
-    List<DetailResponse> items = new ArrayList<>();
+    Map<String, List<ValueProjection>> item = new HashMap<>();
     for (String itemId : itemIds) {
       validateExistsItemId(itemId);
-      items.add(DetailResponse.from(repository.findByItemId(itemId),
-          repository.findAllByItemIds(itemId)));
+      item.put(itemId, repository.findItemDetailByItemId(itemId));
     }
-    return items;
+    return DetailResponse.from(item);
   }
 
   @Override

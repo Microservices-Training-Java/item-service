@@ -45,7 +45,7 @@ public interface ItemService{
    * @param itemIds - itemIds want to display information
    * @return - information of the items you want to display
    */
-  List<DetailResponse> getItem(Set<String> itemIds);
+  DetailResponse getItem(Set<String> itemIds);
 
   /**
    * upđate item by id

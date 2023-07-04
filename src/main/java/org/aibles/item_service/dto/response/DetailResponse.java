@@ -1,11 +1,10 @@
 package org.aibles.item_service.dto.response;
 
 import java.util.List;
+import java.util.Map;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.aibles.item_service.dto.ItemFieldValueDto;
-import org.aibles.item_service.repository.ItemProjection;
 import org.aibles.item_service.repository.ValueProjection;
 
 @AllArgsConstructor(staticName = "of")
@@ -13,13 +12,11 @@ import org.aibles.item_service.repository.ValueProjection;
 @NoArgsConstructor
 public class DetailResponse {
 
-  private ItemProjection itemProjection;
-  private List<ValueProjection> listFieldNameAndValue;
+  private Map<String, List<ValueProjection>> items;
 
-  public static DetailResponse from(ItemProjection itemProjection, List<ValueProjection> listValue) {
+  public static DetailResponse from(Map<String, List<ValueProjection>> item) {
     var response = new DetailResponse();
-    response.setItemProjection(itemProjection);
-    response.setListFieldNameAndValue(listValue);
+    response.setItems(item);
     return response;
   }
 }

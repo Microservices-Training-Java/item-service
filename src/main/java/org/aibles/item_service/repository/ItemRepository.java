@@ -16,19 +16,13 @@ public interface ItemRepository extends JpaRepository<Item, String> {
 
   List<Item> findAllByItemTypeId(String itemtypeId);
 
-  @Query("Select new org.aibles.item_service.repository.ItemProjection("
-      +" item.id)"
-      +" from Item item "
-      +" WHERE item.id = :id")
-  ItemProjection findByItemId(String id);
-
   @Query("Select new org.aibles.item_service.repository.ValueProjection("
       + "  item_field.name, "
       + "  item_field_value.value)"
       + "  from ItemFieldValue item_field_value"
       + "  join ItemField item_field on item_field.id = item_field_value.fieldId"
       + "  where item_field_value.itemId = :id")
-  List<ValueProjection> findAllByItemIds(String id);
+  List<ValueProjection> findItemDetailByItemId(String id);
 
 
 
