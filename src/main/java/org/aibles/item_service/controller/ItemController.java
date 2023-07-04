@@ -4,7 +4,7 @@ import static org.aibles.item_service.constant.ItemApiConstant.BaseUrl.ITEM_BASE
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.aibles.item_service.dto.request.SetItemIdRequest;
+import org.aibles.item_service.dto.request.ItemIdsRequest;
 import org.aibles.item_service.dto.response.Response;
 import org.aibles.item_service.service.ItemService;
 import org.springframework.http.HttpStatus;
@@ -25,9 +25,9 @@ public class ItemController {
 
   @GetMapping()
   @ResponseStatus(HttpStatus.OK)
-  public Response getListItem(@Validated @RequestBody SetItemIdRequest setItemIdRequest) {
-    log.info("(getListItem)listItemIdRequest: {}", setItemIdRequest.getItemIds());
+  public Response searchItems(@Validated @RequestBody ItemIdsRequest itemIdsRequest) {
+    log.info("(searchItems)itemIdsRequest: {}", itemIdsRequest.getItemIds());
     return Response.of(
-        HttpStatus.OK.value(), service.getItem((setItemIdRequest.getItemIds())));
+        HttpStatus.OK.value(), service.getItem((itemIdsRequest.getItemIds())));
   }
 }

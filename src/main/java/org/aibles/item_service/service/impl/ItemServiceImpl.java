@@ -2,6 +2,7 @@ package org.aibles.item_service.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.aibles.item_service.dto.response.DetailResponse;
@@ -87,7 +88,7 @@ public class ItemServiceImpl implements ItemService {
 
   @Override
   @Transactional
-  public List<DetailResponse> getItem(List<String> itemIds) {
+  public List<DetailResponse> getItem(Set<String> itemIds) {
     log.info("(getItem)itemIds: {}", itemIds);
     List<DetailResponse> items = new ArrayList<>();
     for (String itemId : itemIds) {
@@ -116,7 +117,7 @@ public class ItemServiceImpl implements ItemService {
   @Override
   @Transactional(readOnly = true)
   public void validateExistsItemId(String itemId) {
-    if (repository.existsById(itemId)) {
+    if (!repository.existsById(itemId)) {
       log.error("(validateExistsItemId)itemId: {}", itemId);
       throw new NotFoundException(itemId, Item.class.getSimpleName());
     }

@@ -13,8 +13,8 @@ import org.aibles.item_service.repository.ValueProjection;
 @NoArgsConstructor
 public class DetailResponse {
 
-  ItemProjection itemProjection;
-  List<ValueProjection> listFieldNameAndValue;
+  private ItemProjection itemProjection;
+  private List<ValueProjection> listFieldNameAndValue;
 
   public static DetailResponse from(ItemProjection itemProjection, List<ValueProjection> listValue) {
     var response = new DetailResponse();

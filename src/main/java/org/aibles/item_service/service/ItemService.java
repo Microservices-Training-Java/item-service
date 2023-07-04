@@ -1,6 +1,7 @@
 package org.aibles.item_service.service;
 
 import java.util.List;
+import java.util.Set;
 import org.aibles.item_service.dto.response.DetailResponse;
 import org.aibles.item_service.dto.response.ItemResponse;
 
@@ -44,7 +45,7 @@ public interface ItemService{
    * @param itemIds - itemIds want to display information
    * @return - information of the items you want to display
    */
-  List<DetailResponse> getItem(List<String> itemIds);
+  List<DetailResponse> getItem(Set<String> itemIds);
 
   /**
    * upđate item by id

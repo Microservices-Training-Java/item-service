@@ -2,9 +2,7 @@ package org.aibles.item_service.facade;
 
 import java.util.List;
 import org.aibles.item_service.dto.ItemFieldValueDto;
-import org.aibles.item_service.dto.response.DetailResponse;
 import org.aibles.item_service.dto.response.ItemDetailResponse;
-import org.aibles.item_service.dto.response.ListItemDetailResponse;
 
 public interface ItemFacadeService {
 
