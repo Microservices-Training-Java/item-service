@@ -4,14 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.aibles.item_service.dto.ItemFieldValueDto;
-import org.aibles.item_service.dto.request.ItemIdRequest;
+import org.aibles.item_service.dto.response.DetailResponse;
 import org.aibles.item_service.dto.response.ItemDetailResponse;
 import org.aibles.item_service.dto.response.ItemFieldValueResponse;
 import org.aibles.item_service.dto.response.ItemResponse;
 import org.aibles.item_service.dto.response.ListItemDetailResponse;
 import org.aibles.item_service.entity.Item;
 import org.aibles.item_service.exception.NotFoundException;
-import org.aibles.item_service.repository.ItemProjection;
 import org.aibles.item_service.service.ItemFieldService;
 import org.aibles.item_service.service.ItemFieldValueService;
 import org.aibles.item_service.service.ItemService;
@@ -92,33 +91,6 @@ public class ItemFacadeServiceImpl implements ItemFacadeService {
       itemFieldValueDtos.add(request);
     }
     return ItemDetailResponse.from(item, itemFieldValueDtos);
-  }
-
-  @Override
-  @Transactional(readOnly = true)
-  public ListItemDetailResponse getListItem(List<ItemIdRequest> listItem) {
-    log.info("(getListItem)listItem: {}", listItem);
-    List<ItemDetailResponse> listItemDetail = new ArrayList<>();
-    for (ItemIdRequest itemId : listItem) {
-      List<ItemFieldValueDto> itemFieldValueDtos = new ArrayList<>();
-      for (ItemFieldValueResponse value : itemFieldValueService.getAllByItemId(
-          itemId.getItemId())) {
-        ItemFieldValueDto request = new ItemFieldValueDto();
-        request.setFieldId(value.getFieldId());
-        request.setValue(value.getValue());
-        itemFieldValueDtos.add(request);
-      }
-      listItemDetail.add(
-          ItemDetailResponse.from(itemService.getById(itemId.getItemId()), itemFieldValueDtos));
-    }
-    return ListItemDetailResponse.from(listItemDetail);
-  }
-
-  @Override
-  @Transactional
-  public List<ItemProjection> getListItems(List<ItemIdRequest> listItem) {
-    log.info("(getListItem)listItem: {}", listItem);
-    return itemService.getItem(listItem);
   }
 
   @Override

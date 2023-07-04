@@ -4,18 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
-import org.aibles.item_service.dto.ItemFieldValueDto;
-import org.aibles.item_service.dto.request.ItemIdRequest;
-import org.aibles.item_service.dto.response.ItemDetailResponse;
-import org.aibles.item_service.dto.response.ItemFieldValueResponse;
+import org.aibles.item_service.dto.response.DetailResponse;
 import org.aibles.item_service.dto.response.ItemResponse;
-import org.aibles.item_service.dto.response.ItemTypeFieldResponse;
-import org.aibles.item_service.dto.response.ListItemDetailResponse;
 import org.aibles.item_service.entity.Item;
 import org.aibles.item_service.exception.DuplicateKeyException;
 import org.aibles.item_service.exception.NotFoundException;
-import org.aibles.item_service.repository.ItemProjection;
 import org.aibles.item_service.repository.ItemRepository;
+import org.aibles.item_service.repository.ValueProjection;
 import org.aibles.item_service.service.ItemService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -91,11 +86,12 @@ public class ItemServiceImpl implements ItemService {
 
   @Override
   @Transactional
-  public List<ItemProjection> getItem(List<ItemIdRequest> listItem) {
-    log.info("(getItem)listItem: {}", listItem);
-    List<ItemProjection> items = new ArrayList<>();
-    for(ItemIdRequest itemId : listItem) {
-      items.add(repository.findByItemId(itemId.getItemId()));
+  public List<DetailResponse> getItem(List<String> itemIds) {
+    log.info("(getItem)itemIds: {}", itemIds);
+    List<DetailResponse> items = new ArrayList<>();
+    for (String itemId : itemIds) {
+      items.add(DetailResponse.from(repository.findByItemId(itemId),
+          repository.findAllByItemIds(itemId)));
     }
     return items;
   }

@@ -1,5 +1,6 @@
 package org.aibles.item_service.repository;
 
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,8 +10,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ItemProjection {
 
-  private String id;
-  private String type;
-  private String fieldName;
-  private String value;
+  private String itemId;
 }

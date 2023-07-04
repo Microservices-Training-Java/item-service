@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class ListItemIdRequest {
+public class SetItemIdRequest {
 
-  private List<ItemIdRequest> listItemId;
+  private List<String> itemIds;
 }
