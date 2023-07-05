@@ -36,7 +36,6 @@ public interface ItemFacadeService {
    */
   ItemDetailResponse getById(String id, String itemTypeId);
 
-
   /**
    * update by id
    * @param id - id of item

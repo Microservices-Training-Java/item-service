@@ -1,6 +1,8 @@
 package org.aibles.item_service.service;
 
 import java.util.List;
+import java.util.Set;
+import org.aibles.item_service.dto.response.DetailResponse;
 import org.aibles.item_service.dto.response.ItemResponse;
 
 public interface ItemService{
@@ -39,11 +41,24 @@ public interface ItemService{
   ItemResponse getById(String id);
 
   /**
+   * get list item
+   * @param itemIds - itemIds want to display information
+   * @return - information of the items you want to display
+   */
+  DetailResponse getItem(Set<String> itemIds);
+
+  /**
    * upđate item by id
    * @param id - id of item
    * @param itemTypeId - id of item type
    * @return information of an item
    */
   ItemResponse updateById(String id, String itemTypeId);
+
+  /**
+   * check if itemId exists or not
+   * @param itemId - itemId want to check
+   */
+  void validateExistsItemId(String itemId);
 
 }

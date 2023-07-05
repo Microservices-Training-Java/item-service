@@ -1,14 +1,20 @@
 package org.aibles.item_service.service.impl;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
+import org.aibles.item_service.dto.response.DetailResponse;
 import org.aibles.item_service.dto.response.ItemResponse;
-import org.aibles.item_service.dto.response.ItemTypeFieldResponse;
 import org.aibles.item_service.entity.Item;
 import org.aibles.item_service.exception.DuplicateKeyException;
+import org.aibles.item_service.exception.FieldAlreadyExitException;
 import org.aibles.item_service.exception.NotFoundException;
 import org.aibles.item_service.repository.ItemRepository;
+import org.aibles.item_service.repository.ValueProjection;
 import org.aibles.item_service.service.ItemService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -84,6 +90,18 @@ public class ItemServiceImpl implements ItemService {
 
   @Override
   @Transactional
+  public DetailResponse getItem(Set<String> itemIds) {
+    log.info("(getItem)itemIds: {}", itemIds);
+    Map<String, List<ValueProjection>> item = new HashMap<>();
+    for (String itemId : itemIds) {
+      validateExistsItemId(itemId);
+      item.put(itemId, repository.findItemDetailByItemId(itemId));
+    }
+    return DetailResponse.from(item);
+  }
+
+  @Override
+  @Transactional
   public ItemResponse updateById(String id, String itemTypeId) {
     log.info("(updateById)id: {}, itemTypeId: {}", id, itemTypeId);
     var item = repository
@@ -95,6 +113,15 @@ public class ItemServiceImpl implements ItemService {
     item.setId(id);
     item.setItemTypeId(itemTypeId);
     return ItemResponse.from(item);
+  }
+
+  @Override
+  @Transactional(readOnly = true)
+  public void validateExistsItemId(String itemId) {
+    if (!repository.existsById(itemId)) {
+      log.error("(validateExistsItemId)itemId: {}", itemId);
+      throw new NotFoundException(itemId, Item.class.getSimpleName());
+    }
   }
 
 }
