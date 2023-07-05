@@ -1,5 +1,7 @@
 package org.aibles.item_service.service.impl;
 
+import static org.aibles.item_service.constant.ExceptionConstant.MESSAGE_ITEM_DOES_NOT_EXIST;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -92,10 +94,13 @@ public class ItemServiceImpl implements ItemService {
   @Transactional
   public DetailResponse getItem(Set<String> itemIds) {
     log.info("(getItem)itemIds: {}", itemIds);
-    Map<String, List<ValueProjection>> item = new HashMap<>();
+    Map<String, Object> item = new HashMap<>();
     for (String itemId : itemIds) {
-      validateExistsItemId(itemId);
-      item.put(itemId, repository.findItemDetailByItemId(itemId));
+      if(repository.existsById(itemId)){
+        item.put(itemId, repository.findItemDetailByItemId(itemId));
+      } else {
+        item.put(itemId, MESSAGE_ITEM_DOES_NOT_EXIST);
+      }
     }
     return DetailResponse.from(item);
   }
@@ -114,14 +119,4 @@ public class ItemServiceImpl implements ItemService {
     item.setItemTypeId(itemTypeId);
     return ItemResponse.from(item);
   }
-
-  @Override
-  @Transactional(readOnly = true)
-  public void validateExistsItemId(String itemId) {
-    if (!repository.existsById(itemId)) {
-      log.error("(validateExistsItemId)itemId: {}", itemId);
-      throw new NotFoundException(itemId, Item.class.getSimpleName());
-    }
-  }
-
 }
