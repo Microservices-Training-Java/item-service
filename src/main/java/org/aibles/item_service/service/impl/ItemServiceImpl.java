@@ -97,18 +97,6 @@ public class ItemServiceImpl implements ItemService {
   @Transactional
   public DetailResponse getItem(Set<String> itemIds) {
     log.info("(getItem)itemIds: {}", itemIds);
-    Map<String, List<ValueProjection>> item = new HashMap<>();
-    for (String itemId : itemIds) {
-      validateExistsItemId(itemId);
-      item.put(itemId, repository.findItemDetailByItemId(itemId));
-    }
-    return DetailResponse.from(item);
-  }
-
-  @Override
-  @Transactional
-  public DetailResponse getItem(Set<String> itemIds) {
-    log.info("(getItem)itemIds: {}", itemIds);
     Map<String, Object> item = new HashMap<>();
     for (String itemId : itemIds) {
       if(repository.existsById(itemId)){
@@ -134,14 +122,4 @@ public class ItemServiceImpl implements ItemService {
     item.setItemTypeId(itemTypeId);
     return ItemResponse.from(item);
   }
-
-  @Override
-  @Transactional(readOnly = true)
-  public void validateExistsItemId(String itemId) {
-    if (!repository.existsById(itemId)) {
-      log.error("(validateExistsItemId)itemId: {}", itemId);
-      throw new NotFoundException(itemId, Item.class.getSimpleName());
-    }
-  }
-
 }
