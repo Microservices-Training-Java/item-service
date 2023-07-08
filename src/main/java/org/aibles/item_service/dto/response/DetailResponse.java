@@ -12,9 +12,9 @@ import org.aibles.item_service.repository.ValueProjection;
 @NoArgsConstructor
 public class DetailResponse {
 
-  private Map<String, Object> items;
+  private Map<String, List<ValueProjection>> items;
 
-  public static DetailResponse from(Map<String, Object> item) {
+  public static DetailResponse from(Map<String, List<ValueProjection>> item) {
     var response = new DetailResponse();
     response.setItems(item);
     return response;
