@@ -98,6 +98,9 @@ public class ItemServiceImpl implements ItemService {
   public DetailResponse getItem(Set<String> itemIds) {
     log.info("(getItem)itemIds: {}", itemIds);
     Map<String, Object> item = new HashMap<>();
+    if(itemIds == null || itemIds.isEmpty()) {
+      throw new NotFoundException(MESSAGE_ITEM_DOES_NOT_EXIST, Item.class.getSimpleName());
+    }
     for (String itemId : itemIds) {
       if(repository.existsById(itemId)){
         item.put(itemId, repository.findItemDetailByItemId(itemId));
