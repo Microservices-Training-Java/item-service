@@ -8,5 +8,4 @@ public class ExceptionConstant {
   public static String LIST_FIELD_VALUES_NOT_FOUND_EXCEPTION_CODE = "org.aibles.item_service.exception.ListFieldValuesNotFoundException";
   public static String UNIQUE_NAME_ALREADY_EXCEPTION_CODE = "org.aibles.item_service.exception.ItemFieldUniqueNameAlreadyExistsException";
   public static String NAME_ALREADY_EXCEPTION_CODE = "org.aibles.item_service.exception.ItemFieldNameAlreadyExistsException";
-  public static String MESSAGE_ITEM_DOES_NOT_EXIST = "Item does not exist!!!";
 }
