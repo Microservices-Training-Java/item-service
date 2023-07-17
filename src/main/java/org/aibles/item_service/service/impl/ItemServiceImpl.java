@@ -2,10 +2,6 @@ package org.aibles.item_service.service.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import static org.aibles.item_service.constant.ExceptionConstant.MESSAGE_ITEM_DOES_NOT_EXIST;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -13,15 +9,14 @@ import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.aibles.item_service.dto.response.DetailResponse;
 import org.aibles.item_service.dto.response.ItemResponse;
-import org.aibles.item_service.dto.response.ItemTypeFieldResponse;
 import org.aibles.item_service.entity.Item;
 import org.aibles.item_service.exception.DuplicateKeyException;
-import org.aibles.item_service.exception.FieldAlreadyExitException;
 import org.aibles.item_service.exception.NotFoundException;
 import org.aibles.item_service.repository.ItemRepository;
 import org.aibles.item_service.repository.ValueProjection;
 import org.aibles.item_service.service.ItemService;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 @Slf4j
 public class ItemServiceImpl implements ItemService {
@@ -97,15 +92,21 @@ public class ItemServiceImpl implements ItemService {
   @Transactional
   public DetailResponse getItem(Set<String> itemIds) {
     log.info("(getItem)itemIds: {}", itemIds);
-    Map<String, Object> item = new HashMap<>();
-    for (String itemId : itemIds) {
-      if(repository.existsById(itemId)){
-        item.put(itemId, repository.findItemDetailByItemId(itemId));
-      } else {
-        item.put(itemId, MESSAGE_ITEM_DOES_NOT_EXIST);
+    var itemDetails = new ArrayList<Map<String, Object>>();
+    Map<String, Object> itemDetail;
+    List<ValueProjection> itemValueProjections;
+    for (var itemId : itemIds) {
+      itemValueProjections = repository.findItemDetailByItemId(itemId);
+      if (!CollectionUtils.isEmpty(itemValueProjections)) {
+        itemDetail = new HashMap<>();
+        itemDetail.put("id", itemId);
+        for (var value : itemValueProjections) {
+          itemDetail.put(value.getFieldName(), value.getValue());
+        }
+        itemDetails.add(itemDetail);
       }
     }
-    return DetailResponse.from(item);
+    return DetailResponse.of(itemDetails);
   }
 
   @Override
