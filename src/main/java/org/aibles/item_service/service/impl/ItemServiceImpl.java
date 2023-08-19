@@ -15,16 +15,24 @@ import org.aibles.item_service.exception.NotFoundException;
 import org.aibles.item_service.repository.ItemRepository;
 import org.aibles.item_service.repository.ValueProjection;
 import org.aibles.item_service.service.ItemService;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
+import org.springframework.web.client.RestTemplate;
 
 @Slf4j
 public class ItemServiceImpl implements ItemService {
 
   private final ItemRepository repository;
+  @LoadBalanced
+  private final RestTemplate restTemplate;
+  private static final String ORDER_URL_API = "http://order-service/api/v1/orders";
 
-  public ItemServiceImpl(ItemRepository repository) {
+  public ItemServiceImpl(ItemRepository repository, RestTemplate restTemplate) {
     this.repository = repository;
+    this.restTemplate = restTemplate;
   }
 
   @Override
@@ -123,4 +131,14 @@ public class ItemServiceImpl implements ItemService {
     item.setItemTypeId(itemTypeId);
     return ItemResponse.from(item);
   }
+
+  @Override
+  public String getOrderDetail(String id){
+    log.info("(getOrderDetail)id: {}", id);
+    String ORDER_GET_DETAIL_API = ORDER_URL_API + '/' + id;
+    ResponseEntity<String> response =
+        restTemplate.exchange(ORDER_GET_DETAIL_API, HttpMethod.GET, null, String.class);
+    return response.getBody();
+  }
+
 }

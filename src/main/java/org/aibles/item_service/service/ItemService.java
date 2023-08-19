@@ -55,4 +55,10 @@ public interface ItemService{
    */
   ItemResponse updateById(String id, String itemTypeId);
 
+  /**
+   * call to OrderService and get orderdetail
+   * @param id
+   * @return detail of the order
+   */
+  String getOrderDetail(String id);
 }

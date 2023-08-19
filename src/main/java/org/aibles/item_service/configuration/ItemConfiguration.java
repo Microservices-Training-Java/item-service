@@ -11,10 +11,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.web.client.RestTemplate;
+import org.trainingjava.coreresttemplate.configuration.EnableRestTemplate;
 
 @Configuration
 @EnableJpaRepositories(basePackages = {"org.aibles.item_service.repository"})
 @ComponentScan(basePackages = {"org.aibles.item_service.repository"})
+@EnableRestTemplate
 public class ItemConfiguration {
 
   @Bean
@@ -28,8 +31,8 @@ public class ItemConfiguration {
   }
 
   @Bean
-  public ItemService itemService(ItemRepository repository) {
-    return new ItemServiceImpl(repository);
+  public ItemService itemService(ItemRepository repository, RestTemplate restTemplate) {
+    return new ItemServiceImpl(repository, restTemplate);
   }
 
   @Bean

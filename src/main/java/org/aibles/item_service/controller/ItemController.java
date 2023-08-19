@@ -4,10 +4,12 @@ import static org.aibles.item_service.constant.ItemApiConstant.BaseUrl.ITEM_BASE
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.aibles.item_service.dto.request.ItemCalculateTotalRequest;
 import org.aibles.item_service.dto.request.ItemIdsRequest;
 import org.aibles.item_service.dto.response.Response;
 import org.aibles.item_service.service.ItemService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,5 +31,11 @@ public class ItemController {
     log.info("(searchItems)itemIdsRequest: {}", itemIdsRequest.getItemIds());
     return Response.of(
         HttpStatus.OK.value(), service.getItem((itemIdsRequest.getItemIds())));
+  }
+  @GetMapping("/order")
+  @ResponseStatus(HttpStatus.OK)
+  public ResponseEntity<Response> getOrderDetail(@RequestBody ItemCalculateTotalRequest request) {
+    String orderDetail = service.getOrderDetail(request.getOrderId());
+    return ResponseEntity.ok(Response.of(HttpStatus.OK.value(), orderDetail));
   }
 }
