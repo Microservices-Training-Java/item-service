@@ -2,6 +2,9 @@ package org.aibles.item_service.service;
 
 import java.util.List;
 import java.util.Set;
+
+import org.aibles.item_service.dto.request.CalculateOrderRequest;
+import org.aibles.item_service.dto.response.CalculateOrderResponse;
 import org.aibles.item_service.dto.response.DetailResponse;
 import org.aibles.item_service.dto.response.ItemResponse;
 
@@ -55,4 +58,5 @@ public interface ItemService{
    */
   ItemResponse updateById(String id, String itemTypeId);
 
+  CalculateOrderResponse calculateOrder(CalculateOrderRequest request);
 }

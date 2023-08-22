@@ -7,6 +7,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
+import org.aibles.item_service.dto.request.CalculateOrderRequest;
+import org.aibles.item_service.dto.response.CalculateOrderResponse;
 import org.aibles.item_service.dto.response.DetailResponse;
 import org.aibles.item_service.dto.response.ItemResponse;
 import org.aibles.item_service.entity.Item;
@@ -15,16 +17,22 @@ import org.aibles.item_service.exception.NotFoundException;
 import org.aibles.item_service.repository.ItemRepository;
 import org.aibles.item_service.repository.ValueProjection;
 import org.aibles.item_service.service.ItemService;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
+import org.springframework.web.client.RestTemplate;
 
 @Slf4j
 public class ItemServiceImpl implements ItemService {
 
   private final ItemRepository repository;
 
-  public ItemServiceImpl(ItemRepository repository) {
+  @LoadBalanced
+  private final RestTemplate restTemplate;
+
+  public ItemServiceImpl(ItemRepository repository, RestTemplate restTemplate) {
     this.repository = repository;
+    this.restTemplate = restTemplate;
   }
 
   @Override
@@ -122,5 +130,17 @@ public class ItemServiceImpl implements ItemService {
     item.setId(id);
     item.setItemTypeId(itemTypeId);
     return ItemResponse.from(item);
+  }
+
+  @Override
+  public CalculateOrderResponse calculateOrder(CalculateOrderRequest request) {
+    log.info("(calculateOrder)request : {}", request);
+    /**
+     * 1. Gọi đến api getOrderDetail của orderController để lấy thông tin của một order
+     * 2. Khởi tạo 1 biến là totalAmount = 0
+     * 3. dùng vòng for đi qua từng phần tử và tính theo công thức totalAmount = totalAmount + (price * quantity)
+     * 4. Tạo 1 calculateOrderResponse với totalAmount và orderId để return
+     */
+    return null;
   }
 }
