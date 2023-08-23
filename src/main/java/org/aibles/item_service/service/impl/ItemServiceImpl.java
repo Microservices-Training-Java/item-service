@@ -1,5 +1,6 @@
 package org.aibles.item_service.service.impl;
 
+import jakarta.persistence.criteria.Order;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -7,24 +8,38 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
+import org.aibles.item_service.dto.request.ItemCalculateRequest;
 import org.aibles.item_service.dto.response.DetailResponse;
+import org.aibles.item_service.dto.response.ItemOrder;
 import org.aibles.item_service.dto.response.ItemResponse;
+import org.aibles.item_service.dto.response.ItemTotalOrderPriceResponse;
 import org.aibles.item_service.entity.Item;
 import org.aibles.item_service.exception.DuplicateKeyException;
 import org.aibles.item_service.exception.NotFoundException;
 import org.aibles.item_service.repository.ItemRepository;
 import org.aibles.item_service.repository.ValueProjection;
 import org.aibles.item_service.service.ItemService;
+import org.springframework.boot.SpringApplication;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
+import org.springframework.web.client.RestTemplate;
 
 @Slf4j
+
 public class ItemServiceImpl implements ItemService {
 
   private final ItemRepository repository;
+  @LoadBalanced
+  private final RestTemplate restTemplate;
 
-  public ItemServiceImpl(ItemRepository repository) {
+  private static final String ORDER_URL_API = "http://order-service/api/v1/orders";
+
+  public ItemServiceImpl(ItemRepository repository, RestTemplate restTemplate) {
     this.repository = repository;
+    this.restTemplate = restTemplate;
   }
 
   @Override
@@ -123,4 +138,35 @@ public class ItemServiceImpl implements ItemService {
     item.setItemTypeId(itemTypeId);
     return ItemResponse.from(item);
   }
+
+  @Override
+  public ItemTotalOrderPriceResponse calculateOrder(ItemCalculateRequest request) {
+    log.info("(calculateOrder)request: {}", request);
+    List<Order> orders = new ArrayList<>();
+    // Khởi tạo biến totalAmount là 0 để tính tổng đơn hàng
+    double totalAmount = 0;
+    // Tính tổng đơn hàng
+    for (Order order : orders) {
+      double price = 0;
+      double quantity = 0;
+      totalAmount = totalAmount + (price * quantity);
+    }
+
+    System.out.println("Tổng đơn hàng: " + totalAmount);
+
+    return null;
+  }
+  // validate order
+  //check exists oder
+  //get orderDetail
+  @Override
+  public String getOrderDetail(String id) {
+    log.info("(getOrderDetail)id: {}", id);
+    String ORDER_GET_DETAIL_API = ORDER_URL_API + '/' + id;
+    ResponseEntity<String> response =
+        restTemplate.exchange(ORDER_GET_DETAIL_API, HttpMethod.GET, null, String.class);
+    return response.getBody();
+  }
 }
+
+

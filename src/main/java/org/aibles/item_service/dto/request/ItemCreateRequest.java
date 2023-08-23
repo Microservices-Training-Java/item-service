@@ -1,7 +1,7 @@
 package org.aibles.item_service.dto.request;
 
+import jakarta.validation.Valid;
 import java.util.List;
-import javax.validation.Valid;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.aibles.item_service.dto.ItemFieldValueDto;
