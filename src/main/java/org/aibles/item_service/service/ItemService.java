@@ -59,14 +59,4 @@ public interface ItemService{
   ItemResponse updateById(String id, String itemTypeId);
 
   ItemTotalOrderPriceResponse calculateOrder(ItemCalculateRequest request);
-
-  /**
-   * call to OrderService and get orderdetail
-   * @param id
-   * @return detail of the order
-   */
-  String getOrderDetail(String id);
-
-
-
 }

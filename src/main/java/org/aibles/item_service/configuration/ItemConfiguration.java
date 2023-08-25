@@ -1,5 +1,8 @@
 package org.aibles.item_service.configuration;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.aibles.item_service.client.service.OrderClient;
+import org.aibles.item_service.client.service.impl.OrderClientImpl;
 import org.aibles.item_service.facade.ItemFacadeService;
 import org.aibles.item_service.facade.ItemFacadeServiceImpl;
 import org.aibles.item_service.facade.ItemTypeFacadeService;
@@ -31,8 +34,13 @@ public class ItemConfiguration {
   }
 
   @Bean
-  public ItemService itemService(ItemRepository repository, RestTemplate restTemplate) {
-    return new ItemServiceImpl(repository, restTemplate);
+  public OrderClient orderClient(RestTemplate restTemplate, ObjectMapper objectMapper) {
+    return new OrderClientImpl(restTemplate, objectMapper);
+  }
+
+  @Bean
+  public ItemService itemService(ItemRepository repository, ItemFieldValueRepository itemFieldValueRepository, OrderClient orderClient) {
+    return new ItemServiceImpl(repository, itemFieldValueRepository, orderClient);
   }
 
   @Bean
