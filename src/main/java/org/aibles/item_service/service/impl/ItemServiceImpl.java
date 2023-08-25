@@ -141,13 +141,14 @@ public class ItemServiceImpl implements ItemService {
     List<ItemDto> itemList = orderClient.getOrderDetail(request.getOrderId()).getItems();
     double totalAmount = 0;
     // Tính tổng đơn hàng
+    // TODO : add price in response of getOrderDetail API in order-service
     for (ItemDto itemDto : itemList) {
       double price = Double.parseDouble(itemFieldValueRepository.getPriceValueByItemId(itemDto.getItemId()).orElse("0"));
       totalAmount = totalAmount + (itemDto.getQuantity() * price);
     }
     ItemTotalOrderPriceResponse response = new ItemTotalOrderPriceResponse();
     response.setTotalAmount(totalAmount);
-    response.setOrderId(response.getOrderId());
+    response.setOrderId(request.getOrderId());
     return response;
   }
 }
