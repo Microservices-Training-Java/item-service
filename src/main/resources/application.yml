@@ -2,10 +2,24 @@ spring:
   liquibase:
     change-log: classpath:/migration/master-changelog.xml
   datasource:
-    url: jdbc:postgresql://localhost:5432/2
+    url: jdbc:postgresql://localhost:5433/item
     username: postgres
-    password: 123456
+    password: 2409
   application:
     name: item-service
+  config:
+    import: optional:configserver:http://localhost:8888
+  profiles:
+    active: item-service
+  cloud:
+    config:
+      uri: http://localhost:8888
+      label: label1
+      profile: item-service
+  eureka:
+    client:
+      serviceUrl:
+        defaultZone: http://localhost:8761/eureka
 server:
-  port: 8100
+  port: 8081
+

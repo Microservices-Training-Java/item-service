@@ -2,8 +2,11 @@ package org.aibles.item_service.service;
 
 import java.util.List;
 import java.util.Set;
+import org.aibles.item_service.controller.ItemCalculateTotalRequest;
+import org.aibles.item_service.dto.request.ItemCalculateRequest;
 import org.aibles.item_service.dto.response.DetailResponse;
 import org.aibles.item_service.dto.response.ItemResponse;
+import org.aibles.item_service.dto.response.ItemTotalOrderPriceResponse;
 
 public interface ItemService{
 
@@ -55,4 +58,5 @@ public interface ItemService{
    */
   ItemResponse updateById(String id, String itemTypeId);
 
+  ItemTotalOrderPriceResponse calculateOrder(ItemCalculateRequest request);
 }

@@ -7,11 +7,16 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
+import org.aibles.item_service.client.dto.ItemDto;
+import org.aibles.item_service.client.service.OrderClient;
+import org.aibles.item_service.dto.request.ItemCalculateRequest;
 import org.aibles.item_service.dto.response.DetailResponse;
 import org.aibles.item_service.dto.response.ItemResponse;
+import org.aibles.item_service.dto.response.ItemTotalOrderPriceResponse;
 import org.aibles.item_service.entity.Item;
 import org.aibles.item_service.exception.DuplicateKeyException;
 import org.aibles.item_service.exception.NotFoundException;
+import org.aibles.item_service.repository.ItemFieldValueRepository;
 import org.aibles.item_service.repository.ItemRepository;
 import org.aibles.item_service.repository.ValueProjection;
 import org.aibles.item_service.service.ItemService;
@@ -23,8 +28,13 @@ public class ItemServiceImpl implements ItemService {
 
   private final ItemRepository repository;
 
-  public ItemServiceImpl(ItemRepository repository) {
+  private final ItemFieldValueRepository itemFieldValueRepository;
+  private final OrderClient orderClient;
+
+  public ItemServiceImpl(ItemRepository repository, ItemFieldValueRepository itemFieldValueRepository, OrderClient orderClient) {
     this.repository = repository;
+    this.itemFieldValueRepository = itemFieldValueRepository;
+    this.orderClient = orderClient;
   }
 
   @Override
@@ -123,4 +133,24 @@ public class ItemServiceImpl implements ItemService {
     item.setItemTypeId(itemTypeId);
     return ItemResponse.from(item);
   }
+
+  @Override
+  public ItemTotalOrderPriceResponse calculateOrder(ItemCalculateRequest request) {
+    log.info("(calculateOrder)request: {}", request);
+    // Khởi tạo biến totalAmount là 0 để tính tổng đơn hàng
+    List<ItemDto> itemList = orderClient.getOrderDetail(request.getOrderId()).getItems();
+    double totalAmount = 0;
+    // Tính tổng đơn hàng
+    // TODO : add price in response of getOrderDetail API in order-service
+    for (ItemDto itemDto : itemList) {
+      double price = Double.parseDouble(itemFieldValueRepository.getPriceValueByItemId(itemDto.getItemId()).orElse("0"));
+      totalAmount = totalAmount + (itemDto.getQuantity() * price);
+    }
+    ItemTotalOrderPriceResponse response = new ItemTotalOrderPriceResponse();
+    response.setTotalAmount(totalAmount);
+    response.setOrderId(request.getOrderId());
+    return response;
+  }
 }
+
+

@@ -1,6 +1,6 @@
 package org.aibles.item_service.dto;
 
-import javax.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.aibles.item_service.validation.ValidateUUID;
