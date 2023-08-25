@@ -147,7 +147,7 @@ public class ItemServiceImpl implements ItemService {
     }
     ItemTotalOrderPriceResponse response = new ItemTotalOrderPriceResponse();
     response.setTotalAmount(totalAmount);
-    response.setOrderId(response.getOrderId());
+    response.setOrderId(request.getOrderId());
     return response;
   }
 }

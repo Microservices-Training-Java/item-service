@@ -37,12 +37,6 @@ public class ItemController {
   }
   @PostMapping("/calculate")
   @ResponseStatus(HttpStatus.OK)
-  public ResponseEntity<Response> getOrderDetail( @RequestBody ItemCalculateTotalRequest request) {
-    String orderDetail = service.getOrderDetail(request.getOrderId());
-    return ResponseEntity.ok(Response.of(HttpStatus.OK.value(), orderDetail));
-  }
-  @PostMapping("/api/v1/items/calculate")
-  @ResponseStatus(HttpStatus.OK)
   public Response calculate(@Valid @RequestBody ItemCalculateRequest request) {
     log.info("(calculate)request : {}", request);
     return Response.of(
