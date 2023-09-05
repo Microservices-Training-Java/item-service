@@ -43,4 +43,10 @@ public class ItemController {
         HttpStatus.OK.value(), service.calculateOrder(request));
   }
 
+  @GetMapping("/price/{itemId}")
+  public String getPrice(@PathVariable("itemId") String itemId) {
+    log.info("(getPrice)itemId: {}", itemId);
+    return service.getPriceItem(itemId);
+  }
+
 }

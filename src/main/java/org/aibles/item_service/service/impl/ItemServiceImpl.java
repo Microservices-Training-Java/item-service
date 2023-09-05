@@ -151,6 +151,14 @@ public class ItemServiceImpl implements ItemService {
     response.setOrderId(request.getOrderId());
     return response;
   }
+
+  @Override
+  @Transactional(readOnly = true)
+  public String getPriceItem(String itemId) {
+    log.info("(getPriceItem)itemId: {}", itemId);
+    String price = itemFieldValueRepository.getPriceValueByItemId(itemId).orElse("0");
+    return price;
+  }
 }
 
 
