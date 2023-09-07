@@ -59,4 +59,11 @@ public interface ItemService{
   ItemResponse updateById(String id, String itemTypeId);
 
   ItemTotalOrderPriceResponse calculateOrder(ItemCalculateRequest request);
+
+  /**
+   * get Price Item
+   * @param itemId
+   * @return
+   */
+  String getPriceItem(String itemId);
 }
