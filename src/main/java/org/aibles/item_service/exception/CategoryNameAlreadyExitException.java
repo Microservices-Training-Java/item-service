@@ -1,11 +1,9 @@
 package org.aibles.item_service.exception;
 
-//import org.trainingjava.core_exception.ConflictException;
-
 public class CategoryNameAlreadyExitException extends ConflictException {
 
-  public CategoryNameAlreadyExitException() {
+  public CategoryNameAlreadyExitException(String categoryName) {
     setCode("org.aibles.item_service.exception.CategoryNameAlreadyExitException");
-
+    addParams("Category name already exists", categoryName);
   }
 }

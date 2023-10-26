@@ -7,13 +7,11 @@ import org.aibles.item_service.dto.response.CategoryResponse;
 import org.aibles.item_service.entity.Category;
 import org.aibles.item_service.exception.CategoryNameAlreadyExitException;
 import org.aibles.item_service.exception.ParentIdNotFoundException;
-import org.aibles.item_service.exception.UserServiceException;
 import org.aibles.item_service.repository.CategoryRepository;
 import org.aibles.item_service.service.CategoryService;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
@@ -53,17 +51,11 @@ public class CategoryServiceImpl implements CategoryService {
 
   @Override
   @Transactional
-  public String getUserDetail(String userId) {
+  public void getUserDetail(String userId) {
     log.info("(getUserDetail)userId: {}", userId);
     String CUSTOMER_GET_DETAIL_API = USER_API_URL + '/' + userId;
-    try {
-      ResponseEntity<String> response =
-          restTemplate.exchange(CUSTOMER_GET_DETAIL_API, HttpMethod.GET, null, String.class);
-      return response.getBody();
-    } catch (UserServiceException ex) {
-      log.error("Error calling user service", ex);
-      return String.valueOf(new ResponseEntity<>("User_id not found", HttpStatus.NOT_FOUND));
-    }
+    ResponseEntity<String> response =
+        restTemplate.exchange(CUSTOMER_GET_DETAIL_API, HttpMethod.GET, null, String.class);
   }
 
   @Override
@@ -72,7 +64,7 @@ public class CategoryServiceImpl implements CategoryService {
     log.info("(validateExistsCategoryName)categoryName: {}", categoryName);
     if(repository.existsByCategoryName(categoryName)) {
       log.error("(validateExistsCategoryName)categoryName: {}", categoryName);
-      throw new CategoryNameAlreadyExitException();
+      throw new CategoryNameAlreadyExitException(categoryName);
     }
   }
 
@@ -80,7 +72,7 @@ public class CategoryServiceImpl implements CategoryService {
   @Transactional
   public void validateParentId(String parentId) {
     log.info("(validateParentId)parentId: {}", parentId);
-    if(repository.existsById(parentId)) {
+    if(!repository.existsById(parentId)) {
       log.error("(validateParentId)parentId: {}", parentId);
       throw new ParentIdNotFoundException(parentId);
     }
