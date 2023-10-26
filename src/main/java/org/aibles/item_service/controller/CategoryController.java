@@ -6,9 +6,12 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aibles.item_service.dto.request.CategoryCreateRequest;
-import org.aibles.item_service.dto.request.ItemIdsRequest;
+import org.aibles.item_service.dto.response.CategoryResponse;
 import org.aibles.item_service.dto.response.Response;
+import org.aibles.item_service.paging.PagingReq;
+import org.aibles.item_service.paging.PagingRes;
 import org.aibles.item_service.service.CategoryService;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.GetMapping;
 
 @RestController
 @Slf4j
@@ -33,5 +37,13 @@ public class CategoryController {
     log.info("(create)userId: {}, request: {}", userId, request);
     return Response.of(
         HttpStatus.OK.value(), service.create(userId, request));
+  }
+
+  @GetMapping
+  @ResponseStatus(HttpStatus.OK)
+  public Response list(@Validated() final PagingReq pagingReq){
+    log.info("(list)");
+    final Page<CategoryResponse> categoryResponses = service.listCategory(pagingReq.makePageable());
+    return Response.of(HttpStatus.OK.value(), PagingRes.of(categoryResponses));
   }
 }
