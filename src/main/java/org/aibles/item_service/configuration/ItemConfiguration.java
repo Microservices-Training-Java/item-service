@@ -54,6 +54,11 @@ public class ItemConfiguration {
   }
 
   @Bean
+  public CategoryService categoryService(CategoryRepository repository, RestTemplate restTemplate) {
+    return new CategoryServiceImpl(repository,restTemplate);
+  }
+
+  @Bean
   public ItemTypeFacadeService itemTypeFacadeService(
       ItemTypeService itemTypeService,
       ItemFieldService itemFieldService,
