@@ -5,12 +5,12 @@ import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.aibles.item_service.dto.response.ItemTypeResponse;
 import org.aibles.item_service.entity.ItemType;
-import org.aibles.item_service.exception.DuplicateKeyException;
-import org.aibles.item_service.exception.NotFoundException;
 import org.aibles.item_service.exception.TypeAlreadyExistsException;
 import org.aibles.item_service.repository.ItemTypeRepository;
 import org.aibles.item_service.service.ItemTypeService;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.transaction.annotation.Transactional;
+import org.trainingjava.core_exception.NotFoundException;
 
 @Slf4j
 public class ItemTypeServiceImpl implements ItemTypeService {
@@ -30,7 +30,7 @@ public class ItemTypeServiceImpl implements ItemTypeService {
       return ItemTypeResponse.from(repository.save(ItemType.of(type)));
     } catch (DuplicateKeyException er) {
       log.error("(create)exception duplicate: {}", er.getClass().getName());
-      throw new DuplicateKeyException();
+      throw new DuplicateKeyException(er.getClass().getName());
     }
   }
 

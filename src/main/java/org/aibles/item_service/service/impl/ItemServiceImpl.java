@@ -14,14 +14,14 @@ import org.aibles.item_service.dto.response.DetailResponse;
 import org.aibles.item_service.dto.response.ItemResponse;
 import org.aibles.item_service.dto.response.ItemTotalOrderPriceResponse;
 import org.aibles.item_service.entity.Item;
-import org.aibles.item_service.exception.DuplicateKeyException;
-import org.aibles.item_service.exception.NotFoundException;
 import org.aibles.item_service.repository.ItemFieldValueRepository;
 import org.aibles.item_service.repository.ItemRepository;
 import org.aibles.item_service.repository.ValueProjection;
 import org.aibles.item_service.service.ItemService;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
+import org.trainingjava.core_exception.NotFoundException;
 
 @Slf4j
 public class ItemServiceImpl implements ItemService {
@@ -45,7 +45,7 @@ public class ItemServiceImpl implements ItemService {
       return ItemResponse.from(repository.save(Item.of(itemTypeId)));
     } catch (DuplicateKeyException er) {
       log.error("(create)exception duplicate: {}", er.getClass().getName());
-      throw new DuplicateKeyException();
+      throw new DuplicateKeyException(er.getClass().getName());
     }
   }
 

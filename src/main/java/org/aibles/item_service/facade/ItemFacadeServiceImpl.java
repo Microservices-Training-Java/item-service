@@ -8,12 +8,12 @@ import org.aibles.item_service.dto.response.ItemDetailResponse;
 import org.aibles.item_service.dto.response.ItemFieldValueResponse;
 import org.aibles.item_service.dto.response.ItemResponse;
 import org.aibles.item_service.entity.Item;
-import org.aibles.item_service.exception.NotFoundException;
 import org.aibles.item_service.service.ItemFieldService;
 import org.aibles.item_service.service.ItemFieldValueService;
 import org.aibles.item_service.service.ItemService;
 import org.aibles.item_service.service.ItemTypeService;
 import org.springframework.transaction.annotation.Transactional;
+import org.trainingjava.core_exception.NotFoundException;
 
 @Slf4j
 public class ItemFacadeServiceImpl implements ItemFacadeService {

@@ -7,11 +7,11 @@ import org.aibles.item_service.dto.response.ItemFieldResponse;
 import org.aibles.item_service.entity.ItemField;
 import org.aibles.item_service.exception.ItemFieldNameAlreadyExistsException;
 import org.aibles.item_service.exception.ItemFieldUniqueNameAlreadyExistsException;
-import org.aibles.item_service.exception.NotFoundException;
 import org.aibles.item_service.repository.FieldProjection;
 import org.aibles.item_service.repository.ItemFieldRepository;
 import org.aibles.item_service.service.ItemFieldService;
 import org.springframework.transaction.annotation.Transactional;
+import org.trainingjava.core_exception.NotFoundException;
 
 @Slf4j
 public class ItemFieldServiceImpl implements ItemFieldService {
