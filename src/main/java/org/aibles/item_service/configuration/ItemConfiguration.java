@@ -15,9 +15,11 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.web.client.RestTemplate;
+import org.trainingjava.core.api.exception.configuration.EnableCoreApiException;
 import org.trainingjava.coreresttemplate.configuration.EnableRestTemplate;
 
 @Configuration
+@EnableCoreApiException
 @EnableJpaRepositories(basePackages = {"org.aibles.item_service.repository"})
 @ComponentScan(basePackages = {"org.aibles.item_service.repository"})
 @EnableRestTemplate
@@ -56,6 +58,11 @@ public class ItemConfiguration {
   @Bean
   public CategoryService categoryService(CategoryRepository repository, RestTemplate restTemplate) {
     return new CategoryServiceImpl(repository,restTemplate);
+  }
+
+  @Bean
+  public CategoryItemService categoryItemService(CategoryItemRepository categoryItemRepository,CategoryRepository categoryRepository,ItemRepository itemRepository, CategoryService categoryService) {
+    return new CategoryItemServiceImpl(categoryItemRepository, categoryRepository, itemRepository, categoryService);
   }
 
   @Bean
