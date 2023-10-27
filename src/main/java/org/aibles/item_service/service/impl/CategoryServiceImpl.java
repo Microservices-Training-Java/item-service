@@ -40,8 +40,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
   }
 
-  @Transactional
-  public void validateExistsCategoryName(String categoryName) {
+  private void validateExistsCategoryName(String categoryName) {
     log.info("(validateExistsCategoryName)categoryName: {}", categoryName);
     if(repository.existsByCategoryName(categoryName)) {
       log.error("(validateExistsCategoryName)categoryName: {}", categoryName);
@@ -49,8 +48,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
   }
 
-  @Transactional
-  public void validateParentId(String parentId) {
+  private void validateParentId(String parentId) {
     log.info("(validateParentId)parentId: {}", parentId);
     if(!repository.existsById(parentId)) {
       log.error("(validateParentId)parentId: {}", parentId);
