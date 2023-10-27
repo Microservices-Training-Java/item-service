@@ -90,13 +90,13 @@
       referencedTableName="item_field" referencedColumnNames="id"/>
   </changeSet>
 
-  <changeSet id="20231026-1431-add-table-categories" author="YaLynk">
-    <createTable tableName="categories">
+  <changeSet id="20231026-1431-add-table-category" author="YaLynk">
+    <createTable tableName="category">
       <column name="id" type="varchar(255)">
         <constraints primaryKey="true"/>
       </column>
       <column name="category_name" type="varchar(255)">
-        <constraints nullable="true"/>
+        <constraints nullable="false"/>
       </column>
       <column name="parent_id" type="varchar(255)">
         <constraints nullable="true"/>

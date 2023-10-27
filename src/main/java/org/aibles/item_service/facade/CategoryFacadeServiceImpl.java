@@ -17,6 +17,7 @@ public class CategoryFacadeServiceImpl implements CategoryFacadeService {
   @Override
   public CategoryResponse create(String userId, CategoryCreateRequest request) {
     log.info("(create)userId: {}, request: {}", userId, request);
+    //Call the user-service side to see if it is a user or not
     userClient.getUserDetail(userId);
     return categoryService.create(request);
   }

@@ -9,7 +9,7 @@ import org.aibles.item_service.entity.base.BaseEntity;
 @Data
 @Entity
 @NoArgsConstructor
-@Table(name = "categories")
+@Table(name = "category")
 public class Category extends BaseEntity {
 
   private String categoryName;
