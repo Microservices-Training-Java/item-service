@@ -7,6 +7,9 @@ import org.aibles.item_service.dto.response.CategoryResponse;
 import org.aibles.item_service.entity.Category;
 import org.aibles.item_service.exception.CategoryNameAlreadyExitException;
 import org.aibles.item_service.exception.ParentIdNotFoundException;
+import org.aibles.item_service.repository.CategoryRepository;
+import org.aibles.item_service.service.CategoryService;
+import org.springframework.dao.DuplicateKeyException;
 import org.aibles.item_service.exception.UserServiceException;
 import org.aibles.item_service.repository.CategoryRepository;
 import org.aibles.item_service.service.CategoryService;
@@ -23,20 +26,15 @@ import org.springframework.web.client.RestTemplate;
 public class CategoryServiceImpl implements CategoryService {
 
   private final CategoryRepository repository;
-  @LoadBalanced
-  private final RestTemplate restTemplate;
-  private static final String USER_API_URL = "http://user-service/api/v1/users";
 
-  public CategoryServiceImpl(CategoryRepository repository, RestTemplate restTemplate) {
+  public CategoryServiceImpl(CategoryRepository repository) {
     this.repository = repository;
-    this.restTemplate = restTemplate;
   }
 
   @Override
   @Transactional
-  public CategoryResponse create(String userId, CategoryCreateRequest request) {
-    log.info("(create)userId: {}, request: {}", userId, request);
-    getUserDetail(userId);
+  public CategoryResponse create(CategoryCreateRequest request) {
+    log.info("(create)request: {}", request);
     validateExistsCategoryName(request.getCategoryName());
     if(!request.getParentId().isEmpty()) {
       validateParentId(request.getParentId());
@@ -53,24 +51,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
   }
 
-  @Override
-  @Transactional
-  public String getUserDetail(String userId) {
-    log.info("(getUserDetail)userId: {}", userId);
-    String CUSTOMER_GET_DETAIL_API = USER_API_URL + '/' + userId;
-    try {
-      ResponseEntity<String> response =
-          restTemplate.exchange(CUSTOMER_GET_DETAIL_API, HttpMethod.GET, null, String.class);
-      return response.getBody();
-    } catch (UserServiceException ex) {
-      log.error("Error calling user service", ex);
-      return String.valueOf(new ResponseEntity<>("User_id not found", HttpStatus.NOT_FOUND));
-    }
-  }
-
-  @Override
-  @Transactional
-  public void validateExistsCategoryName(String categoryName) {
+  private void validateExistsCategoryName(String categoryName) {
     log.info("(validateExistsCategoryName)categoryName: {}", categoryName);
     if(repository.existsByCategoryName(categoryName)) {
       log.error("(validateExistsCategoryName)categoryName: {}", categoryName);
@@ -78,13 +59,11 @@ public class CategoryServiceImpl implements CategoryService {
     }
   }
 
-  @Override
-  @Transactional
-  public void validateParentId(String parentId) {
+  private void validateParentId(String parentId) {
     log.info("(validateParentId)parentId: {}", parentId);
-    if(repository.existsById(parentId)) {
+    if(!repository.existsById(parentId)) {
       log.error("(validateParentId)parentId: {}", parentId);
-      throw new ParentIdNotFoundException(parentId);
+      throw new ParentIdNotFoundException();
     }
   }
 

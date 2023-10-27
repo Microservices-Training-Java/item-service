@@ -2,7 +2,11 @@ package org.aibles.item_service.configuration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.aibles.item_service.client.service.OrderClient;
+import org.aibles.item_service.client.service.UserClient;
 import org.aibles.item_service.client.service.impl.OrderClientImpl;
+import org.aibles.item_service.client.service.impl.UserClientImpl;
+import org.aibles.item_service.facade.CategoryFacadeService;
+import org.aibles.item_service.facade.CategoryFacadeServiceImpl;
 import org.aibles.item_service.facade.ItemFacadeService;
 import org.aibles.item_service.facade.ItemFacadeServiceImpl;
 import org.aibles.item_service.facade.ItemTypeFacadeService;
@@ -19,10 +23,10 @@ import org.trainingjava.core.api.exception.configuration.EnableCoreApiException;
 import org.trainingjava.coreresttemplate.configuration.EnableRestTemplate;
 
 @Configuration
-@EnableCoreApiException
 @EnableJpaRepositories(basePackages = {"org.aibles.item_service.repository"})
 @ComponentScan(basePackages = {"org.aibles.item_service.repository"})
 @EnableRestTemplate
+@EnableCoreApiException
 public class ItemConfiguration {
 
   @Bean
@@ -53,6 +57,16 @@ public class ItemConfiguration {
   @Bean
   public ItemTypeFieldService itemTypeFieldService(ItemTypeFieldRepository repository) {
     return new ItemTypeFieldServiceImpl(repository);
+  }
+
+  @Bean
+  public CategoryService categoryService(CategoryRepository repository) {
+    return new CategoryServiceImpl(repository);
+  }
+
+  @Bean
+  public UserClient userClient(RestTemplate restTemplate) {
+    return new UserClientImpl(restTemplate);
   }
 
   @Bean
@@ -94,5 +108,11 @@ public class ItemConfiguration {
     );
   }
 
+  @Bean
+  public CategoryFacadeService categoryFacadeService(
+      UserClient userClient,
+      CategoryService categoryService) {
+    return new CategoryFacadeServiceImpl(userClient, categoryService);
+  }
 
 }
