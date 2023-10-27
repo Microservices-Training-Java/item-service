@@ -2,6 +2,8 @@ package org.aibles.item_service.service;
 
 import org.aibles.item_service.dto.request.CategoryCreateRequest;
 import org.aibles.item_service.dto.response.CategoryResponse;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface CategoryService {
 

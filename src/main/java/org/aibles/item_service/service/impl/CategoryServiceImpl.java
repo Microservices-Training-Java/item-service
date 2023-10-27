@@ -10,17 +10,8 @@ import org.aibles.item_service.exception.ParentIdNotFoundException;
 import org.aibles.item_service.repository.CategoryRepository;
 import org.aibles.item_service.service.CategoryService;
 import org.springframework.dao.DuplicateKeyException;
-import org.aibles.item_service.exception.UserServiceException;
-import org.aibles.item_service.repository.CategoryRepository;
-import org.aibles.item_service.service.CategoryService;
-import org.springframework.cloud.client.loadbalancer.LoadBalanced;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.client.RestTemplate;
 
 @Slf4j
 public class CategoryServiceImpl implements CategoryService {
