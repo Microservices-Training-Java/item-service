@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aibles.item_service.dto.request.CategoryCreateRequest;
 import org.aibles.item_service.dto.response.Response;
-import org.aibles.item_service.service.CategoryService;
+import org.aibles.item_service.facade.CategoryFacadeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class CategoryController {
 
-  private final CategoryService service;
+  private final CategoryFacadeService service;
 
   @PostMapping
   @ResponseStatus(HttpStatus.OK)

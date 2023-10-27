@@ -22,7 +22,7 @@ public class CategoryServiceImpl implements CategoryService {
 
   @Override
   @Transactional
-  public CategoryResponse create(String userId, CategoryCreateRequest request) {
+  public CategoryResponse create(CategoryCreateRequest request) {
     log.info("(create)request: {}", request);
     validateExistsCategoryName(request.getCategoryName());
     if(!request.getParentId().isEmpty()) {
