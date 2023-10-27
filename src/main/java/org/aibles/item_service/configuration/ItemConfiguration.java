@@ -70,13 +70,8 @@ public class ItemConfiguration {
   }
 
   @Bean
-  public CategoryService categoryService(CategoryRepository repository, RestTemplate restTemplate) {
-    return new CategoryServiceImpl(repository,restTemplate);
-  }
-
-  @Bean
-  public CategoryItemService categoryItemService(CategoryItemRepository categoryItemRepository,CategoryRepository categoryRepository,ItemRepository itemRepository, CategoryService categoryService) {
-    return new CategoryItemServiceImpl(categoryItemRepository, categoryRepository, itemRepository, categoryService);
+  public CategoryItemService categoryItemService(CategoryItemRepository categoryItemRepository,CategoryRepository categoryRepository,ItemRepository itemRepository, UserClient userClient) {
+    return new CategoryItemServiceImpl(categoryItemRepository, categoryRepository, itemRepository, userClient);
   }
 
   @Bean

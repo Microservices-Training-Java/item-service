@@ -31,7 +31,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class CategoryController {
 
   private final CategoryFacadeService service;
-  private final CategoryService service;
+  private final CategoryService categoryService;
 
   @PostMapping
   @ResponseStatus(HttpStatus.OK)
@@ -46,7 +46,7 @@ public class CategoryController {
   @ResponseStatus(HttpStatus.OK)
   public Response list(@Validated() final PagingReq pagingReq){
     log.info("(list)");
-    final Page<CategoryResponse> categoryResponses = service.listCategory(pagingReq.makePageable());
+    final Page<CategoryResponse> categoryResponses = categoryService.listCategory(pagingReq.makePageable());
     return Response.of(HttpStatus.OK.value(), PagingRes.of(categoryResponses));
   }
 }

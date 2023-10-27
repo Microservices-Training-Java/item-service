@@ -1,6 +1,7 @@
 package org.aibles.item_service.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
+import org.aibles.item_service.client.service.UserClient;
 import org.aibles.item_service.dto.request.CategoryItemCreateRequest;
 import org.aibles.item_service.dto.response.CategoryItemResponse;
 import org.aibles.item_service.entity.CategoryItem;
@@ -10,7 +11,6 @@ import org.aibles.item_service.repository.CategoryItemRepository;
 import org.aibles.item_service.repository.CategoryRepository;
 import org.aibles.item_service.repository.ItemRepository;
 import org.aibles.item_service.service.CategoryItemService;
-import org.aibles.item_service.service.CategoryService;
 
 @Slf4j
 public class CategoryItemServiceImpl implements CategoryItemService {
@@ -18,20 +18,20 @@ public class CategoryItemServiceImpl implements CategoryItemService {
     public final CategoryItemRepository categoryItemRepository;
     public final CategoryRepository categoryRepository;
     public final ItemRepository itemRepository;
-    public final CategoryService categoryService;
+    public final UserClient userClient;
 
-    public CategoryItemServiceImpl(CategoryItemRepository categoryItemRepository, CategoryRepository categoryRepository, ItemRepository itemRepository, CategoryService categoryService) {
+    public CategoryItemServiceImpl(CategoryItemRepository categoryItemRepository, CategoryRepository categoryRepository, ItemRepository itemRepository, UserClient userClient) {
         this.categoryItemRepository = categoryItemRepository;
         this.categoryRepository = categoryRepository;
         this.itemRepository = itemRepository;
-        this.categoryService = categoryService;
+        this.userClient = userClient;
     }
 
     @Override
     public CategoryItemResponse create(CategoryItemCreateRequest request, String userId) {
         checkCategoryId(request.getCategoryId());
         checkItemId(request.getItemId());
-        categoryService.getUserDetail(userId);
+        userClient.getUserDetail(userId);
         return CategoryItemResponse.from(categoryItemRepository.save(CategoryItem.of(request.getItemId(), request.getCategoryId())));
     }
 
