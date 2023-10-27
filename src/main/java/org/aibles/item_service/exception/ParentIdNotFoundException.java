@@ -1,10 +1,10 @@
 package org.aibles.item_service.exception;
 
-public class ParentIdNotFoundException extends BaseExceptionRequest {
+import org.trainingjava.core_exception.NotFoundException;
 
-  public ParentIdNotFoundException(String parentId) {
-    setStatus(404);
+public class ParentIdNotFoundException extends NotFoundException {
+
+  public ParentIdNotFoundException() {
     setCode("org.aibles.item_service.exception.ParentIdNotFoundException");
-    addParams("Parent_id not found", parentId);
   }
 }

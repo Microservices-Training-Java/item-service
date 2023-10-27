@@ -6,6 +6,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aibles.item_service.dto.request.CategoryCreateRequest;
+import org.aibles.item_service.dto.response.Response;
+import org.aibles.item_service.facade.CategoryFacadeService;
 import org.aibles.item_service.dto.response.CategoryResponse;
 import org.aibles.item_service.dto.response.Response;
 import org.aibles.item_service.paging.PagingReq;
@@ -28,6 +30,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @RequiredArgsConstructor
 public class CategoryController {
 
+  private final CategoryFacadeService service;
   private final CategoryService service;
 
   @PostMapping
