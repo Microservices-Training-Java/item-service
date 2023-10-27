@@ -6,7 +6,6 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aibles.item_service.dto.request.CategoryCreateRequest;
-import org.aibles.item_service.dto.request.ItemIdsRequest;
 import org.aibles.item_service.dto.response.Response;
 import org.aibles.item_service.service.CategoryService;
 import org.springframework.http.HttpStatus;
