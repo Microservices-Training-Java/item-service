@@ -65,6 +65,11 @@ public class ItemConfiguration {
   }
 
   @Bean
+  public CategoryItemService categoryItemService(CategoryItemRepository categoryItemRepository,CategoryRepository categoryRepository,ItemRepository itemRepository, UserClient userClient) {
+    return new CategoryItemServiceImpl(categoryItemRepository, categoryRepository, itemRepository, userClient);
+  }
+
+  @Bean
   public ItemTypeFacadeService itemTypeFacadeService(
       ItemTypeService itemTypeService,
       ItemFieldService itemFieldService,
