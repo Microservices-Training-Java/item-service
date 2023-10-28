@@ -11,6 +11,7 @@ import org.aibles.item_service.repository.CategoryItemRepository;
 import org.aibles.item_service.repository.CategoryRepository;
 import org.aibles.item_service.repository.ItemRepository;
 import org.aibles.item_service.service.CategoryItemService;
+import org.trainingjava.core_exception.NotFoundException;
 
 @Slf4j
 public class CategoryItemServiceImpl implements CategoryItemService {
@@ -51,5 +52,15 @@ public class CategoryItemServiceImpl implements CategoryItemService {
             log.error("(checkItemId)itemId: {}", itemId);
             throw new ItemIdNotFoundException(itemId);
         }
+    }
+
+    @Override
+    public void deleteCategoryItem(String id) {
+        log.info("(deleteCategoryItem)id: {}", id);
+        if(!categoryItemRepository.existsById(id)) {
+            log.error("(deleteCategoryItem)id: {}", id);
+            throw new CategoryIdNotFoundException(id);
+        }
+        categoryItemRepository.deleteById(id);
     }
 }
