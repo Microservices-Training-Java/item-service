@@ -26,15 +26,6 @@ public class CategoryItemController {
                            @Validated @RequestBody CategoryItemCreateRequest request) {
         log.info("(create)userId: {}, request: {}", userId, request);
         return Response.of(
-                HttpStatus.CREATED.value(), service.create(request,userId));
-    }
-
-    @DeleteMapping("/{categoryItemId}")
-    @ResponseStatus(HttpStatus.OK)
-    public Response delete(@PathVariable String categoryItemId) {
-        log.info("(delete)categoryItemId: {}",categoryItemId);
-        service.deleteCategoryItem(categoryItemId);
-        return Response.of(
-                HttpStatus.OK.value());
+                HttpStatus.OK.value(), service.create(request,userId));
     }
 }

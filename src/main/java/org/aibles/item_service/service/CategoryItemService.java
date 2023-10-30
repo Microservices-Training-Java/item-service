@@ -9,6 +9,4 @@ public interface CategoryItemService {
     void checkCategoryId(String categoryId);
 
     void checkItemId(String itemId);
-
-    void deleteCategoryItem(String id);
 }
