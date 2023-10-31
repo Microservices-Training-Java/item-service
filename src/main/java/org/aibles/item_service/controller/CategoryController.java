@@ -48,7 +48,7 @@ public class CategoryController {
   @ResponseStatus(HttpStatus.OK)
   public Response list(@Validated() final PagingReq pagingReq){
     log.info("(list)");
-    final Page<CategoryResponse> categoryResponses = categoryService.listCategory(pagingReq.makePageable());
+    final Page<CategoryResponse> categoryResponses = categoryService.list(pagingReq.makePageable());
     return Response.of(HttpStatus.OK.value(), PagingRes.of(categoryResponses));
   }
 
