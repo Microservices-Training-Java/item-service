@@ -113,7 +113,7 @@
     </createTable>
   </changeSet>
 
-  <changeSet id="20231027-0944-add-table-category-items" author="DucAnh">
+  <changeSet id="20231027-0944-add-table-category-item" author="DucAnh">
     <createTable tableName="category_items">
       <column name="id" type="varchar(255)">
         <constraints primaryKey="true"/>
@@ -122,9 +122,6 @@
         <constraints nullable="true"/>
       </column>
       <column name="category_id" type="varchar(255)">
-        <constraints nullable="true"/>
-      </column>
-      <column name="description" type="varchar(255)">
         <constraints nullable="true"/>
       </column>
       <column name="created_at" type="bigint">

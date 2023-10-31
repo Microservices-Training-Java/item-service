@@ -1,5 +1,6 @@
 package org.aibles.item_service.service.impl;
 
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.aibles.item_service.client.service.UserClient;
 import org.aibles.item_service.dto.request.CategoryItemCreateRequest;
@@ -11,6 +12,7 @@ import org.aibles.item_service.repository.CategoryItemRepository;
 import org.aibles.item_service.repository.CategoryRepository;
 import org.aibles.item_service.repository.ItemRepository;
 import org.aibles.item_service.service.CategoryItemService;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 public class CategoryItemServiceImpl implements CategoryItemService {
@@ -28,11 +30,11 @@ public class CategoryItemServiceImpl implements CategoryItemService {
     }
 
     @Override
-    public CategoryItemResponse create(CategoryItemCreateRequest request, String userId) {
-        checkCategoryId(request.getCategoryId());
-        checkItemId(request.getItemId());
+    public CategoryItemResponse create(String categoryId, String itemId , String userId) {
+        checkCategoryId(categoryId);
+        checkItemId(itemId);
         userClient.getUserDetail(userId);
-        return CategoryItemResponse.from(categoryItemRepository.save(CategoryItem.of(request.getItemId(), request.getCategoryId())));
+        return CategoryItemResponse.from(categoryItemRepository.save(CategoryItem.of(itemId, categoryId)));
     }
 
     @Override
@@ -51,5 +53,13 @@ public class CategoryItemServiceImpl implements CategoryItemService {
             log.error("(checkItemId)itemId: {}", itemId);
             throw new ItemIdNotFoundException(itemId);
         }
+    }
+
+    @Override
+    @Transactional
+    public List<String> findItemIdByCategoryId(String categoryId) {
+        log.info("(findItemIdByCategoryId)categoryId: {}", categoryId);
+        checkCategoryId(categoryId);
+        return categoryItemRepository.findItemIdByCategoryId(categoryId);
     }
 }

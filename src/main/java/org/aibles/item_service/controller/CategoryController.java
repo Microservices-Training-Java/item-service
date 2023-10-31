@@ -6,6 +6,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aibles.item_service.dto.request.CategoryCreateRequest;
+import org.aibles.item_service.dto.response.ItemCategoryDetailResponse;
 import org.aibles.item_service.dto.response.Response;
 import org.aibles.item_service.facade.CategoryFacadeService;
 import org.aibles.item_service.dto.response.CategoryResponse;
@@ -16,6 +17,7 @@ import org.aibles.item_service.service.CategoryService;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -46,7 +48,16 @@ public class CategoryController {
   @ResponseStatus(HttpStatus.OK)
   public Response list(@Validated() final PagingReq pagingReq){
     log.info("(list)");
-    final Page<CategoryResponse> categoryResponses = categoryService.listCategory(pagingReq.makePageable());
+    final Page<CategoryResponse> categoryResponses = categoryService.list(pagingReq.makePageable());
+    return Response.of(HttpStatus.OK.value(), PagingRes.of(categoryResponses));
+  }
+
+  @GetMapping("/{category_id}/items")
+  @ResponseStatus(HttpStatus.OK)
+  public Response listItem(@Validated() final PagingReq pagingReq,
+      @PathVariable(name = "category_id") String categoryId){
+    log.info("(listItem)category: {}, pagingReq: {}", categoryId, pagingReq);
+    final Page<ItemCategoryDetailResponse> categoryResponses = service.getItemCategories(categoryId, pagingReq.makePageable());
     return Response.of(HttpStatus.OK.value(), PagingRes.of(categoryResponses));
   }
 }
