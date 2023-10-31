@@ -2,6 +2,8 @@ package org.aibles.item_service.service;
 
 import org.aibles.item_service.dto.request.CategoryCreateRequest;
 import org.aibles.item_service.dto.response.CategoryResponse;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface CategoryService {
 
@@ -11,4 +13,11 @@ public interface CategoryService {
    * @return - category information
    */
   CategoryResponse create(CategoryCreateRequest request);
+
+  /**
+   * list category parent_id = null
+   * @param pageable - the page number and page size
+   * @return list category
+   */
+  Page<CategoryResponse> list(Pageable pageable);
 }
