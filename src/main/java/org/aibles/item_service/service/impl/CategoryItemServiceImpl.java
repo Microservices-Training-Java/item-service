@@ -1,11 +1,13 @@
 package org.aibles.item_service.service.impl;
 
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.aibles.item_service.client.service.UserClient;
 import org.aibles.item_service.dto.request.CategoryItemCreateRequest;
 import org.aibles.item_service.dto.response.CategoryItemResponse;
 import org.aibles.item_service.entity.CategoryItem;
 import org.aibles.item_service.exception.CategoryIdNotFoundException;
+import org.aibles.item_service.exception.CategoryItemNotFoundException;
 import org.aibles.item_service.exception.ItemIdNotFoundException;
 import org.aibles.item_service.repository.CategoryItemRepository;
 import org.aibles.item_service.repository.CategoryRepository;
@@ -55,12 +57,13 @@ public class CategoryItemServiceImpl implements CategoryItemService {
     }
 
     @Override
-    public void deleteCategoryItem(String id) {
-        log.info("(deleteCategoryItem)id: {}", id);
-        if(!categoryItemRepository.existsById(id)) {
-            log.error("(deleteCategoryItem)id: {}", id);
-            throw new CategoryIdNotFoundException(id);
+    @Transactional
+    public void delete(String categoryId,String itemId) {
+        log.info("(delete)categoryId: {},itemId :{}", categoryId,itemId);
+        if(!categoryItemRepository.existsByCategoryIdAndItemId(categoryId, itemId)) {
+            log.error("(delete)categoryId: {}, itemId: {}", categoryId, itemId);
+            throw new CategoryItemNotFoundException();
         }
-        categoryItemRepository.deleteById(id);
+        categoryItemRepository.deleteAllByCategoryIdAndItemId(categoryId, itemId);
     }
 }

@@ -10,5 +10,5 @@ public interface CategoryItemService {
 
     void checkItemId(String itemId);
 
-    void deleteCategoryItem(String id);
+    void delete(String categoryId, String itemId);
 }

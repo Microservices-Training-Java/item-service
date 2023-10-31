@@ -15,7 +15,7 @@ import static org.aibles.item_service.constant.ItemApiConstant.BaseUrl.CATEGORY_
 
 @RestController
 @Slf4j
-@RequestMapping(CATEGORY_ITEM_BASE_URL)
+@RequestMapping(CATEGORY_BASE_URL)
 @RequiredArgsConstructor
 public class CategoryItemController {
 
@@ -29,11 +29,12 @@ public class CategoryItemController {
                 HttpStatus.CREATED.value(), service.create(request,userId));
     }
 
-    @DeleteMapping("/{categoryItemId}")
+    @DeleteMapping("/{categoryId}/items/{itemId}")
     @ResponseStatus(HttpStatus.OK)
-    public Response delete(@PathVariable String categoryItemId) {
-        log.info("(delete)categoryItemId: {}",categoryItemId);
-        service.deleteCategoryItem(categoryItemId);
+    public Response delete( @PathVariable("categoryId") String categoryId,
+                            @PathVariable("itemId") String itemId) {
+        log.info("(delete)categoryId: {}, itemId: {}",categoryId,itemId);
+        service.delete(categoryId,itemId);
         return Response.of(
                 HttpStatus.OK.value());
     }

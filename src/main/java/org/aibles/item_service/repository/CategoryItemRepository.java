@@ -5,4 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CategoryItemRepository extends JpaRepository<CategoryItem, String> {
 
+    void deleteAllByCategoryIdAndItemId(String categoryId, String itemId);
+
+    boolean existsByCategoryIdAndItemId(String categoryId, String itemId);
 }
