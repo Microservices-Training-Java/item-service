@@ -32,6 +32,10 @@ import org.aibles.item_service.service.impl.ItemServiceImpl;
 import org.aibles.item_service.service.impl.ItemTypeServiceImpl;
 import org.aibles.item_service.service.impl.ItemTypeFieldServiceImpl;
 import org.aibles.item_service.service.impl.CategoryServiceImpl;
+import org.aibles.item_service.facade.*;
+import org.aibles.item_service.repository.*;
+import org.aibles.item_service.service.*;
+import org.aibles.item_service.service.impl.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -124,8 +128,14 @@ public class ItemConfiguration {
   @Bean
   public CategoryFacadeService categoryFacadeService(
       UserClient userClient,
-      CategoryService categoryService) {
-    return new CategoryFacadeServiceImpl(userClient, categoryService);
+      CategoryService categoryService,
+      CategoryItemService categoryItemService,
+      ItemService itemService) {
+    return new CategoryFacadeServiceImpl(
+        userClient,
+        categoryService,
+        categoryItemService,
+        itemService);
   }
 
 }

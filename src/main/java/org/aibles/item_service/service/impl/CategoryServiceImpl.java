@@ -4,7 +4,9 @@ import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.aibles.item_service.dto.request.CategoryCreateRequest;
 import org.aibles.item_service.dto.response.CategoryResponse;
+import org.aibles.item_service.dto.response.ItemCategoryDetailResponse;
 import org.aibles.item_service.entity.Category;
+import org.aibles.item_service.exception.CategoryIdNotFoundException;
 import org.aibles.item_service.exception.CategoryNameAlreadyExitException;
 import org.aibles.item_service.exception.ParentIdNotFoundException;
 import org.aibles.item_service.repository.CategoryRepository;
@@ -71,5 +73,14 @@ public class CategoryServiceImpl implements CategoryService {
   public Page<CategoryResponse> list(Pageable pageable) {
     Page<Category> categories = repository.findAllByParentIdNull(pageable);
     return categories.map(CategoryResponse::from);
+  }
+
+  @Override
+  public void validateCategoryId(String categoryId) {
+    log.info("(validateCategoryId)categoryId: {}", categoryId);
+    if(!repository.existsById(categoryId)) {
+      log.error("(validateCategoryId)categoryId: {}", categoryId);
+      throw new CategoryIdNotFoundException(categoryId);
+    }
   }
 }
