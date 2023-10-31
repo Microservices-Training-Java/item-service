@@ -12,11 +12,10 @@ import org.aibles.item_service.exception.ParentIdNotFoundException;
 import org.aibles.item_service.repository.CategoryRepository;
 import org.aibles.item_service.service.CategoryService;
 import org.springframework.dao.DuplicateKeyException;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.aibles.item_service.exception.UserServiceException;
 import org.aibles.item_service.repository.CategoryRepository;
 import org.aibles.item_service.service.CategoryService;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -39,7 +38,7 @@ public class CategoryServiceImpl implements CategoryService {
   public CategoryResponse create(CategoryCreateRequest request) {
     log.info("(create)request: {}", request);
     validateExistsCategoryName(request.getCategoryName());
-    if(!request.getParentId().isEmpty()) {
+    if(request.getParentId() != null && !request.getParentId().isEmpty()) {
       validateParentId(request.getParentId());
     }
     try {
@@ -72,7 +71,6 @@ public class CategoryServiceImpl implements CategoryService {
 
   @Override
   public Page<CategoryResponse> list(Pageable pageable) {
-    log.info("(list)");
     Page<Category> categories = repository.findAllByParentIdNull(pageable);
     return categories.map(CategoryResponse::from);
   }

@@ -30,11 +30,11 @@ public class CategoryItemServiceImpl implements CategoryItemService {
     }
 
     @Override
-    public CategoryItemResponse create(CategoryItemCreateRequest request, String userId) {
-        checkCategoryId(request.getCategoryId());
-        checkItemId(request.getItemId());
+    public CategoryItemResponse create(String categoryId, String itemId , String userId) {
+        checkCategoryId(categoryId);
+        checkItemId(itemId);
         userClient.getUserDetail(userId);
-        return CategoryItemResponse.from(categoryItemRepository.save(CategoryItem.of(request.getItemId(), request.getCategoryId())));
+        return CategoryItemResponse.from(categoryItemRepository.save(CategoryItem.of(itemId, categoryId)));
     }
 
     @Override
