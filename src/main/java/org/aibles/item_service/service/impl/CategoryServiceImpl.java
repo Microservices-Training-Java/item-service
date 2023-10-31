@@ -68,7 +68,7 @@ public class CategoryServiceImpl implements CategoryService {
   }
 
   @Override
-  public Page<CategoryResponse> listCategory(Pageable pageable) {
+  public Page<CategoryResponse> list(Pageable pageable) {
     Page<Category> categories = repository.findAllByParentIdNull(pageable);
     return categories.map(CategoryResponse::from);
   }

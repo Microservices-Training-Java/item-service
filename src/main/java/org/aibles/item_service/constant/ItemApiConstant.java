@@ -30,7 +30,5 @@ public class ItemApiConstant {
     public static final String ITEM_BASE_URL = API_PREFIX + API_VERSION + ITEM;
     public static final String FIELD_VALUE_BASE_URL = API_PREFIX + API_VERSION + FIELD_VALUE;
     public static final String CATEGORY_BASE_URL = API_PREFIX + API_VERSION + CATEGORY;
-    public static final String CATEGORY_ITEM_BASE_URL = API_PREFIX + API_VERSION + CATEGORY_ITEM;
-
   }
 }
