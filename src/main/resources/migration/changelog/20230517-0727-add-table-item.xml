@@ -113,4 +113,31 @@
     </createTable>
   </changeSet>
 
+  <changeSet id="20231027-0944-add-table-category-item" author="DucAnh">
+    <createTable tableName="category_items">
+      <column name="id" type="varchar(255)">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="item_id" type="varchar(255)">
+        <constraints nullable="true"/>
+      </column>
+      <column name="category_id" type="varchar(255)">
+        <constraints nullable="true"/>
+      </column>
+      <column name="created_at" type="bigint">
+        <constraints nullable="true"/>
+      </column>
+      <column name="updated_at" type="bigint">
+        <constraints nullable="true"/>
+      </column>
+    </createTable>
+    <addForeignKeyConstraint baseTableName="category_items" baseColumnNames="item_id"
+                             constraintName="FK_category_items_item"
+                             referencedTableName="item" referencedColumnNames="id"/>
+    <addForeignKeyConstraint baseTableName="category_items" baseColumnNames="category_id"
+                             constraintName="FK_category_items_category"
+                             referencedTableName="category" referencedColumnNames="id"/>
+  </changeSet>
+
+
 </databaseChangeLog>

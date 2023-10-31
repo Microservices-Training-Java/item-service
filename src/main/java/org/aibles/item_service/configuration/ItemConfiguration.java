@@ -19,6 +19,9 @@ import org.aibles.item_service.repository.ItemTypeFieldRepository;
 import org.aibles.item_service.repository.CategoryRepository;
 import org.aibles.item_service.service.ItemTypeFieldService;
 import org.aibles.item_service.service.CategoryService;
+import org.aibles.item_service.service.CategoryItemService;
+import org.aibles.item_service.repository.CategoryItemRepository;
+import org.aibles.item_service.service.impl.CategoryItemServiceImpl;
 import org.aibles.item_service.service.ItemFieldService;
 import org.aibles.item_service.service.ItemFieldValueService;
 import org.aibles.item_service.service.ItemService;
@@ -82,6 +85,11 @@ public class ItemConfiguration {
   @Bean
   public UserClient userClient(RestTemplate restTemplate) {
     return new UserClientImpl(restTemplate);
+  }
+
+  @Bean
+  public CategoryItemService categoryItemService(CategoryItemRepository categoryItemRepository,CategoryRepository categoryRepository,ItemRepository itemRepository, UserClient userClient) {
+    return new CategoryItemServiceImpl(categoryItemRepository, categoryRepository, itemRepository, userClient);
   }
 
   @Bean
