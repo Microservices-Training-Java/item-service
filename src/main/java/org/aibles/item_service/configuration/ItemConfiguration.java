@@ -5,12 +5,34 @@ import org.aibles.item_service.client.service.OrderClient;
 import org.aibles.item_service.client.service.UserClient;
 import org.aibles.item_service.client.service.impl.OrderClientImpl;
 import org.aibles.item_service.client.service.impl.UserClientImpl;
-import org.aibles.item_service.facade.CategoryFacadeService;
-import org.aibles.item_service.facade.CategoryFacadeServiceImpl;
-import org.aibles.item_service.facade.ItemFacadeService;
-import org.aibles.item_service.facade.ItemFacadeServiceImpl;
 import org.aibles.item_service.facade.ItemTypeFacadeService;
+import org.aibles.item_service.facade.CategoryFacadeService;
+import org.aibles.item_service.facade.ItemFacadeService;
 import org.aibles.item_service.facade.ItemTypeFacadeServiceImpl;
+import org.aibles.item_service.facade.ItemFacadeServiceImpl;
+import org.aibles.item_service.facade.CategoryFacadeServiceImpl;
+import org.aibles.item_service.repository.ItemTypeRepository;
+import org.aibles.item_service.repository.ItemFieldRepository;
+import org.aibles.item_service.repository.ItemRepository;
+import org.aibles.item_service.repository.ItemFieldValueRepository;
+import org.aibles.item_service.repository.ItemTypeFieldRepository;
+import org.aibles.item_service.repository.CategoryRepository;
+import org.aibles.item_service.service.ItemTypeFieldService;
+import org.aibles.item_service.service.CategoryService;
+import org.aibles.item_service.service.CategoryItemService;
+import org.aibles.item_service.repository.CategoryItemRepository;
+import org.aibles.item_service.service.impl.CategoryItemServiceImpl;
+import org.aibles.item_service.service.ItemFieldService;
+import org.aibles.item_service.service.ItemFieldValueService;
+import org.aibles.item_service.service.ItemService;
+import org.aibles.item_service.service.ItemTypeService;
+import org.aibles.item_service.service.impl.ItemFieldServiceImpl;
+import org.aibles.item_service.service.impl.ItemFieldValueServiceImpl;
+import org.aibles.item_service.service.impl.ItemServiceImpl;
+import org.aibles.item_service.service.impl.ItemTypeServiceImpl;
+import org.aibles.item_service.service.impl.ItemTypeFieldServiceImpl;
+import org.aibles.item_service.service.impl.CategoryServiceImpl;
+import org.aibles.item_service.facade.*;
 import org.aibles.item_service.repository.*;
 import org.aibles.item_service.service.*;
 import org.aibles.item_service.service.impl.*;
@@ -106,8 +128,14 @@ public class ItemConfiguration {
   @Bean
   public CategoryFacadeService categoryFacadeService(
       UserClient userClient,
-      CategoryService categoryService) {
-    return new CategoryFacadeServiceImpl(userClient, categoryService);
+      CategoryService categoryService,
+      CategoryItemService categoryItemService,
+      ItemService itemService) {
+    return new CategoryFacadeServiceImpl(
+        userClient,
+        categoryService,
+        categoryItemService,
+        itemService);
   }
 
 }

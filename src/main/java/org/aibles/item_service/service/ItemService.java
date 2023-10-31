@@ -1,8 +1,8 @@
 package org.aibles.item_service.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
-import org.aibles.item_service.controller.ItemCalculateTotalRequest;
 import org.aibles.item_service.dto.request.ItemCalculateRequest;
 import org.aibles.item_service.dto.response.DetailResponse;
 import org.aibles.item_service.dto.response.ItemResponse;
@@ -66,4 +66,12 @@ public interface ItemService{
    * @return
    */
   String getPriceItem(String itemId);
+
+  /**
+   * The function retrieves the values in the item that the user needs
+   * @param itemId - The function retrieves the values in the item that the user needs
+   * @param name - field name to get
+   * @return The value of the name to get
+   */
+  String getValueItemByItemIdAndName(String itemId, String name);
 }
