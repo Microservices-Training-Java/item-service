@@ -25,7 +25,7 @@ public class CategoryServiceImpl implements CategoryService {
   public CategoryResponse create(CategoryCreateRequest request) {
     log.info("(create)request: {}", request);
     validateExistsCategoryName(request.getCategoryName());
-    if(!request.getParentId().isEmpty()) {
+    if(request.getParentId() != null && !request.getParentId().isEmpty()) {
       validateParentId(request.getParentId());
     }
     try {
