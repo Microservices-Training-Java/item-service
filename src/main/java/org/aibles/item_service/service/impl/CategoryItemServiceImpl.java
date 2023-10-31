@@ -1,5 +1,7 @@
 package org.aibles.item_service.service.impl;
 
+import jakarta.transaction.Transactional;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.aibles.item_service.client.service.UserClient;
 import org.aibles.item_service.dto.request.CategoryItemCreateRequest;
@@ -51,5 +53,13 @@ public class CategoryItemServiceImpl implements CategoryItemService {
             log.error("(checkItemId)itemId: {}", itemId);
             throw new ItemIdNotFoundException(itemId);
         }
+    }
+
+    @Override
+    @Transactional
+    public List<String> findItemIdByCategoryId(String categoryId) {
+        log.info("(findItemIdByCategoryId)categoryId: {}", categoryId);
+        checkCategoryId(categoryId);
+        return categoryItemRepository.findItemIdByCategoryId(categoryId);
     }
 }

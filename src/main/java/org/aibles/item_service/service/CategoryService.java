@@ -20,4 +20,10 @@ public interface CategoryService {
    * @return list category
    */
   Page<CategoryResponse> listCategory(Pageable pageable);
+
+  /**
+   * function to check whether categoryId exists or not
+   * @param categoryId - categoryId to check
+   */
+  void validateCategoryId(String categoryId);
 }

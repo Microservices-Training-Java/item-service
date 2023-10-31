@@ -101,8 +101,14 @@ public class ItemConfiguration {
   @Bean
   public CategoryFacadeService categoryFacadeService(
       UserClient userClient,
-      CategoryService categoryService) {
-    return new CategoryFacadeServiceImpl(userClient, categoryService);
+      CategoryService categoryService,
+      CategoryItemService categoryItemService,
+      ItemService itemService) {
+    return new CategoryFacadeServiceImpl(
+        userClient,
+        categoryService,
+        categoryItemService,
+        itemService);
   }
 
 }

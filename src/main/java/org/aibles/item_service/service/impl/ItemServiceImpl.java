@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
@@ -158,6 +159,13 @@ public class ItemServiceImpl implements ItemService {
     log.info("(getPriceItem)itemId: {}", itemId);
     String price = itemFieldValueRepository.getPriceValueByItemId(itemId).orElse("0");
     return price;
+  }
+
+  @Override
+  @Transactional(readOnly = true)
+  public String getValueItemByItemIdAndName(String itemId, String name) {
+    log.info("(getValueItemByItemId)itemId: {}, name: {}", itemId, name);
+    return itemFieldValueRepository.getValueItemByItemIdAndName(itemId, name);
   }
 }
 
