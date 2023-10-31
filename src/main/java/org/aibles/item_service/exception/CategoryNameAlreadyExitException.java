@@ -6,5 +6,6 @@ public class CategoryNameAlreadyExitException extends ConflictException {
 
   public CategoryNameAlreadyExitException() {
     setCode("org.aibles.item_service.exception.CategoryNameAlreadyExitException");
+
   }
 }
