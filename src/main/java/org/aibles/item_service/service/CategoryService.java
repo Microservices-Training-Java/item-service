@@ -19,5 +19,5 @@ public interface CategoryService {
    * @param pageable - the page number and page size
    * @return list category
    */
-  Page<CategoryResponse> listCategory(Pageable pageable);
+  Page<CategoryResponse> list(Pageable pageable);
 }
