@@ -23,5 +23,5 @@ public interface CategoryItemService {
      * @param categoryId - categoryId
      * @param itemId - itemId
      */
-    void delete(String categoryId, String itemId);
+    void delete(String categoryId, String itemId,String userId);
 }

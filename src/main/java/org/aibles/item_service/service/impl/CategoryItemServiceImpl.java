@@ -66,8 +66,9 @@ public class CategoryItemServiceImpl implements CategoryItemService {
 
     @Override
     @Transactional
-    public void delete(String categoryId,String itemId) {
-        log.info("(delete)categoryId: {},itemId :{}", categoryId,itemId);
+    public void delete(String categoryId, String itemId, String userId) {
+        log.info("(delete)categoryId: {},itemId :{}, userId: {}", categoryId,itemId,userId);
+        userClient.getUserDetail(userId);
         if(!categoryItemRepository.existsByCategoryIdAndItemId(categoryId, itemId)) {
             log.error("(delete)categoryId: {}, itemId: {}", categoryId, itemId);
             throw new CategoryItemNotFoundException();
