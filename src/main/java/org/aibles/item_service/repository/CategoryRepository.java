@@ -4,6 +4,7 @@ import org.aibles.item_service.entity.Category;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -13,4 +14,8 @@ public interface CategoryRepository extends JpaRepository<Category, String> {
   Boolean existsByCategoryName(String categoryName);
 
   Page<Category> findAllByParentIdNull(Pageable pageable);
+
+  @Modifying
+  @Query("DELETE FROM Category WHERE id = :categoryId OR parentId = :categoryId")
+  void deleteCategory(String categoryId);
 }

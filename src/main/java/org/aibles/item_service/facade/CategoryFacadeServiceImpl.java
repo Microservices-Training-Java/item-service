@@ -66,7 +66,7 @@ public class CategoryFacadeServiceImpl implements CategoryFacadeService {
   public void delete(String categoryId, String userId) {
     log.info("(delete)userId: {}, categoryId: {}", userId, categoryId);
     userClient.getUserDetail(userId);
-    categoryItemRepository.deleteByCategoryId(categoryId);
+    categoryItemRepository.deleteCategoryAndItems(categoryId);
     categoryService.delete(categoryId);
   }
 
