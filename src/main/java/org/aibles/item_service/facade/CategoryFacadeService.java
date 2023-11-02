@@ -23,4 +23,11 @@ public interface CategoryFacadeService {
    * @return item information in page format
    */
   Page<ItemCategoryDetailResponse> getItemCategories(String categoryId, Pageable pageable);
+
+  /**
+   * method delete category
+   * @param categoryId id of category
+   * @param userId- id of user
+   */
+  void delete(String categoryId, String userId);
 }

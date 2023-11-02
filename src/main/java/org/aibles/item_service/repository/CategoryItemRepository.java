@@ -9,4 +9,6 @@ public interface CategoryItemRepository extends JpaRepository<CategoryItem, Stri
 
   @Query("select ci.itemId from CategoryItem ci where ci.categoryId = :categoryId")
   List<String> findItemIdByCategoryId(String categoryId);
+
+  void deleteByCategoryId(String categoryId);
 }

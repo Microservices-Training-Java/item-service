@@ -83,4 +83,11 @@ public class CategoryServiceImpl implements CategoryService {
       throw new CategoryIdNotFoundException(categoryId);
     }
   }
+
+  @Override
+  public void delete(String categoryId) {
+    log.info("(delete)categoryId: {}", categoryId);
+    validateCategoryId(categoryId);
+    repository.deleteById(categoryId);
+  }
 }

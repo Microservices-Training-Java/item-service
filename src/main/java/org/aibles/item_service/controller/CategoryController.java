@@ -17,14 +17,7 @@ import org.aibles.item_service.service.CategoryService;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @Slf4j
@@ -59,5 +52,13 @@ public class CategoryController {
     log.info("(listItem)category: {}, pagingReq: {}", categoryId, pagingReq);
     final Page<ItemCategoryDetailResponse> categoryResponses = service.getItemCategories(categoryId, pagingReq.makePageable());
     return Response.of(HttpStatus.OK.value(), PagingRes.of(categoryResponses));
+  }
+
+  @DeleteMapping("/{category_id}")
+  @ResponseStatus(HttpStatus.OK)
+  public Response delete(@Valid @RequestHeader("user_id") String userId,@PathVariable(name = "category_id") String categoryId) {
+    log.info("(delete)categoryId: {}, userId: {}", categoryId, userId);
+    service.delete(categoryId, userId);
+    return Response.of(HttpStatus.OK.value());
   }
 }

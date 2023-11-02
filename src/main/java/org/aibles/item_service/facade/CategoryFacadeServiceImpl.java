@@ -8,6 +8,7 @@ import org.aibles.item_service.client.service.UserClient;
 import org.aibles.item_service.dto.request.CategoryCreateRequest;
 import org.aibles.item_service.dto.response.CategoryResponse;
 import org.aibles.item_service.dto.response.ItemCategoryDetailResponse;
+import org.aibles.item_service.repository.CategoryItemRepository;
 import org.aibles.item_service.service.CategoryItemService;
 import org.aibles.item_service.service.CategoryService;
 import org.aibles.item_service.service.ItemService;
@@ -24,6 +25,7 @@ public class CategoryFacadeServiceImpl implements CategoryFacadeService {
   private final CategoryService categoryService;
   private final CategoryItemService categoryItemService;
   private final ItemService itemService;
+  private final CategoryItemRepository categoryItemRepository;
 
   private static final String VALUE_NAME = "name";
   private static final String VALUE_PRICE = "price";
@@ -58,4 +60,15 @@ public class CategoryFacadeServiceImpl implements CategoryFacadeService {
     List<ItemCategoryDetailResponse> subList = list.subList(start, end);
     return new PageImpl<>(subList, pageable, list.size());
   }
+
+  @Override
+  @Transactional
+  public void delete(String categoryId, String userId) {
+    log.info("(delete)userId: {}, categoryId: {}", userId, categoryId);
+    userClient.getUserDetail(userId);
+    categoryItemRepository.deleteByCategoryId(categoryId);
+    categoryService.delete(categoryId);
+  }
+
+
 }
