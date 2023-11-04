@@ -26,4 +26,11 @@ public interface CategoryService {
    * @param categoryId - categoryId to check
    */
   void validateCategoryId(String categoryId);
+
+  /**
+   * function delete category by id
+   * @param categoryId - id for category
+   */
+  void delete(String categoryId);
+
 }

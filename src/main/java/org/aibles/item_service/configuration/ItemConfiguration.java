@@ -130,12 +130,13 @@ public class ItemConfiguration {
       UserClient userClient,
       CategoryService categoryService,
       CategoryItemService categoryItemService,
-      ItemService itemService) {
+      ItemService itemService,
+      CategoryItemRepository categoryItemRepository) {
     return new CategoryFacadeServiceImpl(
         userClient,
         categoryService,
         categoryItemService,
-        itemService);
+        itemService,categoryItemRepository);
   }
 
 }

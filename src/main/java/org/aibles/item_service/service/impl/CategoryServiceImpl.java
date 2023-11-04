@@ -4,7 +4,6 @@ import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.aibles.item_service.dto.request.CategoryCreateRequest;
 import org.aibles.item_service.dto.response.CategoryResponse;
-import org.aibles.item_service.dto.response.ItemCategoryDetailResponse;
 import org.aibles.item_service.entity.Category;
 import org.aibles.item_service.exception.CategoryIdNotFoundException;
 import org.aibles.item_service.exception.CategoryNameAlreadyExitException;
@@ -12,17 +11,8 @@ import org.aibles.item_service.exception.ParentIdNotFoundException;
 import org.aibles.item_service.repository.CategoryRepository;
 import org.aibles.item_service.service.CategoryService;
 import org.springframework.dao.DuplicateKeyException;
-import org.aibles.item_service.exception.UserServiceException;
-import org.aibles.item_service.repository.CategoryRepository;
-import org.aibles.item_service.service.CategoryService;
-import org.springframework.cloud.client.loadbalancer.LoadBalanced;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.client.RestTemplate;
 
 @Slf4j
 public class CategoryServiceImpl implements CategoryService {
@@ -82,5 +72,12 @@ public class CategoryServiceImpl implements CategoryService {
       log.error("(validateCategoryId)categoryId: {}", categoryId);
       throw new CategoryIdNotFoundException(categoryId);
     }
+  }
+
+  @Override
+  public void delete(String categoryId) {
+    log.info("(delete)categoryId: {}", categoryId);
+    validateCategoryId(categoryId);
+    repository.deleteCategory(categoryId);
   }
 }
