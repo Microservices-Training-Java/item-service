@@ -12,6 +12,11 @@ public interface CategoryItemRepository extends JpaRepository<CategoryItem, Stri
   @Query("select ci.itemId from CategoryItem ci where ci.categoryId = :categoryId")
   List<String> findItemIdByCategoryId(String categoryId);
 
+    void deleteAllByCategoryIdAndItemId(String categoryId, String itemId);
+
+    boolean existsByCategoryIdAndItemId(String categoryId, String itemId);
+
+
   @Transactional
   @Modifying
   @Query("DELETE FROM CategoryItem ci WHERE ci.categoryId = :categoryId")
