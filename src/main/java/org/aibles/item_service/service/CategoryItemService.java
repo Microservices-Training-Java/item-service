@@ -17,4 +17,11 @@ public interface CategoryItemService {
      * @return list of itemIds
      */
     List<String> findItemIdByCategoryId(String categoryId);
+
+    /**
+     * The function delete category item on categoryId
+     * @param categoryId - categoryId
+     * @param itemId - itemId
+     */
+    void delete(String categoryId, String itemId,String userId);
 }
