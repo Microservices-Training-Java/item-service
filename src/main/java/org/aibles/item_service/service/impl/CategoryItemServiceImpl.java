@@ -7,6 +7,7 @@ import org.aibles.item_service.dto.request.CategoryItemCreateRequest;
 import org.aibles.item_service.dto.response.CategoryItemResponse;
 import org.aibles.item_service.entity.CategoryItem;
 import org.aibles.item_service.exception.CategoryIdNotFoundException;
+import org.aibles.item_service.exception.CategoryItemNotFoundException;
 import org.aibles.item_service.exception.ItemIdNotFoundException;
 import org.aibles.item_service.repository.CategoryItemRepository;
 import org.aibles.item_service.repository.CategoryRepository;
@@ -61,5 +62,17 @@ public class CategoryItemServiceImpl implements CategoryItemService {
         log.info("(findItemIdByCategoryId)categoryId: {}", categoryId);
         checkCategoryId(categoryId);
         return categoryItemRepository.findItemIdByCategoryId(categoryId);
+    }
+
+    @Override
+    @Transactional
+    public void delete(String categoryId, String itemId, String userId) {
+        log.info("(delete)categoryId: {},itemId :{}, userId: {}", categoryId,itemId,userId);
+        userClient.getUserDetail(userId);
+        if(!categoryItemRepository.existsByCategoryIdAndItemId(categoryId, itemId)) {
+            log.error("(delete)categoryId: {}, itemId: {}", categoryId, itemId);
+            throw new CategoryItemNotFoundException();
+        }
+        categoryItemRepository.deleteAllByCategoryIdAndItemId(categoryId, itemId);
     }
 }
