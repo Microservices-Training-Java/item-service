@@ -59,6 +59,7 @@ public class CategoryController {
   public Response delete(@Valid @RequestHeader("user_id") String userId,@PathVariable(name = "category_id") String categoryId) {
     log.info("(delete)categoryId: {}, userId: {}", categoryId, userId);
     service.delete(categoryId, userId);
-    return Response.of(HttpStatus.OK.value());
+    return Response.of(HttpStatus.OK.value(),
+            "Category deleted successfully.");
   }
 }

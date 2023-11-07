@@ -35,6 +35,7 @@ public class CategoryItemController {
         log.info("(delete)categoryId: {}, itemId: {}",categoryId,itemId);
         service.delete(categoryId,itemId,userId);
         return Response.of(
-                HttpStatus.OK.value());
+                HttpStatus.OK.value(),
+                "Product-category association deleted successfully.");
     }
 }

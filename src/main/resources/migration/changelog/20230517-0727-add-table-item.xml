@@ -114,7 +114,7 @@
   </changeSet>
 
   <changeSet id="20231027-0944-add-table-category-item" author="DucAnh">
-    <createTable tableName="category_items">
+    <createTable tableName="category_item">
       <column name="id" type="varchar(255)">
         <constraints primaryKey="true"/>
       </column>
@@ -131,11 +131,11 @@
         <constraints nullable="true"/>
       </column>
     </createTable>
-    <addForeignKeyConstraint baseTableName="category_items" baseColumnNames="item_id"
-                             constraintName="FK_category_items_item"
+    <addForeignKeyConstraint baseTableName="category_item" baseColumnNames="item_id"
+                             constraintName="FK_category_item_item"
                              referencedTableName="item" referencedColumnNames="id"/>
-    <addForeignKeyConstraint baseTableName="category_items" baseColumnNames="category_id"
-                             constraintName="FK_category_items_category"
+    <addForeignKeyConstraint baseTableName="category_item" baseColumnNames="category_id"
+                             constraintName="FK_category_item_category"
                              referencedTableName="category" referencedColumnNames="id"/>
   </changeSet>
 
