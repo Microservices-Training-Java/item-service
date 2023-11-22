@@ -16,6 +16,7 @@ import org.aibles.item_service.dto.response.ItemResponse;
 import org.aibles.item_service.dto.response.ItemTotalOrderPriceResponse;
 import org.aibles.item_service.entity.Item;
 import org.aibles.item_service.exception.DuplicateKeyException;
+import org.aibles.item_service.exception.ItemIdNotFoundException;
 import org.aibles.item_service.exception.NotFoundException;
 import org.aibles.item_service.repository.ItemFieldValueRepository;
 import org.aibles.item_service.repository.ItemRepository;
@@ -94,7 +95,7 @@ public class ItemServiceImpl implements ItemService {
         .findById(id)
         .orElseThrow(() -> {
           log.error("(getById)id : {} --> NOT FOUND EXCEPTION", id);
-          throw new NotFoundException(id, Item.class.getSimpleName());
+          throw new ItemIdNotFoundException(id);
         });
     return ItemResponse.from(item);
   }

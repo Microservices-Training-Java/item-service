@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aibles.item_service.dto.request.ItemCalculateRequest;
 import org.aibles.item_service.dto.request.ItemIdsRequest;
+import org.aibles.item_service.dto.response.ItemResponse;
 import org.aibles.item_service.dto.response.Response;
 import org.aibles.item_service.service.ItemService;
 import org.springframework.http.HttpStatus;
@@ -47,6 +48,12 @@ public class ItemController {
   public String getPrice(@PathVariable("itemId") String itemId) {
     log.info("(getPrice)itemId: {}", itemId);
     return service.getPriceItem(itemId);
+  }
+
+  @GetMapping("/{itemId}")
+  public ItemResponse getItemById(@PathVariable("itemId") String itemId) {
+    log.info("(getItemById)itemId: {}", itemId);
+    return service.getById(itemId);
   }
 
 }
