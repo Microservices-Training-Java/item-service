@@ -1,8 +1,10 @@
 package org.aibles.item_service.configuration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.aibles.item_service.client.service.CustomerClient;
 import org.aibles.item_service.client.service.OrderClient;
 import org.aibles.item_service.client.service.UserClient;
+import org.aibles.item_service.client.service.impl.CustomerClientImpl;
 import org.aibles.item_service.client.service.impl.OrderClientImpl;
 import org.aibles.item_service.client.service.impl.UserClientImpl;
 import org.aibles.item_service.facade.ItemTypeFacadeService;
@@ -17,10 +19,12 @@ import org.aibles.item_service.repository.ItemRepository;
 import org.aibles.item_service.repository.ItemFieldValueRepository;
 import org.aibles.item_service.repository.ItemTypeFieldRepository;
 import org.aibles.item_service.repository.CategoryRepository;
+import org.aibles.item_service.repository.ReviewRepository;
 import org.aibles.item_service.service.ItemTypeFieldService;
 import org.aibles.item_service.service.CategoryService;
 import org.aibles.item_service.service.CategoryItemService;
 import org.aibles.item_service.repository.CategoryItemRepository;
+import org.aibles.item_service.service.ReviewService;
 import org.aibles.item_service.service.impl.CategoryItemServiceImpl;
 import org.aibles.item_service.service.ItemFieldService;
 import org.aibles.item_service.service.ItemFieldValueService;
@@ -32,13 +36,11 @@ import org.aibles.item_service.service.impl.ItemServiceImpl;
 import org.aibles.item_service.service.impl.ItemTypeServiceImpl;
 import org.aibles.item_service.service.impl.ItemTypeFieldServiceImpl;
 import org.aibles.item_service.service.impl.CategoryServiceImpl;
-import org.aibles.item_service.facade.*;
-import org.aibles.item_service.repository.*;
-import org.aibles.item_service.service.*;
-import org.aibles.item_service.service.impl.*;
+import org.aibles.item_service.service.impl.ReviewServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.web.client.RestTemplate;
 import org.trainingjava.core.api.exception.configuration.EnableCoreApiException;
@@ -49,6 +51,7 @@ import org.trainingjava.coreresttemplate.configuration.EnableRestTemplate;
 @ComponentScan(basePackages = {"org.aibles.item_service.repository"})
 @EnableRestTemplate
 @EnableCoreApiException
+@EnableJpaAuditing
 public class ItemConfiguration {
 
   @Bean
@@ -94,6 +97,16 @@ public class ItemConfiguration {
   @Bean
   public CategoryItemService categoryItemService(CategoryItemRepository categoryItemRepository,CategoryRepository categoryRepository,ItemRepository itemRepository, UserClient userClient) {
     return new CategoryItemServiceImpl(categoryItemRepository, categoryRepository, itemRepository, userClient);
+  }
+
+  @Bean
+  public CustomerClient customerClient(RestTemplate restTemplate) {
+    return new CustomerClientImpl(restTemplate);
+  }
+
+  @Bean
+  public ReviewService reviewService(ReviewRepository repository, OrderClient orderClient, CustomerClient customerClient) {
+    return new ReviewServiceImpl(repository, orderClient, customerClient);
   }
 
   @Bean

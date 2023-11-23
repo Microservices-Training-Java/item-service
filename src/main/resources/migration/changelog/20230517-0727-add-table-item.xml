@@ -139,5 +139,31 @@
                              referencedTableName="category" referencedColumnNames="id"/>
   </changeSet>
 
+  <changeSet id="20231122-1548-add-table-review" author="YaLynk">
+    <createTable tableName="review">
+      <column name="id" type="varchar(255)">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="item_id" type="varchar(255)">
+        <constraints nullable="true"/>
+      </column>
+      <column name="customer_id" type="varchar(255)">
+        <constraints nullable="true"/>
+      </column>
+      <column name="rating" type="integer">
+        <constraints nullable="true"/>
+      </column>
+      <column name="review_text" type="varchar(255)">
+        <constraints nullable="true"/>
+      </column>
+      <column name="created_at" type="bigint">
+        <constraints nullable="true"/>
+      </column>
+      <column name="updated_at" type="bigint">
+        <constraints nullable="true"/>
+      </column>
+    </createTable>
+  </changeSet>
+
 
 </databaseChangeLog>
