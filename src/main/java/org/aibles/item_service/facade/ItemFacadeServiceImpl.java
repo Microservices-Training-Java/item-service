@@ -1,9 +1,8 @@
 package org.aibles.item_service.facade;
 
-import java.util.ArrayList;
-import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.aibles.item_service.dto.ItemFieldValueDto;
+import org.aibles.item_service.dto.response.DetailResponse;
 import org.aibles.item_service.dto.response.ItemDetailResponse;
 import org.aibles.item_service.dto.response.ItemFieldValueResponse;
 import org.aibles.item_service.dto.response.ItemResponse;
@@ -14,6 +13,10 @@ import org.aibles.item_service.service.ItemFieldValueService;
 import org.aibles.item_service.service.ItemService;
 import org.aibles.item_service.service.ItemTypeService;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 @Slf4j
 public class ItemFacadeServiceImpl implements ItemFacadeService {
@@ -107,6 +110,14 @@ public class ItemFacadeServiceImpl implements ItemFacadeService {
     }
 
     return ItemDetailResponse.from(item, fieldValue);
+  }
+
+  @Override
+  public DetailResponse searchItemByName(String name) {
+    log.info("(searchItemByName)name :{}", name);
+    Set<String> itemIds = itemService.getItemIdByName(name);
+    DetailResponse response = itemService.getItem(itemIds);
+    return response;
   }
 
 }
