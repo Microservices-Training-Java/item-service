@@ -7,16 +7,20 @@ import org.aibles.item_service.dto.response.ItemDetailResponse;
 import org.aibles.item_service.dto.response.ItemFieldValueResponse;
 import org.aibles.item_service.dto.response.ItemResponse;
 import org.aibles.item_service.entity.Item;
+import org.aibles.item_service.exception.ItemIdNotFoundException;
+import org.aibles.item_service.exception.ItemNameNotFoundException;
 import org.aibles.item_service.exception.NotFoundException;
 import org.aibles.item_service.service.ItemFieldService;
 import org.aibles.item_service.service.ItemFieldValueService;
 import org.aibles.item_service.service.ItemService;
 import org.aibles.item_service.service.ItemTypeService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Slf4j
 public class ItemFacadeServiceImpl implements ItemFacadeService {
@@ -113,11 +117,24 @@ public class ItemFacadeServiceImpl implements ItemFacadeService {
   }
 
   @Override
-  public DetailResponse searchItemByName(String name) {
-    log.info("(searchItemByName)name :{}", name);
-    Set<String> itemIds = itemService.getItemIdByName(name);
-    DetailResponse response = itemService.getItem(itemIds);
-    return response;
-  }
+  public Page<Map<String, Object>> searchItemByName(String name, int pageNum, int pageSize) {
+    log.info("(searchItemByName)name : {}", name);
 
+    DetailResponse response;
+    if(name == null){
+      response = itemService.getItem(itemService.getAllItemId());
+    }
+    else {
+      Set<String> itemIds = itemService.getItemIdByName(name);
+      if (itemIds.isEmpty()) {
+        throw new ItemNameNotFoundException(name);
+      }
+      response = itemService.getItem(itemIds);
+    }
+
+    Pageable pageable = PageRequest.of(pageNum - 1, pageSize);
+    Page<Map<String, Object>> page = new PageImpl<>(response.getItems(), pageable, response.getItems().size());
+
+    return page;
+  }
 }

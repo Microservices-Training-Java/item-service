@@ -6,6 +6,7 @@ import org.aibles.item_service.dto.response.ItemResponse;
 import org.aibles.item_service.dto.response.ItemTotalOrderPriceResponse;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public interface ItemService{
@@ -81,4 +82,6 @@ public interface ItemService{
    * @return item id
    */
   Set<String> getItemIdByName(String name);
+
+  Set<String> getAllItemId();
 }

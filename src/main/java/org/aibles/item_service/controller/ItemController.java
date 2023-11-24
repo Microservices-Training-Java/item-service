@@ -8,6 +8,7 @@ import org.aibles.item_service.dto.request.ItemIdsRequest;
 import org.aibles.item_service.dto.response.Response;
 import org.aibles.item_service.facade.ItemFacadeService;
 import org.aibles.item_service.service.ItemService;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -45,11 +46,11 @@ public class ItemController {
   }
 
   @GetMapping("/search")
-  public Response searchItem(@RequestParam String name){
-    log.info("(searchItem)name: {}", name);
+  public Response searchItem(@RequestParam(required = false) String name,
+                             @RequestParam(required = false, defaultValue = "1") int pageNum,
+                             @RequestParam(required = false, defaultValue = "20") int pageSize){
+    log.info("(searchItem)name: {}, pageNum: {}, pageSize: {}", name, pageNum, pageSize);
     return Response.of(
-            HttpStatus.OK.value(), facadeService.searchItemByName(name));
+            HttpStatus.OK.value(), facadeService.searchItemByName(name, pageNum, pageSize));
   }
-
-
 }

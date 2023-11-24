@@ -169,6 +169,12 @@ public class ItemServiceImpl implements ItemService {
     log.info("(getItemIdByName)name :{}", name);
     return repository.getItemIdByName(name);
   }
+
+  @Override
+  public Set<String> getAllItemId() {
+    log.info("(getAllItemId)");
+    return repository.getAllItemId();
+  }
 }
 
 

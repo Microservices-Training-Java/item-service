@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @Repository
@@ -32,4 +33,9 @@ public interface ItemRepository extends JpaRepository<Item, String> {
           "where ifv.value = :name")
   Set<String> getItemIdByName(String name);
 
+  @Query("SELECT i.id " +
+          "FROM ItemFieldValue ifv " +
+          "JOIN ItemField if2  ON if2.id = ifv.fieldId " +
+          "JOIN Item i ON i.id = ifv.itemId GROUP BY i.id ORDER BY i.id ASC")
+  Set<String> getAllItemId();
 }
