@@ -1,12 +1,13 @@
 package org.aibles.item_service.service;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 import org.aibles.item_service.dto.request.ItemCalculateRequest;
 import org.aibles.item_service.dto.response.DetailResponse;
 import org.aibles.item_service.dto.response.ItemResponse;
 import org.aibles.item_service.dto.response.ItemTotalOrderPriceResponse;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public interface ItemService{
 
@@ -74,4 +75,13 @@ public interface ItemService{
    * @return The value of the name to get
    */
   String getValueItemByItemIdAndName(String itemId, String name);
+
+  /**
+   * get item id from table itemFieldValue by item name
+   * @param name
+   * @return item id
+   */
+  Set<String> getItemIdByName(String name);
+
+  Set<String> getAllItemId();
 }

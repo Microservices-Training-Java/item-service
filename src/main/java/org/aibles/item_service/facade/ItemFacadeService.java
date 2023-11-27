@@ -1,8 +1,12 @@
 package org.aibles.item_service.facade;
 
-import java.util.List;
 import org.aibles.item_service.dto.ItemFieldValueDto;
+import org.aibles.item_service.dto.response.DetailResponse;
 import org.aibles.item_service.dto.response.ItemDetailResponse;
+import org.springframework.data.domain.Page;
+
+import java.util.List;
+import java.util.Map;
 
 public interface ItemFacadeService {
 
@@ -44,4 +48,6 @@ public interface ItemFacadeService {
    * @return  item information and map information between fieldId,value
    */
   ItemDetailResponse update(String id, String itemTypeId, List<ItemFieldValueDto> fieldValue);
+
+  Page<Map<String, Object>> searchItemByName(String name, int pageNum, int pageSize);
 }
