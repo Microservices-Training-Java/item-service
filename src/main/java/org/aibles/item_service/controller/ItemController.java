@@ -25,6 +25,7 @@ import static org.aibles.item_service.constant.ItemApiConstant.BaseUrl.ITEM_BASE
 public class ItemController {
 
   private final ItemService service;
+  private final ItemFacadeService facadeService;
 
   @GetMapping()
   @ResponseStatus(HttpStatus.OK)
