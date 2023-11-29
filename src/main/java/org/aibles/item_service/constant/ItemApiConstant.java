@@ -21,7 +21,7 @@ public class ItemApiConstant {
     public static final String FIELD_VALUE = "/item-field-values";
     public static final String CATEGORY = "/categories";
     public static final String CATEGORY_ITEM = "/category-item";
-
+    public static final String REVIEW_ITEM = "/reviews";
 
   }
 
@@ -33,6 +33,7 @@ public class ItemApiConstant {
     public static final String FIELD_VALUE_BASE_URL = API_PREFIX + API_VERSION + FIELD_VALUE;
     public static final String CATEGORY_BASE_URL = API_PREFIX + API_VERSION + CATEGORY;
     public static final String INTERNAL_ITEM_FIELD_URL = INTERNAL_API_PREFIX + API_VERSION + FIELD;
+    public static final String REVIEW_BASE_URL = API_PREFIX + API_VERSION + REVIEW_ITEM;
 
   }
 }

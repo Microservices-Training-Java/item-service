@@ -1,11 +1,14 @@
 package org.aibles.item_service.controller.advice;
 
+import jakarta.persistence.EntityListeners;
+import jakarta.persistence.MappedSuperclass;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.aibles.item_service.exception.BaseExceptionRequest;
 import org.aibles.item_service.exception.response.ExceptionResponse;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
