@@ -176,6 +176,15 @@ public class ItemServiceImpl implements ItemService {
     log.info("(getAllItemId)");
     return repository.getAllItemId();
   }
+
+  @Override
+  public void deleteReview(String customerId, String itemId, String reviewId) {
+    log.info("(deleteReview)itemId: {}, reviewId: {}", itemId, reviewId);
+    Optional<Item> itemOptional = repository.findById(itemId);
+    if(itemOptional.equals(null)){
+      throw new ItemIdNotFoundException(itemId);
+    }
+  }
 }
 
 

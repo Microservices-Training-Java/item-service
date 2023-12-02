@@ -128,14 +128,14 @@ public class ItemConfiguration {
       ItemTypeService itemTypeService,
       ItemFieldService itemFieldService,
       ItemService itemService,
-      ItemFieldValueService itemFieldValueService
+      ItemFieldValueService itemFieldValueService, CustomerClient customerClient, ReviewService reviewService
   ) {
     return new ItemFacadeServiceImpl(
         itemTypeService,
         itemFieldService,
         itemService,
-        itemFieldValueService
-    );
+        itemFieldValueService,
+            customerClient, reviewService);
   }
 
   @Bean

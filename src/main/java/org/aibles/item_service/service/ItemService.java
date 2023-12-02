@@ -84,4 +84,6 @@ public interface ItemService{
   Set<String> getItemIdByName(String name);
 
   Set<String> getAllItemId();
+
+  void deleteReview(String customerId, String itemId, String reviewId);
 }

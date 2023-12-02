@@ -13,4 +13,8 @@ public interface ReviewService {
    * @return Review information
    */
   WriteReviewResponse writeReview(String customerId, String itemId, WriteReviewCreateRequest request);
+
+  void validateReviewId(String reviewId);
+  void validateItemId(String itemId);
+
 }

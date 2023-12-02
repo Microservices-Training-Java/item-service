@@ -63,4 +63,11 @@ public class ItemController {
     return service.getById(itemId);
   }
 
+  @DeleteMapping("/{item_id}/reviews/{review_id}")
+  public String deleteReview(@PathVariable("item_id") String itemId, @PathVariable("review_id") String reviewId,
+                             @RequestHeader("customer_id") String customerId){
+    log.info("(deleteReview)itemId: {}, reviewId: {}, customerId: {}", itemId, reviewId, customerId);
+    return "Delete review successfully";
+  }
+
 }
