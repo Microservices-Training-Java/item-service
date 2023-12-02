@@ -7,7 +7,8 @@ public class ItemNameNotFoundException extends NotFoundException {
         super();
         setStatus(404);
         setCode("org.aibles.item_service.exception.ItemNameNotFoundException");
-        addParams("Item name not found", itemName);
+        // addParams("Item name not found", itemName);
+        addParams("itemName", itemName);
     }
 
 }
