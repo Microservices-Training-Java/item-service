@@ -1,10 +1,13 @@
 package org.aibles.item_service.controller;
 
+import static org.aibles.item_service.constant.ItemApiConstant.BaseUrl.ITEM_BASE_URL;
+
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aibles.item_service.dto.request.ItemCalculateRequest;
 import org.aibles.item_service.dto.request.ItemIdsRequest;
+import org.aibles.item_service.dto.response.ItemResponse;
 import org.aibles.item_service.dto.response.Response;
 import org.aibles.item_service.facade.ItemFacadeService;
 import org.aibles.item_service.service.ItemService;
@@ -53,4 +56,11 @@ public class ItemController {
     return Response.of(
             HttpStatus.OK.value(), facadeService.searchItemByName(name, pageNum, pageSize));
   }
+
+  @GetMapping("/{item_id}")
+  public ItemResponse getItemById(@PathVariable("item_id") String itemId) {
+    log.info("(getItemById)itemId: {}", itemId);
+    return service.getById(itemId);
+  }
+
 }
