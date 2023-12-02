@@ -57,8 +57,8 @@ public class ItemController {
             HttpStatus.OK.value(), facadeService.searchItemByName(name, pageNum, pageSize));
   }
 
-  @GetMapping("/{itemId}")
-  public ItemResponse getItemById(@PathVariable("itemId") String itemId) {
+  @GetMapping("/{item_id}")
+  public ItemResponse getItemById(@PathVariable("item_id") String itemId) {
     log.info("(getItemById)itemId: {}", itemId);
     return service.getById(itemId);
   }
