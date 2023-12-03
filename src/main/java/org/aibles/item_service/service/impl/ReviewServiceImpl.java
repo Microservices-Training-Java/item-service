@@ -8,6 +8,10 @@ import org.aibles.item_service.client.service.OrderClient;
 import org.aibles.item_service.dto.request.WriteReviewCreateRequest;
 import org.aibles.item_service.dto.response.WriteReviewResponse;
 import org.aibles.item_service.entity.Review;
+import org.aibles.item_service.exception.ItemHasNoReviewsException;
+import org.aibles.item_service.exception.ItemIdNotFoundException;
+import org.aibles.item_service.exception.ReviewIdNotFoundException;
+import org.aibles.item_service.exception.ValidateCustomerDeleteReviewException;
 import org.aibles.item_service.repository.ReviewRepository;
 import org.aibles.item_service.service.ReviewService;
 import org.trainingjava.core_exception.NotFoundException;
@@ -38,14 +42,14 @@ public class ReviewServiceImpl implements ReviewService {
 
     customerClient.getCustomerDetail(customerId);
 
-    var reviewById = repository.findReviewByItemId(reviewId)
-            .orElseThrow(() -> new NotFoundException(reviewId, Review.class.getSimpleName()));
+    var reviewById = repository.findById(reviewId)
+            .orElseThrow(() -> new ReviewIdNotFoundException(reviewId));
 
     var reviewByItemId = repository.findReviewByItemId(itemId)
-            .orElseThrow(() -> new NotFoundException(itemId, Review.class.getSimpleName()));
+            .orElseThrow(() -> new ItemHasNoReviewsException(itemId));
 
     var review = repository.findByIdAndCustomerIdAndItemId(customerId, reviewId, itemId)
-            .orElseThrow(() -> new NotFoundException(itemId, Review.class.getSimpleName()));
+            .orElseThrow(() -> new ValidateCustomerDeleteReviewException());
 
     repository.delete(review);
   }
