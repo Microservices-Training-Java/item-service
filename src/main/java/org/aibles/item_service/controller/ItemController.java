@@ -11,6 +11,7 @@ import org.aibles.item_service.dto.response.ItemResponse;
 import org.aibles.item_service.dto.response.Response;
 import org.aibles.item_service.facade.ItemFacadeService;
 import org.aibles.item_service.service.ItemService;
+import org.aibles.item_service.service.ReviewService;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
@@ -26,6 +27,7 @@ public class ItemController {
 
   private final ItemService service;
   private final ItemFacadeService facadeService;
+  private final ReviewService reviewService;
 
   @GetMapping()
   @ResponseStatus(HttpStatus.OK)
@@ -67,6 +69,7 @@ public class ItemController {
   public String deleteReview(@PathVariable("item_id") String itemId, @PathVariable("review_id") String reviewId,
                              @RequestHeader("customer_id") String customerId){
     log.info("(deleteReview)itemId: {}, reviewId: {}, customerId: {}", itemId, reviewId, customerId);
+    reviewService.deleteReview(customerId, reviewId, itemId);
     return "Delete review successfully";
   }
 

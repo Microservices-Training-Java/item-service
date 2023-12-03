@@ -51,5 +51,4 @@ public interface ItemFacadeService {
 
   Page<Map<String, Object>> searchItemByName(String name, int pageNum, int pageSize);
 
-  void deleteReview(String customerId, String itemId, String reviewId);
 }

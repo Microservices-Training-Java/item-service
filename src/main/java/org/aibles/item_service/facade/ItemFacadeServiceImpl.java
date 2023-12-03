@@ -138,12 +138,4 @@ public class ItemFacadeServiceImpl implements ItemFacadeService {
 
     return page;
   }
-
-  @Override
-  public void deleteReview(String customerId, String itemId, String reviewId) {
-    log.info("(deleteReview)customerId: {}, itemId: {}, reviewId: {}", customerId, itemId, reviewId);
-    customerClient.getCustomerDetail(customerId);
-    reviewService.validateItemId(itemId);
-    reviewService.validateReviewId(reviewId);
-  }
 }

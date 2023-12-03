@@ -2,7 +2,6 @@ package org.aibles.item_service.service.impl;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import lombok.var;
 import org.aibles.item_service.client.dto.response.OrderItemDetailResponse;
 import org.aibles.item_service.client.service.CustomerClient;
 import org.aibles.item_service.client.service.OrderClient;
@@ -12,6 +11,8 @@ import org.aibles.item_service.entity.Review;
 import org.aibles.item_service.repository.ReviewRepository;
 import org.aibles.item_service.service.ReviewService;
 import org.trainingjava.core_exception.NotFoundException;
+
+import java.util.Optional;
 
 @AllArgsConstructor
 @Slf4j
@@ -32,6 +33,23 @@ public class ReviewServiceImpl implements ReviewService {
   }
 
   @Override
+  public void deleteReview(String customerId, String reviewId, String itemId) {
+    log.info("(deleteReview)customerId: {}, reviewId: {}, itemId: {}", customerId, reviewId, itemId);
+
+    customerClient.getCustomerDetail(customerId);
+
+    var reviewById = repository.findReviewByItemId(reviewId)
+            .orElseThrow(() -> new NotFoundException(reviewId, Review.class.getSimpleName()));
+
+    var reviewByItemId = repository.findReviewByItemId(itemId)
+            .orElseThrow(() -> new NotFoundException(itemId, Review.class.getSimpleName()));
+
+    var review = repository.findByIdAndCustomerIdAndItemId(customerId, reviewId, itemId)
+            .orElseThrow(() -> new NotFoundException(itemId, Review.class.getSimpleName()));
+
+    repository.delete(review);
+  }
+
   public void validateReviewId(String reviewId) {
     log.info("(validateReviewId)reviewId: {}", reviewId);
     var review =
@@ -40,10 +58,9 @@ public class ReviewServiceImpl implements ReviewService {
                     .orElseThrow(() -> new NotFoundException(reviewId, Review.class.getSimpleName()));
   }
 
-  @Override
   public void validateItemId(String itemId) {
     log.info("(validateItemId)itemId: {}", itemId);
-    Optional<Review> review =
+    var review =
             repository
                     .findReviewByItemId(itemId)
                     .orElseThrow(() -> new NotFoundException(itemId, Review.class.getSimpleName()));

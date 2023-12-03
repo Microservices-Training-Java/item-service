@@ -14,7 +14,9 @@ public interface ReviewService {
    */
   WriteReviewResponse writeReview(String customerId, String itemId, WriteReviewCreateRequest request);
 
-  void validateReviewId(String reviewId);
-  void validateItemId(String itemId);
+//  void validateReviewId(String reviewId);
+//  void validateItemId(String itemId);
+
+  void deleteReview(String customerId, String reviewId, String itemId);
 
 }
