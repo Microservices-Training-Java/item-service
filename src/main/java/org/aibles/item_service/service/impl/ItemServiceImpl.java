@@ -1,12 +1,5 @@
 package org.aibles.item_service.service.impl;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.aibles.item_service.client.dto.ItemDto;
 import org.aibles.item_service.client.service.OrderClient;
@@ -16,6 +9,7 @@ import org.aibles.item_service.dto.response.ItemResponse;
 import org.aibles.item_service.dto.response.ItemTotalOrderPriceResponse;
 import org.aibles.item_service.entity.Item;
 import org.aibles.item_service.exception.DuplicateKeyException;
+import org.aibles.item_service.exception.ItemIdNotFoundException;
 import org.aibles.item_service.exception.NotFoundException;
 import org.aibles.item_service.repository.ItemFieldValueRepository;
 import org.aibles.item_service.repository.ItemRepository;
@@ -23,6 +17,9 @@ import org.aibles.item_service.repository.ValueProjection;
 import org.aibles.item_service.service.ItemService;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
+
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Slf4j
 public class ItemServiceImpl implements ItemService {
@@ -94,7 +91,7 @@ public class ItemServiceImpl implements ItemService {
         .findById(id)
         .orElseThrow(() -> {
           log.error("(getById)id : {} --> NOT FOUND EXCEPTION", id);
-          throw new NotFoundException(id, Item.class.getSimpleName());
+          throw new ItemIdNotFoundException(id);
         });
     return ItemResponse.from(item);
   }
@@ -166,6 +163,18 @@ public class ItemServiceImpl implements ItemService {
   public String getValueItemByItemIdAndName(String itemId, String name) {
     log.info("(getValueItemByItemId)itemId: {}, name: {}", itemId, name);
     return itemFieldValueRepository.getValueItemByItemIdAndName(itemId, name);
+  }
+
+  @Override
+  public Set<String> getItemIdByName(String name) {
+    log.info("(getItemIdByName)name :{}", name);
+    return repository.getItemIdByName(name);
+  }
+
+  @Override
+  public Set<String> getAllItemId() {
+    log.info("(getAllItemId)");
+    return repository.getAllItemId();
   }
 }
 
