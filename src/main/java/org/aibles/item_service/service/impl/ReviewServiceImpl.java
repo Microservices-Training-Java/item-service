@@ -45,11 +45,11 @@ public class ReviewServiceImpl implements ReviewService {
       throw new ReviewIdNotFoundException(reviewId);
     }
 
-    if(!repository.existsById(customerId)){
+    if(!repository.existsByCustomerId(customerId)){
       throw new ValidateCustomerDeleteReviewException();
     }
 
-    if(!repository.existsById(itemId)){
+    if(!repository.existsByItemId(itemId)){
       throw new ItemHasNoReviewsException(itemId);
     }
 
