@@ -50,5 +50,4 @@ public interface ItemFacadeService {
   ItemDetailResponse update(String id, String itemTypeId, List<ItemFieldValueDto> fieldValue);
 
   Page<Map<String, Object>> searchItemByName(String name, int pageNum, int pageSize);
-
 }
