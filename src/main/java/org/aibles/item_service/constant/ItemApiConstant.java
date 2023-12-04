@@ -2,11 +2,13 @@ package org.aibles.item_service.constant;
 
 import static org.aibles.item_service.constant.ItemApiConstant.ApiConstant.API_PREFIX;
 import static org.aibles.item_service.constant.ItemApiConstant.ApiConstant.API_VERSION;
+import static org.aibles.item_service.constant.ItemApiConstant.ApiConstant.INTERNAL_API_PREFIX;
 import static org.aibles.item_service.constant.ItemApiConstant.ResourceConstant.*;
 
 public class ItemApiConstant {
 
   public static class ApiConstant {
+    public static final String INTERNAL_API_PREFIX = "/internal-api";
     public static final String API_PREFIX = "/api";
     public static final String API_VERSION = "/v1";
   }
@@ -30,6 +32,7 @@ public class ItemApiConstant {
     public static final String ITEM_BASE_URL = API_PREFIX + API_VERSION + ITEM;
     public static final String FIELD_VALUE_BASE_URL = API_PREFIX + API_VERSION + FIELD_VALUE;
     public static final String CATEGORY_BASE_URL = API_PREFIX + API_VERSION + CATEGORY;
+    public static final String INTERNAL_ITEM_FIELD_URL = INTERNAL_API_PREFIX + API_VERSION + FIELD;
     public static final String REVIEW_BASE_URL = API_PREFIX + API_VERSION + REVIEW_ITEM;
 
   }
