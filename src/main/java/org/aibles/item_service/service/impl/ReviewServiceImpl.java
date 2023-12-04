@@ -53,9 +53,9 @@ public class ReviewServiceImpl implements ReviewService {
       throw new ItemHasNoReviewsException(itemId);
     }
 
-    var review = repository.findByIdAndCustomerIdAndItemId(customerId, reviewId, itemId)
-            .orElseThrow(() -> new ValidateCustomerDeleteReviewException());
-
-    repository.delete(review);
+    if(!repository.existsByIdAndCustomerIdAndItemId(customerId, reviewId, itemId)){
+      throw new ValidateCustomerDeleteReviewException();
+    }
+    repository.deleteById(reviewId);
   }
 }
