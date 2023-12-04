@@ -37,7 +37,7 @@ public class ReviewServiceImpl implements ReviewService {
   }
 
   @Override
-  public void deleteReview(String customerId, String reviewId, String itemId) {
+  public String deleteReview(String customerId, String reviewId, String itemId) {
     log.info("(deleteReview)customerId: {}, reviewId: {}, itemId: {}", customerId, reviewId, itemId);
 
     customerClient.getCustomerDetail(customerId);
@@ -57,5 +57,6 @@ public class ReviewServiceImpl implements ReviewService {
       throw new ValidateCustomerDeleteReviewException();
     }
     repository.deleteById(reviewId);
+    return "Delete review successfully";
   }
 }

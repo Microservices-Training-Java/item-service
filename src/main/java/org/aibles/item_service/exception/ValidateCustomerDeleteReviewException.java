@@ -1,6 +1,8 @@
 package org.aibles.item_service.exception;
 
-public class ValidateCustomerDeleteReviewException extends BadRequestException{
+import org.trainingjava.core_exception.BadRequestException;
+
+public class ValidateCustomerDeleteReviewException extends BadRequestException {
         public ValidateCustomerDeleteReviewException(){
         super();
         setStatus(404);

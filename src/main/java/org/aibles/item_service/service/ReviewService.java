@@ -21,6 +21,6 @@ public interface ReviewService {
    * @param itemId
    * @return Review of the item is deleted
    */
-  void deleteReview(String customerId, String reviewId, String itemId);
+  String deleteReview(String customerId, String reviewId, String itemId);
 
 }
