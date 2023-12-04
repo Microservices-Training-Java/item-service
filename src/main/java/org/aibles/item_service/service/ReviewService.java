@@ -13,4 +13,14 @@ public interface ReviewService {
    * @return Review information
    */
   WriteReviewResponse writeReview(String customerId, String itemId, WriteReviewCreateRequest request);
+
+  /**
+   * fuction for customer to delete review of one item
+   * @param customerId
+   * @param reviewId
+   * @param itemId
+   * @return Review of the item is deleted
+   */
+  String deleteReview(String customerId, String reviewId, String itemId);
+
 }
