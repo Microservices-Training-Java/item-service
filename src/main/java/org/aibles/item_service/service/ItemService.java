@@ -85,5 +85,4 @@ public interface ItemService{
 
   Set<String> getAllItemId();
 
-  void deleteReview(String customerId, String itemId, String reviewId);
 }

@@ -41,32 +41,21 @@ public class ReviewServiceImpl implements ReviewService {
     log.info("(deleteReview)customerId: {}, reviewId: {}, itemId: {}", customerId, reviewId, itemId);
 
     customerClient.getCustomerDetail(customerId);
+    if(!repository.existsById(reviewId)){
+      throw new ReviewIdNotFoundException(reviewId);
+    }
 
-    var reviewById = repository.findById(reviewId)
-            .orElseThrow(() -> new ReviewIdNotFoundException(reviewId));
+    if(!repository.existsById(customerId)){
+      throw new ValidateCustomerDeleteReviewException();
+    }
 
-    var reviewByItemId = repository.findReviewByItemId(itemId)
-            .orElseThrow(() -> new ItemHasNoReviewsException(itemId));
+    if(!repository.existsById(itemId)){
+      throw new ItemHasNoReviewsException(itemId);
+    }
 
     var review = repository.findByIdAndCustomerIdAndItemId(customerId, reviewId, itemId)
             .orElseThrow(() -> new ValidateCustomerDeleteReviewException());
 
     repository.delete(review);
-  }
-
-  public void validateReviewId(String reviewId) {
-    log.info("(validateReviewId)reviewId: {}", reviewId);
-    var review =
-            repository
-                    .findById(reviewId)
-                    .orElseThrow(() -> new NotFoundException(reviewId, Review.class.getSimpleName()));
-  }
-
-  public void validateItemId(String itemId) {
-    log.info("(validateItemId)itemId: {}", itemId);
-    var review =
-            repository
-                    .findReviewByItemId(itemId)
-                    .orElseThrow(() -> new NotFoundException(itemId, Review.class.getSimpleName()));
   }
 }
