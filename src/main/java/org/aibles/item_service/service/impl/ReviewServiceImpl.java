@@ -53,7 +53,7 @@ public class ReviewServiceImpl implements ReviewService {
       throw new ItemHasNoReviewsException(itemId);
     }
 
-    if(!repository.existsByIdAndCustomerIdAndItemId(customerId, reviewId, itemId)){
+    if(!repository.existsByIdAndCustomerIdAndItemId(reviewId, customerId, itemId)){
       throw new ValidateCustomerDeleteReviewException();
     }
     repository.deleteById(reviewId);
