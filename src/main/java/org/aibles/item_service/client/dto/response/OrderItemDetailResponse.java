@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class OrderItemDetailResponse {
 
-  private String orderId;
   private String itemId;
   private String customerId;
 }
