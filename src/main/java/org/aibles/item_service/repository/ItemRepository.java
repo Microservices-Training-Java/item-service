@@ -1,6 +1,8 @@
 package org.aibles.item_service.repository;
 
 import org.aibles.item_service.entity.Item;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -29,13 +31,13 @@ public interface ItemRepository extends JpaRepository<Item, String> {
   @Query("select i.id " +
           "from Item i " +
           "left join ItemFieldValue ifv on ifv.itemId = i.id " +
-          "left join ItemField if2 on if2.name = 'name' " +
-          "where ifv.value = :name")
-  Set<String> getItemIdByName(String name);
+          "left join ItemField if2 on if2.id = ifv.fieldId and if2.name = 'name' " +
+          "where if2.name = 'name' and ifv.value like %:name%")
+  Page<String> getItemIdByName(String name, Pageable pageable);
 
   @Query("SELECT i.id " +
           "FROM ItemFieldValue ifv " +
           "JOIN ItemField if2  ON if2.id = ifv.fieldId " +
           "JOIN Item i ON i.id = ifv.itemId GROUP BY i.id ORDER BY i.id ASC")
-  Set<String> getAllItemId();
+  Page<String> getAllItemId(Pageable pageable);
 }

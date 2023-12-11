@@ -10,6 +10,7 @@ import org.aibles.item_service.dto.response.ItemResponse;
 import org.aibles.item_service.entity.Item;
 import org.aibles.item_service.exception.ItemNameNotFoundException;
 import org.aibles.item_service.exception.NotFoundException;
+import org.aibles.item_service.paging.PagingRes;
 import org.aibles.item_service.service.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -18,6 +19,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Slf4j
 public class ItemFacadeServiceImpl implements ItemFacadeService {
@@ -118,24 +120,26 @@ public class ItemFacadeServiceImpl implements ItemFacadeService {
   }
 
   @Override
-  public Page<Map<String, Object>> searchItemByName(String name, int pageNum, int pageSize) {
-    log.info("(searchItemByName)name : {}", name);
+  public PagingRes<Map<String, Object>> searchItemByName(String name, Pageable pageable) {
+    log.info("(searchItemByName)name : {}, pageable: {}", name, pageable);
 
     DetailResponse response;
     if(name == null){
-      response = itemService.getItem(itemService.getAllItemId());
+      Set<String> itemIds = new HashSet<>(itemService.getAllItemId(pageable).getContent());
+      response = itemService.getItem(itemIds);
     }
     else {
-      Set<String> itemIds = itemService.getItemIdByName(name);
+      Set<String> itemIds = new HashSet<>(itemService.getItemIdByName(name, pageable).getContent());
       if (itemIds.isEmpty()) {
         throw new ItemNameNotFoundException(name);
       }
       response = itemService.getItem(itemIds);
     }
+    int start = (int) pageable.getOffset();
+    int end = Math.min((start + pageable.getPageSize()), response.getItems().size());
 
-    Pageable pageable = PageRequest.of(pageNum - 1, pageSize);
-    Page<Map<String, Object>> page = new PageImpl<>(response.getItems(), pageable, response.getItems().size());
-
-    return page;
+    List<Map<String, Object>> subList = response.getItems().subList(start, end);
+    Page<Map<String, Object>> result = new PageImpl<>(subList, pageable, response.getItems().size());
+    return PagingRes.of(result);
   }
 }

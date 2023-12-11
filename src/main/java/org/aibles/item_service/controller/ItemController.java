@@ -10,6 +10,7 @@ import org.aibles.item_service.dto.request.ItemIdsRequest;
 import org.aibles.item_service.dto.response.ItemResponse;
 import org.aibles.item_service.dto.response.Response;
 import org.aibles.item_service.facade.ItemFacadeService;
+import org.aibles.item_service.paging.PagingReq;
 import org.aibles.item_service.service.ItemService;
 import org.aibles.item_service.service.ReviewService;
 import org.springframework.data.domain.Page;
@@ -52,11 +53,10 @@ public class ItemController {
 
   @GetMapping("/search")
   public Response searchItem(@RequestParam(required = false) String name,
-                             @RequestParam(required = false, defaultValue = "1") int pageNum,
-                             @RequestParam(required = false, defaultValue = "20") int pageSize){
-    log.info("(searchItem)name: {}, pageNum: {}, pageSize: {}", name, pageNum, pageSize);
+                             @Validated() final PagingReq pagingReq){
+    log.info("(searchItem)name: {}, pagingReq: {}", name, pagingReq);
     return Response.of(
-            HttpStatus.OK.value(), facadeService.searchItemByName(name, pageNum, pageSize));
+            HttpStatus.OK.value(), facadeService.searchItemByName(name, pagingReq.makePageable()));
   }
 
   @GetMapping("/{item_id}")

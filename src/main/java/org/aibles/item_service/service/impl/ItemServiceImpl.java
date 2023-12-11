@@ -15,6 +15,8 @@ import org.aibles.item_service.repository.ItemFieldValueRepository;
 import org.aibles.item_service.repository.ItemRepository;
 import org.aibles.item_service.repository.ValueProjection;
 import org.aibles.item_service.service.ItemService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
@@ -166,15 +168,15 @@ public class ItemServiceImpl implements ItemService {
   }
 
   @Override
-  public Set<String> getItemIdByName(String name) {
+  public Page<String> getItemIdByName(String name, Pageable pageable) {
     log.info("(getItemIdByName)name :{}", name);
-    return repository.getItemIdByName(name);
+    return repository.getItemIdByName(name, pageable);
   }
 
   @Override
-  public Set<String> getAllItemId() {
+  public Page<String> getAllItemId(Pageable pageable) {
     log.info("(getAllItemId)");
-    return repository.getAllItemId();
+    return repository.getAllItemId(pageable);
   }
 }
 
