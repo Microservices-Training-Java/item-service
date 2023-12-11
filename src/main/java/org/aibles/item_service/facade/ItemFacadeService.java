@@ -3,7 +3,9 @@ package org.aibles.item_service.facade;
 import org.aibles.item_service.dto.ItemFieldValueDto;
 import org.aibles.item_service.dto.response.DetailResponse;
 import org.aibles.item_service.dto.response.ItemDetailResponse;
+import org.aibles.item_service.paging.PagingRes;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Map;
@@ -49,5 +51,5 @@ public interface ItemFacadeService {
    */
   ItemDetailResponse update(String id, String itemTypeId, List<ItemFieldValueDto> fieldValue);
 
-  Page<Map<String, Object>> searchItemByName(String name, int pageNum, int pageSize);
+  PagingRes<Map<String, Object>> searchItemByName(String name, Pageable pageable);
 }

@@ -4,6 +4,8 @@ import org.aibles.item_service.dto.request.ItemCalculateRequest;
 import org.aibles.item_service.dto.response.DetailResponse;
 import org.aibles.item_service.dto.response.ItemResponse;
 import org.aibles.item_service.dto.response.ItemTotalOrderPriceResponse;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Map;
@@ -81,7 +83,7 @@ public interface ItemService{
    * @param name
    * @return item id
    */
-  Set<String> getItemIdByName(String name);
+  Page<String> getItemIdByName(String name, Pageable pageable);
 
-  Set<String> getAllItemId();
+  Page<String> getAllItemId(Pageable pageable);
 }
