@@ -2,7 +2,7 @@ spring:
   liquibase:
     change-log: classpath:/migration/master-changelog.xml
   datasource:
-    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:cloud_config}
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:item}
     username: ${DB_USERNAME:postgres}
     password: ${DB_PASSWORD:linh2002}
   application:
