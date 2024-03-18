@@ -8,10 +8,10 @@ public interface OrderClient {
     OrderDetailByIdResponse getOrderDetail(String id);
 
     /**
-     * function calls order item detail
+     * function calls check if the item has been purchased by the user or not
      * @param itemId - itemId of order item detail
      * @param orderId -orderId of order item detail
-     * @return - order item detail information
+     * @return - true when the product is available
      */
-    OrderItemDetailResponse getOrderItemDetail(String itemId, String orderId);
+    boolean checkCustomerIdAndItemId(String itemId, String orderId);
 }
