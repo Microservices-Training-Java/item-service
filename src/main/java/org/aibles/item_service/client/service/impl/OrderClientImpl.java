@@ -33,10 +33,10 @@ public class OrderClientImpl implements OrderClient {
     }
 
     @Override
-    public OrderItemDetailResponse getOrderItemDetail(String itemId, String customerId) {
-        log.info("(getOrderItemDetail)itemId: {}, customerId: {}", itemId, customerId);
+    public boolean checkCustomerIdAndItemId(String itemId, String customerId) {
+        log.info("(checkCustomerIdAndItemId)itemId: {}, customerId: {}", itemId, customerId);
         String ORDER_ITEM_DETAIL_API = "/items/" + itemId + "/customers/" + customerId;
-        Response response = restTemplate.getForObject(String.format(ORDER_DETAIL_API, ORDER_ITEM_DETAIL_API), Response.class);
-        return objectMapper.convertValue(response.getData(), OrderItemDetailResponse.class);
+        Response response = restTemplate.postForObject(String.format(ORDER_DETAIL_API, ORDER_ITEM_DETAIL_API),null, Response.class);
+        return objectMapper.convertValue(response.getData(), Boolean.class);
     }
 }

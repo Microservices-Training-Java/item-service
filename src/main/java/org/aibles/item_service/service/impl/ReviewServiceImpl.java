@@ -31,7 +31,7 @@ public class ReviewServiceImpl implements ReviewService {
       WriteReviewCreateRequest request) {
     log.info("(writeReview)customerId: {}, itemId: {}, request : {}", customerId, itemId, request);
     customerClient.getCustomerDetail(customerId);
-    orderClient.getOrderItemDetail(itemId, customerId);
+    orderClient.checkCustomerIdAndItemId(itemId, customerId);
     return WriteReviewResponse.from(repository.save(Review.of(itemId, customerId, request.getRate(),
         request.getReview())));
   }
